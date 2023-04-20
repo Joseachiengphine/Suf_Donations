@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Setting;
+
 if (!function_exists('setting')) {
     /**
      * Get a setting value from the database
@@ -7,7 +10,7 @@ if (!function_exists('setting')) {
      * @return mixed
      */
     function setting($slug, $default=null) {
-        $setting = \App\Setting::query()->whereSlug($slug)->first();
+        $setting = Setting::query()->whereSlug($slug)->first();
         if (!$setting) return $default;
         return $setting->payload ?? $default;
     }
