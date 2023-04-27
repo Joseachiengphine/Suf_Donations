@@ -15,7 +15,8 @@
 
     <link rel="stylesheet" href="public/css/selectstyle.css" />
     <link rel="stylesheet" href="/css/paymentsPage.css" />
-    <title>{{ $pageBo->pageTitle }}</title>
+    <title>{{ $pageBo ? $pageBo->pageTitle :''}}</title>
+
   </head>
   <body>
 
