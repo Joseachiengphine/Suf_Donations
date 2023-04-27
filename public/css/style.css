@@ -27,6 +27,7 @@ File: scss
   -o-transform: rotate(45deg);
   -moz-transform: rotate(45deg); }
 
+
 /*******************************/
 /*******************************/
 /**
@@ -66,18 +67,6 @@ File: scss
   --white: #fff;
   --gray: #6c757d;
   --gray-dark: #343a40;
-  --blue: #2962FF;
-  --indigo: #6610f2;
-  --purple: #7460ee;
-  --pink: #e83e8c;
-  --red: #f62d51;
-  --orange: #fb8c00;
-  --yellow: #ffbc34;
-  --green: #36bea6;
-  --teal: #20c997;
-  --cyan: #4fc3f7;
-  --white: #fff;
-  --gray: #6c757d;
   --primary: #7460ee;
   --secondary: #6c757d;
   --success: #36bea6;
@@ -86,9 +75,6 @@ File: scss
   --danger: #f62d51;
   --light: #f8f9fa;
   --dark: #343a40;
-  --cyan: #4fc3f7;
-  --orange: #fb8c00;
-  --purple: #7460ee;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -101,7 +87,9 @@ File: scss
 *::before,
 *::after {
   -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+    box-sizing: border-box;
+    box-shadow: 0.5em 0.6em 0.6em #dddddd;
+}
 
 html {
   font-family: sans-serif;
@@ -143,7 +131,7 @@ abbr[title],
 abbr[data-original-title] {
   text-decoration: underline;
   -webkit-text-decoration: underline dotted;
-  text-decoration: underline dotted;
+  /*text-decoration: underline dotted;*/
   cursor: help;
   border-bottom: 0;
   text-decoration-skip-ink: none; }
@@ -8749,7 +8737,7 @@ a.text-purple:hover, a.text-purple:focus {
     border-color: #e9ecef; } }
 
 /*******************
-Padding margin property 
+Padding margin property
 *******************/
 html[dir="ltr"] body .m-t-5 {
   margin-top: 5px; }
@@ -9017,8 +9005,8 @@ html[dir="ltr"] body .p-l-0 {
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"] .create-btn, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] .create-btn {
       background: #4fc3f7; }
 
-/*============================================================== 
- For all pages 
+/*==============================================================
+ For all pages
  ============================================================== */
 #main-wrapper {
   width: 100%;
@@ -10359,17 +10347,17 @@ Author: Wrappixel
 
 File: scss
 */
-/*============================================================== 
- For Desktop & above all (1650px) 
+/*==============================================================
+ For Desktop & above all (1650px)
  ============================================================== */
-/*============================================================== 
- For Laptop & above all (1370px) 
+/*==============================================================
+ For Laptop & above all (1370px)
  ============================================================== */
-/*-- ============================================================== 
- Small Desktop & above all (1024px) 
+/*-- ==============================================================
+ Small Desktop & above all (1024px)
  ============================================================== */
-/*-- ============================================================== 
- Ipad & above all(768px) 
+/*-- ==============================================================
+ Ipad & above all(768px)
  ============================================================== */
 @media (min-width: 768px) {
   .bc-content {
@@ -10377,8 +10365,8 @@ File: scss
     -ms-flex-pack: end;
     justify-content: flex-end; } }
 
-/*-- ============================================================== 
- Phone and below ipad(767px) 
+/*-- ==============================================================
+ Phone and below ipad(767px)
  ============================================================== */
 @media (max-width: 991.98px) {
   .do-block {

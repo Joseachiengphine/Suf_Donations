@@ -2,21 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\CellulantResponseRequest;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables;
-
 use Filament\Resources\Form;
 use Filament\Resources\Table;
-use Illuminate\Support\Carbon;
 use App\Models\DonationRequest;
 use Filament\Resources\Resource;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\DonationRequestResource\Pages;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
+use App\Filament\Resources\DonationRequestResource\Pages;
 use App\Filament\Resources\DonationRequestResource\Widgets\StatsOverview;
 
 
@@ -29,7 +26,6 @@ class DonationRequestResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
     protected static ?string $navigationGroup = 'FOUNDATION DONATIONS';
-
 
     public static function form(Form $form): Form
     {
@@ -105,9 +101,17 @@ class DonationRequestResource extends Resource
                     ->maxLength(191),
                 Forms\Components\TextInput::make('shirt_size')
                     ->maxLength(191),
-]),
+//                Fieldset::make('requestAmount')
+//                    ->label('Request Amount')
+//                    ->relationship('requestAmount')
+//                    ->schema([
+//                        TextInput::make('requestAmount'),
+//                                  ]),
+                    ]),
                     ]
+
                 )
+
             ]);
     }
 
@@ -122,20 +126,31 @@ class DonationRequestResource extends Resource
                 Tables\Columns\TextColumn::make('firstName')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('lastName')
-                ->searchable(),
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phoneNumber')
+                    ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('country')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('email')
+                    ->toggleable()->toggledHiddenByDefault()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('zipCode')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('currency')
                     ->searchable()
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
+                    ->label('Request Amount'),
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
+                    ->label('Amount Paid'),
                 Tables\Columns\TextColumn::make('company')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('salutation')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('phoneNumber')
@@ -181,7 +196,7 @@ class DonationRequestResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+               // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

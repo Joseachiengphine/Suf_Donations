@@ -12,8 +12,8 @@ class StatsOverview extends BaseWidget
 {
     protected function getCards(): array
     {
-        $count = DonationRequest::distinct('country')->count('country');
-        $campaign = DonationRequest::distinct('campaign')->count('campaign');
+        $count = DonationRequest::distinct('country')->count();
+        $campaign = DonationRequest::distinct('campaign')->count();
         return [
             Card::make('All Donation Requests', DonationRequest::all()->count())
                 ->description('Donation Requests')

@@ -2,28 +2,30 @@
 
 namespace App\Filament\Resources;
 
-use Carbon\Carbon;
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
-use Webbingbrasil\FilamentDateFilter;
-use App\Models\CellulantResponseRequest;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Webbingbrasil\FilamentDateFilter\DateFilter;
+
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\CellulantResponseRequestResource\Pages;
 use App\Filament\Resources\CellulantResponseRequestResource\RelationManagers\DonationrequestRelationManager;
+use App\Models\CellulantResponseRequest;
+use Filament\Forms;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 
 class CellulantResponseRequestResource extends Resource
 {
+
     protected static ?string $model = CellulantResponseRequest::class;
 
     protected static ?string $recordTitleAttribute = 'merchantTransactionID';
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+
 
     public static function form(Form $form): Form
     {
@@ -56,7 +58,6 @@ class CellulantResponseRequestResource extends Resource
                     ->required()
                     ->maxLength(64),
                 ]),
-
                 Forms\Components\Fieldset::make('Transaction amount')
                     ->schema([
                 Forms\Components\TextInput::make('currencyCode')
@@ -87,18 +88,38 @@ class CellulantResponseRequestResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
             ->columns([
+                Tables\Columns\TextColumn::make('donationRequest.firstName')
+                    ->label('First Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('donationRequest.lastName')
+                    ->label('Last Name'),
+                Tables\Columns\TextColumn::make('donationRequest.email')
+                    ->searchable()
+                    ->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
+                    ->toggleable()->toggledHiddenByDefault()
+                    ->label('Phone Number'),
                 Tables\Columns\TextColumn::make('checkOutRequestID')
                 ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('merchantTransactionID')->label('Merchant ID'),
+                Tables\Columns\TextColumn::make('merchantTransactionID')
+                    ->toggleable()->toggledHiddenByDefault()
+                    ->label('Merchant ID'),
                 Tables\Columns\TextColumn::make('requestStatusCode')
                 ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('requestStatusDescription')->label('Request Status'),
+                BadgeColumn::make('requestStatusDescription')->label('Request Status')
+                    ->searchable()
+                    ->colors([
+                        'success' => 'Request fully paid',
+                        'danger' => 'Request Pending Payment',
+                    ]),
                 Tables\Columns\TextColumn::make('MSISDN')
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('serviceCode')
                 ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('accountNumber'),
+                Tables\Columns\TextColumn::make('accountNumber')
+                    ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('currencyCode')->label('Currency'),
                 Tables\Columns\TextColumn::make('amountPaid'),
                 Tables\Columns\TextColumn::make('requestCurrencyCode')
@@ -106,6 +127,7 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Columns\TextColumn::make('requestAmount')
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('requestDate')
+                    ->date()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('payments')
                     ->toggleable()->toggledHiddenByDefault(),
@@ -134,7 +156,7 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

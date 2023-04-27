@@ -13,9 +13,9 @@ class StatsOverview extends BaseWidget
 {
     protected function getCards(): array
     {
-        $paidRequests = CellulantResponseRequest::where('requestStatusDescription', 'Request fully paid')->count();
+        $paidRequests = CellulantResponseRequest::query()->where('requestStatusDescription', 'Request fully paid')->count();
         $amountPaid = CellulantResponseRequest::sum('amountPaid');
-        $currency = CellulantResponseRequest::distinct('currencyCode')->count('currencyCode');
+        $currency = CellulantResponseRequest::distinct('currencyCode')->count();
 
         return [
             Card::make('Fully Made Payments', $paidRequests)

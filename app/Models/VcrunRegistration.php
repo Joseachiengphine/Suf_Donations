@@ -17,6 +17,7 @@ class VcrunRegistration extends Model
     {
         return $this->belongsTo(DonationRequest::class,'request_merchant_id','merchantID');
     }
+
     public function vcrunSupporters(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(VcrunSupporter::class,'supported_registrant_id');

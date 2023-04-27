@@ -9,6 +9,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use App\Models\VcrunSupporter;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -70,6 +71,18 @@ class VcrunSupporterResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('donationRequest.firstName')
+                    ->label('First Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('donationRequest.lastName')
+                    ->label('Last Name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('donationRequest.email')
+                    ->label('Email')
+                    ->toggleable()->toggledHiddenByDefault()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
+                    ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('supported_registrant_id')
                     ->searchable()
                     ->label('Merchant ID')
@@ -78,7 +91,11 @@ class VcrunSupporterResource extends Resource
                 Tables\Columns\TextColumn::make('support_amount'),
                 Tables\Columns\TextColumn::make('registration_amount')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('status'),
+                BadgeColumn::make('status')
+                    ->colors([
+                        'success' => 'PAID',
+                        'danger' => 'PENDING',
+                    ]),
                 Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),
             ])
@@ -95,7 +112,7 @@ class VcrunSupporterResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+              //  Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

@@ -25,6 +25,12 @@ class DonationRequest extends Model
     {
         return $this->hasOne(VcrunRegistration::class,'request_merchant_id','merchantID');
     }
+
+    public function cellulantresponserequest(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+       return $this->hasOne(CellulantResponseRequest::class,'merchantTransactionID','merchantID');
+    }
+
     public function vcrunSupports(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(VcrunSupporter::class,'request_merchant_id','merchantID');

@@ -13,13 +13,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
     }
 
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
+
     {
 //        Filament::registerTheme(
 //            app(Vite::class)('resources/css/filament.css'),
@@ -32,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Filament::registerNavigationGroups([
             'FOUNDATION DONATIONS',
             'Vice Chancellor\'s Run',
+            'Reports',
+            'SYSTEM USERS',
             'SETTINGS',
         ]);
 
@@ -43,6 +46,12 @@ class AppServiceProvider extends ServiceProvider
                     ->icon('heroicon-o-arrow-up'),
                 NavigationGroup::make()
                     ->label('Vice Chancellor\'s Run Management')
+                    ->icon('heroicon-o-arrow-up'),
+                NavigationGroup::make()
+                    ->label('Reports')
+                    ->icon('heroicon-o-arrow-up'),
+                NavigationGroup::make()
+                    ->label('System Users')
                     ->icon('heroicon-o-arrow-up'),
                 NavigationGroup::make()
                     ->label('Settings')

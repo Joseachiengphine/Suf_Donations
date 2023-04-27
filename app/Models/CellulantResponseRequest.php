@@ -19,4 +19,9 @@ class CellulantResponseRequest extends Model
     {
         return $this->belongsTo(DonationRequest::class,'merchantTransactionID','merchantID');
     }
+//    public function VcrunRegistration(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+//    {
+//        return $this->belongsTo(VcrunRegistration::class,'request_merchant_id','merchantTransactionID');
+//    }
+
 }
