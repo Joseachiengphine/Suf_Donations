@@ -54,36 +54,39 @@ class IndexController extends Controller
      * Store a new user.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
     public function __invoke(Request $request)
     {
         $pageBo = $this->preparePageBo(null);
-        if(!is_null($pageBo)) {
-            $participationOption=ParticipationOption::all();
-            return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
-        } else {
-            return view('error500');
-        }
-    }
+        $participationOption=ParticipationOption::all();
+        return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
+//        if(!is_null($pageBo)) {
+//
+//        }
+//        else {
+//            return view('error500');
+//        }
+   }
 
     public function vcRunView()
     {
         $pageBo = $this->preparePageBo('VCRUN');
-        if(!is_null($pageBo)) {
-            $participationOption=ParticipationOption::all();
-            $vcParticipants=VcrunRegistration::query()
-                ->where('status','=','PAID')
-                ->whereNotIn('request_merchant_id',['VC'])
-                ->with('donationRequest')
-                ->get();
-            return view('vcrunform')->with(['pageBo'=> $pageBo,
-                            'participation'=>$participationOption,
-                            'vcRunParticipants'=>$vcParticipants
-                        ]);
-        } else {
-            return view('error500');
-        }
+        $participationOption=ParticipationOption::all();
+        $vcParticipants=VcrunRegistration::query()
+            ->where('status','=','PAID')
+            ->whereNotIn('request_merchant_id',['VC'])
+            ->with('donationRequest')
+            ->get();
+        return view('vcrunform')->with(['pageBo'=> $pageBo,
+            'participation'=>$participationOption,
+            'vcRunParticipants'=>$vcParticipants
+        ]);
+//        if(!is_null($pageBo)) {
+//
+//        } else {
+//            return view('error500');
+//        }
 
     }
 
@@ -352,12 +355,13 @@ class IndexController extends Controller
 
     public function paramPage($donationCode){
         $pageBo = $this->preparePageBo($donationCode);
-        if(!is_null($pageBo)) {
-            $participationOption=ParticipationOption::all();
-            return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
-        } else {
-            return view('error500');
-        }
+        $participationOption=ParticipationOption::all();
+        return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
+//        if(!is_null($pageBo)) {
+//
+//        } else {
+//            return view('error500');
+//        }
     }
 
 
