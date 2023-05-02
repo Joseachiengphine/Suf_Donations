@@ -18,13 +18,25 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
 
     protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
     {
-        return VcrunSupporter::query();
+        return Vcrunsupporter::query()
+            ->select('vcrun_supporters.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
+            ->Join('donation_requests','vcrun_supporters.request_merchant_id', '=','donation_requests.merchantID');
     }
 
 
     protected function getTableColumns(): array
     {
         return [
+            Tables\Columns\TextColumn::make('firstName')
+                ->searchable(),
+            Tables\Columns\TextColumn::make('lastName'),
+            Tables\Columns\TextColumn::make('email')
+                ->searchable(),
+            Tables\Columns\TextColumn::make('phoneNumber')
+                ->toggleable()->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('currency')
+                ->searchable()
+                ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('supported_registrant_id')
                 ->searchable()
                 ->label('Merchant ID')
