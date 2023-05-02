@@ -9,7 +9,6 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Illuminate\Validation\ValidationException;
-use Livewire\Component;
 
 class Login extends \Filament\Http\Livewire\Auth\Login
 {
@@ -73,7 +72,6 @@ class Login extends \Filament\Http\Livewire\Auth\Login
 
         return app(LoginResponse::class);
     }
-     
     protected function getFormSchema(): array
     {
         return [
