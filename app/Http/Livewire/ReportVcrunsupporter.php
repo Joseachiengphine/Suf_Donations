@@ -75,6 +75,7 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
 //                ->withHiddenColumns()
 
             ExportAction::make('Download Run Supporters Report')
+                ->tooltip('If you only want Excel (xlsx) reports click here to download'),
 
         ];
     }
