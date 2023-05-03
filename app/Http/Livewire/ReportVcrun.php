@@ -2,29 +2,26 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\VcrunRegistration;
-use Carbon\Carbon;
+
+use Filament\Forms;
 use Filament\Tables;
-use Filament\Tables\Columns\BadgeColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Livewire\Component;
+use App\Models\VcrunRegistration;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Concerns\InteractsWithTable;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
-use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
-use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use Webbingbrasil\FilamentDateFilter\DateFilter;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 
 class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-    protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
+    protected function getTableQuery(): Builder
     {
         return VcrunRegistration::query()
             ->select('vcrun_registrations.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
@@ -95,10 +92,23 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                     'pending' => 'Pending',
 
                 ]),
-            DateRangeFilter::make('created_at')
-                ->columnSpan(2)
-                ->label('Registration Dates')
-                ->withIndicater(),
+            Filter::make('creation_date')
+                ->form([
+                    Forms\Components\DatePicker::make('created_at'),
+                    Forms\Components\DatePicker::make('updated_at'),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['created_at'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        )
+                        ->when(
+                            $data['updated_at'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
+                        );
+                })
+
         ];
     }
 
