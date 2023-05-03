@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Models\CellulantResponseRequest;
+use Awcodes\Shout\Shout;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Form;
@@ -36,6 +37,10 @@ class VcrunRegistrationResource extends Resource
     {
         return $form
         ->schema([
+            Shout::make('success')
+                ->content('This is an Overview of this user\'s VC Run Registration details')
+                ->type('success')
+                ->columnSpan('full'),
             Forms\Components\Section::make('VICE CHANCELLOR\'S RUN REGISTRATIONS')->schema(
                 [
                     Forms\Components\Fieldset::make('Payment Details')

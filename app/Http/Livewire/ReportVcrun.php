@@ -110,6 +110,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 //                ->csvDelimiter(',')
 //                ->withHiddenColumns(),
             ExportAction::make('Download Run Report')
+                ->tooltip('If you only want Excel (xlsx) reports click here to download'),
 
         ];
     }

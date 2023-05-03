@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use Awcodes\Shout\Shout;
+use Filament\Notifications\Notification;
 use Filament\Tables;
 use Livewire\Component;
 use App\Models\DonationRequest;
@@ -115,6 +117,7 @@ class Report extends Component implements Tables\Contracts\HasTable
 //                ->button()
 //                ->withHiddenColumns()
             ExportAction::make('Download Donation Report')
+            ->tooltip('If you only want Excel (xlsx) reports click here to download'),
         ];
     }
 
