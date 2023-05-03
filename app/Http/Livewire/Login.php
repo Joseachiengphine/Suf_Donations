@@ -50,7 +50,8 @@ class Login extends \Filament\Http\Livewire\Auth\Login
                         'username' => __('filament::login.messages.failed'),
                     ]);
                 }
-            } else {
+            }
+            else {
                 if (!Filament::auth()->attempt([
                     'username' => $data['username'],
                     'password' => $data['password'],
