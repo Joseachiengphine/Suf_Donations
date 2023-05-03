@@ -2,21 +2,22 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\VcrunSupporter;
+use Filament\Forms;
 use Filament\Tables;
 use Livewire\Component;
+use App\Models\VcrunSupporter;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Concerns\InteractsWithTable;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
-use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-    protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
+    protected function getTableQuery(): Builder
     {
         return Vcrunsupporter::query()
             ->select('vcrun_supporters.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
@@ -60,10 +61,22 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     protected function getTableFilters(): array
     {
         return [
-            DateRangeFilter::make('created_at')
-                ->columnSpan(2)
-                ->label('Registration Dates')
-                ->withIndicater(),
+            Filter::make('creation_date')
+                ->form([
+                    Forms\Components\DatePicker::make('created_at'),
+                    Forms\Components\DatePicker::make('updated_at'),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['created_at'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        )
+                        ->when(
+                            $data['updated_at'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
+                        );
+                })
         ];
     }
 

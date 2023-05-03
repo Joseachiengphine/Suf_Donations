@@ -2,20 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use Awcodes\Shout\Shout;
-use Filament\Notifications\Notification;
+use Filament\Forms;
 use Filament\Tables;
 use Livewire\Component;
 use App\Models\DonationRequest;
-use App\Models\CellulantResponseRequest;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Concerns\InteractsWithTable;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use pxlrbt\FilamentExcel\Columns\Column;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 
 class Report extends Component implements Tables\Contracts\HasTable
@@ -23,7 +19,7 @@ class Report extends Component implements Tables\Contracts\HasTable
 
     use InteractsWithTable;
 
-    protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
+    protected function getTableQuery(): Builder
     {
         return DonationRequest::query()
         ->select('donation_requests.*','cellulant_responses.requestAmount','cellulant_responses.amountPaid')
@@ -35,58 +31,73 @@ class Report extends Component implements Tables\Contracts\HasTable
         return [
                 Tables\Columns\TextColumn::make('creation_date')
                     ->dateTime()
-                    ->toggleable()
-                    ->toggledHiddenByDefault()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('last_update')
                     ->dateTime()
-                    ->toggleable()
-                    ->toggledHiddenByDefault()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('merchantID')
                     ->label('Merchant ID')
-                    ->searchable()
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('salutation')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('firstName')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('lastName')
-                ->searchable(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
+                Tables\Columns\TextColumn::make('firstName'),
+                Tables\Columns\TextColumn::make('lastName'),
                 Tables\Columns\TextColumn::make('phoneNumber')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('email')
-                ->searchable(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('zipCode')
-                ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('city')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('country')
-                ->searchable(),
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('campaign'),
                 Tables\Columns\TextColumn::make('company')
-                    ->searchable(),
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('currency')
-                ->searchable()
-                ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('requestAmount')
                     ->toggleable()
-                    ->toggledHiddenByDefault(),
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('amountPaid')
                     ->toggleable()
-                    ->toggledHiddenByDefault(),
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('requestDescription')
-                ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('job_title')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('graduation_class')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('relation')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('student_number')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
                 Tables\Columns\TextColumn::make('shirt_size')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->Searchable(),
             ];
     }
 
@@ -100,12 +111,22 @@ class Report extends Component implements Tables\Contracts\HasTable
     {
 
         return [
-//            DateRangeFilter::make('creation_date')
-//                ->useColumn('creation_date')
-//                ->columnSpan(1)
-//                ->label('Registration Dates')
-//                ->withIndicater()
-            DateFilter::make('creation_date')
+            Filter::make('creation_date')
+                ->form([
+                    Forms\Components\DatePicker::make('creation_date'),
+                    Forms\Components\DatePicker::make('last_update'),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['creation_date'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('donation_requests.creation_date', '>=', $date),
+                        )
+                        ->when(
+                            $data['last_update'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('donation_requests.last_update', '<=', $date),
+                        );
+                })
 
         ];
     }
@@ -113,9 +134,6 @@ class Report extends Component implements Tables\Contracts\HasTable
     protected function getTableHeaderActions(): array
     {
         return [
-//            FilamentExportHeaderAction::make('Download Donation Report')
-//                ->button()
-//                ->withHiddenColumns()
             ExportAction::make('Download Donation Report')
             ->tooltip('If you only want Excel (xlsx) reports click here to download'),
         ];
@@ -133,6 +151,7 @@ class Report extends Component implements Tables\Contracts\HasTable
         return [
             FilamentExportBulkAction::make('Download Donation Report')
                 ->withHiddenColumns()
+
         ];
     }
     public function render(): View
