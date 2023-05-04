@@ -2,11 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\CellulantResponseRequest;
 use Awcodes\Shout\Shout;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
@@ -148,9 +145,9 @@ class DonationRequestResource extends Resource
                     ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
+                Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
                     ->label('Request Amount'),
-                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
+                Tables\Columns\TextColumn::make('cellulantresponserequest.amountPaid')
                     ->label('Amount Paid'),
                 Tables\Columns\TextColumn::make('company')
                     ->searchable()

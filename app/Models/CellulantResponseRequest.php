@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CellulantResponseRequest extends Model
 {
@@ -15,7 +16,7 @@ class CellulantResponseRequest extends Model
     protected $keyType = 'string';
     const CREATED_AT = 'creation_date';
     const UPDATED_AT = 'last_update';
-    public function donationrequest(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function donationrequest(): BelongsTo
     {
         return $this->belongsTo(DonationRequest::class,'merchantTransactionID','merchantID');
     }
