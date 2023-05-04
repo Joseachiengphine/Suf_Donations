@@ -31,9 +31,12 @@ class Report extends Component implements Tables\Contracts\HasTable
         return [
                 Tables\Columns\TextColumn::make('creation_date')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(['donation_requests.creation_date']),
                 Tables\Columns\TextColumn::make('last_update')
                     ->dateTime()
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('merchantID')
                     ->label('Merchant ID')

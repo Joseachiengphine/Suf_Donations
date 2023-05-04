@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
 use Livewire\Component;
 use App\Models\VcrunSupporter;
 use Filament\Tables\Filters\Filter;
@@ -46,7 +47,12 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
             Tables\Columns\TextColumn::make('support_amount'),
             Tables\Columns\TextColumn::make('registration_amount')
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('status'),
+            BadgeColumn::make('status')
+                ->colors([
+                    'success' => 'PAID',
+                    'danger' => 'PENDING',
+                ])
+                ->sortable(),
             Tables\Columns\TextColumn::make('matching_donor_id')
                 ->toggleable()->toggledHiddenByDefault(),
         ];
