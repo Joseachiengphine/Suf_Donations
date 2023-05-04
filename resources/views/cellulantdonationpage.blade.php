@@ -66,17 +66,17 @@
 
                   </div>
               </div>
+              <div id="descriptionDiv" class="mb-3 row"  style="display: none">
+                  <label class="col-sm-2" for="description">Description</label>
+                  <div class="col-sm-10" style="border-radius: 10px;">
+                      <textarea id="description" cols="30" style="width: 49%; height: 38px;"></textarea>
+                  </div>
+              </div>
           </form>
       </div>
   </div>
 
         {{--start of VCrun file--}}
-                <div id="descriptionDiv" class="mb-3 row"  style="display: none">
-                    <label class="col-sm-2" for="description">Description</label>
-                    <div class="col-sm-10">
-                        <textarea id="description" cols="50"></textarea>
-                    </div>
-                </div>
                 <div id="participationDiv" class="mb-3 row" style="display: none">
                     <label class="col-sm-2" for="participation">How would you like to participate?</label>
                     <div class="col-sm-5">
@@ -90,10 +90,8 @@
                         @endforeach
                     </div>
                 </div>
-            </form>
 
             <br>
-        </div>
         {{--End of VCrun file--}}
 
   <div id="contactDetailsSection">
@@ -733,4 +731,3 @@
     </script>
   </body>
 </html>
-.
