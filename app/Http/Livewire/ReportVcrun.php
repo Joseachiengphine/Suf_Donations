@@ -21,11 +21,31 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
+    protected $listeners = ['filterbyDate', 'Refreshed' => '$refresh'];
+    /**
+     * @var Forms\ComponentContainer|View|mixed|null
+     */
+    public  $fromDate;
+    public $toDate;
+
+    public function filterbyDate($data)
+    {
+        $this->fromDate = $data['from_date'];
+        $this->toDate = $data['to_date'];
+        $this->emitSelf('Refreshed');
+    }
+
     protected function getTableQuery(): Builder
     {
         return VcrunRegistration::query()
             ->select('vcrun_registrations.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
-            ->Join('donation_requests','vcrun_registrations.request_merchant_id', '=','donation_requests.merchantID');
+            ->Join('donation_requests','vcrun_registrations.request_merchant_id', '=','donation_requests.merchantID')
+            ->when(
+                $this->fromDate,
+                fn (Builder $query): Builder => $query
+                    ->whereDate('vcrun_registrations.created_at', '>=', $this->fromDate)
+                    ->whereDate('vcrun_registrations.created_at', '<=', $this->toDate)
+            );
     }
 
 
@@ -92,23 +112,6 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                     'pending' => 'Pending',
 
                 ]),
-            Filter::make('creation_date')
-                ->form([
-                    Forms\Components\DatePicker::make('created_at'),
-                    Forms\Components\DatePicker::make('updated_at'),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['created_at'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                        )
-                        ->when(
-                            $data['updated_at'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date),
-                        );
-                })
-
         ];
     }
 
