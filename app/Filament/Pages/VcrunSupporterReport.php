@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 
 
 
+use App\Http\Livewire\ReportVcrunsupporter;
 use Filament\Forms;
 use Filament\Pages\Page;
 use App\Http\Livewire\Report;
@@ -35,17 +36,17 @@ class VcrunSupporterReport extends Page
     protected function getActions(): array
     {
         return [
-            Action::make('filterbyDate')
-                ->label('Filter By Date')
+            Action::make('filtervcrunsupportersbydate')
+                ->label('Filter By Dates')
                 ->icon('heroicon-s-cog')
                 ->action(function (array $data): void {
-                    $this->emitTo(Report::class,'filterbyDate', $data);
+                    $this->emitTo(ReportVcrunsupporter::class,'filtervcrunsupportersbydate', $data);
                 })
                 ->form([
-                    Forms\Components\DatePicker::make('from_date')
+                    Forms\Components\DatePicker::make('from_Supp_date')
                         ->label('From Date')
                         ->required(),
-                    Forms\Components\Datepicker::make('to_date')
+                    Forms\Components\Datepicker::make('to_Supp_date')
                         ->label('To Date')
                         ->required(),
                 ]),
