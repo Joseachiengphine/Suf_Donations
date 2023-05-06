@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 
 use App\Http\Livewire\Report;
+use App\Http\Livewire\ReportVcrun;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\Page;
@@ -33,17 +34,17 @@ class VcrunRegistrationReport extends Page
     protected function getActions(): array
     {
         return [
-            Action::make('filterbyDate')
-                ->label('Filter By Date')
+            Action::make('filtervcregistrationsbydate')
+                ->label('Filter Registration Dates')
                 ->icon('heroicon-s-cog')
                 ->action(function (array $data): void {
-                    $this->emitTo(Report::class,'filterbyDate', $data);
+                    $this->emitTo(ReportVcrun::class,'filtervcregistrationsbydate', $data);
                 })
                 ->form([
-                    Forms\Components\DatePicker::make('from_date')
+                    Forms\Components\DatePicker::make('from_Reg_date')
                         ->label('From Date')
                         ->required(),
-                    Forms\Components\Datepicker::make('to_date')
+                    Forms\Components\Datepicker::make('to_Reg_date')
                         ->label('To Date')
                         ->required(),
                 ]),

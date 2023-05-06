@@ -21,17 +21,17 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-    protected $listeners = ['filterbyDate', 'Refreshed' => '$refresh'];
+    protected $listeners = ['filtervcregistrationsbydate', 'Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
-    public  $fromDate;
-    public $toDate;
+    public  $fromRegDate;
+    public $toRegDate;
 
-    public function filterbyDate($data)
+    public function filtervcregistrationsbydate($data)
     {
-        $this->fromDate = $data['from_date'];
-        $this->toDate = $data['to_date'];
+        $this->fromRegDate = $data['from_Reg_date'];
+        $this->toRegDate = $data['to_Reg_date'];
         $this->emitSelf('Refreshed');
     }
 
@@ -41,10 +41,10 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             ->select('vcrun_registrations.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
             ->Join('donation_requests','vcrun_registrations.request_merchant_id', '=','donation_requests.merchantID')
             ->when(
-                $this->fromDate,
+                $this->fromRegDate,
                 fn (Builder $query): Builder => $query
-                    ->whereDate('vcrun_registrations.created_at', '>=', $this->fromDate)
-                    ->whereDate('vcrun_registrations.created_at', '<=', $this->toDate)
+                    ->whereDate('vcrun_registrations.created_at', '>=', $this->fromRegDate)
+                    ->whereDate('vcrun_registrations.created_at', '<=', $this->toRegDate)
             );
     }
 
