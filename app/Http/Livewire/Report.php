@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+
+use DateTime;
 use Filament\Forms;
 use Filament\Tables;
 use Livewire\Component;
@@ -9,9 +11,10 @@ use App\Models\DonationRequest;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Maatwebsite\Excel\Facades\Excel;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 
 
 class Report extends Component implements Tables\Contracts\HasTable
@@ -19,11 +22,32 @@ class Report extends Component implements Tables\Contracts\HasTable
 
     use InteractsWithTable;
 
+    protected $listeners = ['filterbyDate', 'Refreshed' => '$refresh'];
+    /**
+     * @var Forms\ComponentContainer|View|mixed|null
+     */
+    public  $fromDate;
+    public $toDate;
+
+      public function filterbyDate($data)
+      {
+          $this->fromDate = $data['from_date'];
+          $this->toDate = $data['to_date'];
+          $this->emitSelf('Refreshed');
+      }
+
+
     protected function getTableQuery(): Builder
     {
         return DonationRequest::query()
-        ->select('donation_requests.*','cellulant_responses.requestAmount','cellulant_responses.amountPaid')
-            ->Join('cellulant_responses','donation_requests.merchantID', '=','cellulant_responses.merchantTransactionID');
+            ->select('donation_requests.*', 'cellulant_responses.requestAmount', 'cellulant_responses.amountPaid')
+            ->join('cellulant_responses', 'donation_requests.merchantID', '=', 'cellulant_responses.merchantTransactionID')
+            ->when(
+                $this->fromDate,
+                fn (Builder $query): Builder => $query
+                    ->whereDate('donation_requests.creation_date', '>=', $this->fromDate)
+                    ->whereDate('donation_requests.creation_date', '<=', $this->toDate)
+            );
     }
 
     protected function getTableColumns(): array
@@ -123,11 +147,9 @@ class Report extends Component implements Tables\Contracts\HasTable
                     return $query
                         ->when(
                             $data['creation_date'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('donation_requests.creation_date', '>=', $date),
-                        )
-                        ->when(
-                            $data['last_update'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('donation_requests.last_update', '<=', $date),
+                            fn (Builder $query, $date): Builder => $query
+                                ->whereDate('donation_requests.creation_date', '>=', $this->fromDate)
+                                ->whereDate('donation_requests.creation_date', '<=', $this->toDate),
                         );
                 })
 

@@ -103,7 +103,7 @@
                                 <input type="text" class="form-control rounded" id="firstName" placeholder="John">
                             </div>
                             <div class="col-sm-5">
-                                <label for="lastName"></label><input type="text" class="form-control" id="lastName" placeholder="Doe">
+                                <label for="lastName"></label><input type="text" class="form-control is-invalid" id="lastName" placeholder="Doe">
                             </div>
                         </div>
 
