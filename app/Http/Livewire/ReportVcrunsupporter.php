@@ -49,6 +49,12 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     protected function getTableColumns(): array
     {
         return [
+            Tables\Columns\TextColumn::make('created_at')
+                ->dateTime()
+                ->sortable(),
+            Tables\Columns\TextColumn::make('updated_at')
+                ->dateTime()
+                ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('firstName')
                 ->searchable(),
             Tables\Columns\TextColumn::make('lastName'),
