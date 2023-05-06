@@ -160,7 +160,8 @@ class Report extends Component implements Tables\Contracts\HasTable
     {
         return [
             ExportAction::make('Download Donation Report')
-            ->tooltip('If you only want Excel (xlsx) reports click here to download'),
+            ->tooltip('If you only want Excel (xlsx) reports click here to download')
+                ->requiresConfirmation(),
         ];
     }
 
