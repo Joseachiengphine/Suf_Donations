@@ -141,7 +141,7 @@ class DonationRequestResource extends Resource
                     ->toggleable()
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
-                    ->label('Request Amount'),
+                    ->label('To Pay'),
                 Tables\Columns\TextColumn::make('cellulantresponserequest.amountPaid')
                     ->label('Amount Paid'),
                 Tables\Columns\TextColumn::make('company')
