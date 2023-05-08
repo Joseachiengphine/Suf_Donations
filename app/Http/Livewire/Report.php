@@ -22,6 +22,11 @@ class Report extends Component implements Tables\Contracts\HasTable
 
     use InteractsWithTable;
 
+    protected function getTablePollingInterval(): ?string
+    {
+        return '10s';
+    }
+
     protected $listeners = ['filterbyDate', 'Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
