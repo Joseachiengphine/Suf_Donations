@@ -50,7 +50,8 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     {
         return [
             Tables\Columns\TextColumn::make('created_at')
-                ->dateTime()
+                ->label('Paid on')
+                ->date()
                 ->sortable(),
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime()

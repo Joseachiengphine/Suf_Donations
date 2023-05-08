@@ -53,7 +53,8 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     {
         return [
             Tables\Columns\TextColumn::make('created_at')
-                ->dateTime()
+                ->label('Paid on')
+                ->date()
                 ->sortable(),
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime()

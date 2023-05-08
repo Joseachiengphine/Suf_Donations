@@ -54,7 +54,8 @@ class Report extends Component implements Tables\Contracts\HasTable
     {
         return [
                 Tables\Columns\TextColumn::make('creation_date')
-                    ->dateTime()
+                    ->label('Paid on')
+                    ->date()
                     ->sortable()
                     ->searchable(['donation_requests.creation_date']),
                 Tables\Columns\TextColumn::make('last_update')
@@ -85,10 +86,14 @@ class Report extends Component implements Tables\Contracts\HasTable
                     ->toggledHiddenByDefault()
                     ->Searchable(),
                 Tables\Columns\TextColumn::make('country')
-                    ->Searchable(),
+                    ->Searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('campaign'),
                 Tables\Columns\TextColumn::make('company')
-                    ->Searchable(),
+                    ->Searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('currency')
                     ->toggleable()
                     ->toggledHiddenByDefault()
@@ -98,8 +103,6 @@ class Report extends Component implements Tables\Contracts\HasTable
                     ->toggledHiddenByDefault()
                     ->Searchable(),
                 Tables\Columns\TextColumn::make('amountPaid')
-                    ->toggleable()
-                    ->toggledHiddenByDefault()
                     ->Searchable(),
                 Tables\Columns\TextColumn::make('requestDescription')
                     ->toggleable()
