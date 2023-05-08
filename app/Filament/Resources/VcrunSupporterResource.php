@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VcrunSupporterResource\Widgets\StatsOverview;
-use Awcodes\Shout\Shout;
+
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Form;
@@ -30,10 +30,6 @@ class VcrunSupporterResource extends Resource
     {
         return $form
             ->schema([
-                Shout::make('success')
-                    ->content('This is an Overview of this user\'s VC Run Supporter details')
-                    ->type('success')
-                    ->columnSpan('full'),
                 Forms\Components\Section::make('VICE CHANCELLOR\'S RUN SUPPORTERS')->schema(
                     [
                         Forms\Components\Fieldset::make('Payment Details')
