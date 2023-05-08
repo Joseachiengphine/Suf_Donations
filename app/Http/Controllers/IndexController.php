@@ -59,34 +59,32 @@ class IndexController extends Controller
     public function __invoke(Request $request)
     {
         $pageBo = $this->preparePageBo(null);
-        $participationOption=ParticipationOption::all();
-        return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
-//        if(!is_null($pageBo)) {
-//
-//        }
-//        else {
-//            return view('error500');
-//        }
-   }
+        if(!is_null($pageBo)) {
+            $participationOption=ParticipationOption::all();
+            return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
+        } else {
+            return view('error500');
+        }
+    }
+
 
     public function vcRunView()
     {
         $pageBo = $this->preparePageBo('VCRUN');
-        $participationOption=ParticipationOption::all();
-        $vcParticipants=VcrunRegistration::query()
-            ->where('status','=','PAID')
-            ->whereNotIn('request_merchant_id',['VC'])
-            ->with('donationRequest')
-            ->get();
-        return view('vcrunform')->with(['pageBo'=> $pageBo,
-            'participation'=>$participationOption,
-            'vcRunParticipants'=>$vcParticipants
-        ]);
-//        if(!is_null($pageBo)) {
-//
-//        } else {
-//            return view('error500');
-//        }
+        if(!is_null($pageBo)) {
+            $participationOption=ParticipationOption::all();
+            $vcParticipants=VcrunRegistration::query()
+                ->where('status','=','PAID')
+                ->whereNotIn('request_merchant_id',['VC'])
+                ->with('donationRequest')
+                ->get();
+            return view('vcrunform')->with(['pageBo'=> $pageBo,
+                'participation'=>$participationOption,
+                'vcRunParticipants'=>$vcParticipants
+            ]);
+        } else {
+            return view('error500');
+        }
 
     }
 
@@ -111,35 +109,35 @@ class IndexController extends Controller
             $toDate=$request->dateTo;
             //Duplicate Query Body for pagination
             $report=\DB::table('donation_requests as dreqs')
-                        ->select('dreqs.merchantID as MerchantID',
-                        'dreqs.salutation as Salutation',
-                        'dreqs.firstName as First_Name',
-                        'dreqs.lastName as Last_Name',
-                        'dreqs.phoneNumber as Phone_Number',
-                        'dreqs.email as Email_Address',
-                        'dreqs.zipCode as Zip_Code',
-                        'dreqs.city as City',
-                        'dreqs.country as Country',
-                        'dreqs.campaign as Campaign',
-                        'dreqs.relation as Donor_Relation',
-                        'dreqs.requestDescription as Description',
-                        'dreqs.currency as Currency',
-                        'cresp.amountPaid as Request_Amount',
-                        'dreqs.company as Company',
-                        'dreqs.job_title as Job_Title',
-                        'dreqs.graduation_class as Graduation_Class',
-                        'dreqs.creation_date as Date_Time_Raised',
-                        'dreqs.last_update as Date_Time_Submitted',
-                        'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
-                        'cresp.accountNumber as Account_Number',
-                        'cresp.requestStatusDescription as Response_Status_Description',
-                        'cresp.currencyCode as Response_Currency_Code',
-                        'cresp.amountPaid as Amount_Paid',
-                        'cresp.last_update as Response_Date_Time'
-                        )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
-                        ->where('cresp.requestDate','>=',$fromDate)
-                        ->where('cresp.requestDate','<=',$toDate)
-                        ->paginate(10);
+                ->select('dreqs.merchantID as MerchantID',
+                    'dreqs.salutation as Salutation',
+                    'dreqs.firstName as First_Name',
+                    'dreqs.lastName as Last_Name',
+                    'dreqs.phoneNumber as Phone_Number',
+                    'dreqs.email as Email_Address',
+                    'dreqs.zipCode as Zip_Code',
+                    'dreqs.city as City',
+                    'dreqs.country as Country',
+                    'dreqs.campaign as Campaign',
+                    'dreqs.relation as Donor_Relation',
+                    'dreqs.requestDescription as Description',
+                    'dreqs.currency as Currency',
+                    'cresp.amountPaid as Request_Amount',
+                    'dreqs.company as Company',
+                    'dreqs.job_title as Job_Title',
+                    'dreqs.graduation_class as Graduation_Class',
+                    'dreqs.creation_date as Date_Time_Raised',
+                    'dreqs.last_update as Date_Time_Submitted',
+                    'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
+                    'cresp.accountNumber as Account_Number',
+                    'cresp.requestStatusDescription as Response_Status_Description',
+                    'cresp.currencyCode as Response_Currency_Code',
+                    'cresp.amountPaid as Amount_Paid',
+                    'cresp.last_update as Response_Date_Time'
+                )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
+                ->where('cresp.requestDate','>=',$fromDate)
+                ->where('cresp.requestDate','<=',$toDate)
+                ->paginate(10);
 
             if($report->isEmpty())
             {
@@ -149,9 +147,9 @@ class IndexController extends Controller
                 //return $this->export($report);
                 $report->withQueryString();
                 return redirect()->route('report')->with(['reports'=>$report,
-                                                        'fromDate'=>$fromDate,
-                                                        'toDate'=>$toDate,
-                                                        ]);
+                    'fromDate'=>$fromDate,
+                    'toDate'=>$toDate,
+                ]);
             }
         }else{
             $request->session()->flush();
@@ -178,33 +176,33 @@ class IndexController extends Controller
 
         //Setting column names
         $columns = array('Merchant ID',
-                        'Salutation',
-                        'First Name',
-                        'Last Name',
-                        'PhoneNumber',
-                        'Email Address',
-                        'Zip Code',
-                        'City',
-                        'Country',
-                        'Campaign',
-                        'Donor Relation',
-                        'Description',
-                        'Currency',
-                        'Request Amount',
-                        'Company',
-                        'Job Title',
-                        'Graduation Class',
-                        'Date Raised',
-                        'Date Submitted',
-                        'Checkout ID',
-                        'Account No',
-                        'Response Status',
-                        'Currency Code',
+            'Salutation',
+            'First Name',
+            'Last Name',
+            'PhoneNumber',
+            'Email Address',
+            'Zip Code',
+            'City',
+            'Country',
+            'Campaign',
+            'Donor Relation',
+            'Description',
+            'Currency',
+            'Request Amount',
+            'Company',
+            'Job Title',
+            'Graduation Class',
+            'Date Raised',
+            'Date Submitted',
+            'Checkout ID',
+            'Account No',
+            'Response Status',
+            'Currency Code',
 
 
-'Amount Paid',
-                        'Response Date',
-                    );
+            'Amount Paid',
+            'Response Date',
+        );
 
         $callback = function() use ($report, $columns)
         {
@@ -213,31 +211,31 @@ class IndexController extends Controller
 
             foreach($report as $item) {
                 fputcsv($file, array($item->MerchantID,
-                                $item->Salutation,
-                                $item->First_Name,
-                                $item->Last_Name,
-                                $item->Phone_Number,
-                                $item->Email_Address,
-                                $item->Zip_Code,
-                                $item->City,
-                                $item->Country,
-                                $item->Campaign,
-                                $item->Donor_Relation,
-                                $item->Description,
-                                $item->Currency,
-                                $item->Request_Amount,
-                                $item->Company,
-                                $item->Job_Title,
-                                $item->Graduation_Class,
-                                $item->Date_Time_Raised,
-                                $item->Date_Time_Submitted,
-                                $item->Response_Check_Out_Request_ID,
-                                $item->Account_Number,
-                                $item->Response_Status_Description,
-                                $item->Response_Currency_Code,
-                                $item->Amount_Paid,
-                                $item->Response_Date_Time,
-                            ));
+                    $item->Salutation,
+                    $item->First_Name,
+                    $item->Last_Name,
+                    $item->Phone_Number,
+                    $item->Email_Address,
+                    $item->Zip_Code,
+                    $item->City,
+                    $item->Country,
+                    $item->Campaign,
+                    $item->Donor_Relation,
+                    $item->Description,
+                    $item->Currency,
+                    $item->Request_Amount,
+                    $item->Company,
+                    $item->Job_Title,
+                    $item->Graduation_Class,
+                    $item->Date_Time_Raised,
+                    $item->Date_Time_Submitted,
+                    $item->Response_Check_Out_Request_ID,
+                    $item->Account_Number,
+                    $item->Response_Status_Description,
+                    $item->Response_Currency_Code,
+                    $item->Amount_Paid,
+                    $item->Response_Date_Time,
+                ));
             }
             fclose($file);
         };
@@ -249,36 +247,36 @@ class IndexController extends Controller
     {
         //Query
         $report=\DB::table('donation_requests as dreqs')
-                    ->select('dreqs.merchantID as MerchantID',
-                    'dreqs.salutation as Salutation',
-                    'dreqs.firstName as First_Name',
-                    'dreqs.lastName as Last_Name',
-                    'dreqs.phoneNumber as Phone_Number',
-                    'dreqs.email as Email_Address',
-                    'dreqs.zipCode as Zip_Code',
-                    'dreqs.city as City',
-                    'dreqs.country as Country',
-                    'dreqs.campaign as Campaign',
-                    'dreqs.relation as Donor_Relation',
-                    'dreqs.requestDescription as Description',
-                    'dreqs.currency as Currency',
-                    'cresp.amountPaid as Request_Amount',
-                    'dreqs.company as Company',
-                    'dreqs.job_title as Job_Title',
-                    'dreqs.graduation_class as Graduation_Class',
-                    'dreqs.creation_date as Date_Time_Raised',
-                    'dreqs.last_update as Date_Time_Submitted',
-                    'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
-                    'cresp.accountNumber as Account_Number',
-                    'cresp.requestStatusDescription as Response_Status_Description',
-                    'cresp.currencyCode as Response_Currency_Code',
-                    'cresp.amountPaid as Amount_Paid',
-                    'cresp.last_update as Response_Date_Time'
-                    )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
-                    ->where('cresp.requestDate','>=',$fromDate)
-                    ->where('cresp.requestDate','<=',$toDate)
-                    ->get();
-            return $report;
+            ->select('dreqs.merchantID as MerchantID',
+                'dreqs.salutation as Salutation',
+                'dreqs.firstName as First_Name',
+                'dreqs.lastName as Last_Name',
+                'dreqs.phoneNumber as Phone_Number',
+                'dreqs.email as Email_Address',
+                'dreqs.zipCode as Zip_Code',
+                'dreqs.city as City',
+                'dreqs.country as Country',
+                'dreqs.campaign as Campaign',
+                'dreqs.relation as Donor_Relation',
+                'dreqs.requestDescription as Description',
+                'dreqs.currency as Currency',
+                'cresp.amountPaid as Request_Amount',
+                'dreqs.company as Company',
+                'dreqs.job_title as Job_Title',
+                'dreqs.graduation_class as Graduation_Class',
+                'dreqs.creation_date as Date_Time_Raised',
+                'dreqs.last_update as Date_Time_Submitted',
+                'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
+                'cresp.accountNumber as Account_Number',
+                'cresp.requestStatusDescription as Response_Status_Description',
+                'cresp.currencyCode as Response_Currency_Code',
+                'cresp.amountPaid as Amount_Paid',
+                'cresp.last_update as Response_Date_Time'
+            )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
+            ->where('cresp.requestDate','>=',$fromDate)
+            ->where('cresp.requestDate','<=',$toDate)
+            ->get();
+        return $report;
     }
 
     //Login View

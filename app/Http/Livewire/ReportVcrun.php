@@ -118,10 +118,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     protected function getTableHeaderActions(): array
     {
         return [
-//            FilamentExportHeaderAction::make('Download Run Report')
-//                ->button()
-//                ->csvDelimiter(',')
-//                ->withHiddenColumns(),
+
             ExportAction::make('Download Run Report')
                 ->tooltip('If you only want Excel (xlsx) reports click here to download')
                 ->requiresConfirmation(),
