@@ -21,6 +21,11 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
+    protected function getTablePollingInterval(): ?string
+    {
+        return '10s';
+    }
+
     protected $listeners = ['filtervcregistrationsbydate', 'Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
@@ -38,7 +43,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     protected function getTableQuery(): Builder
     {
         return VcrunRegistration::query()
-            ->select('vcrun_registrations.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
+            ->select('vcrun_registrations.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency', 'donation_requests.student_number', 'donation_requests.shirt_size')
             ->Join('donation_requests','vcrun_registrations.request_merchant_id', '=','donation_requests.merchantID')
             ->when(
                 $this->fromRegDate,
@@ -59,6 +64,10 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime()
                 ->toggleable()->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('student_number')
+                ->searchable()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('firstName')
                 ->searchable(),
             Tables\Columns\TextColumn::make('lastName'),
@@ -69,6 +78,10 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('currency')
                 ->searchable()
                 ->toggleable()->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('shirt_size')
+                ->searchable()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('request_merchant_id')
                 ->label('Merchant ID')
                 ->toggleable()->toggledHiddenByDefault(),
