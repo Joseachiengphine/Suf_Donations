@@ -107,9 +107,11 @@ class CellulantResponseRequestResource extends Resource
                     ->toggleable()->toggledHiddenByDefault()
                     ->label('Merchant ID'),
                 Tables\Columns\TextColumn::make('requestStatusCode')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                    ->toggledHiddenByDefault(),
                 BadgeColumn::make('requestStatusDescription')->label('Request Status')
                     ->searchable()
+                    ->tooltip('Click the filter icon to filter by request')
                     ->colors([
                         'success' => 'Request fully paid',
                         'danger' => 'Request Pending Payment',
@@ -132,11 +134,13 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Columns\TextColumn::make('payments')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('creation_date')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
+                    ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date')
+,
                 Tables\Columns\TextColumn::make('last_update')
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
             ])
             ->filters([
+
                 SelectFilter::make('requestStatusDescription')
                     ->options([
                         'request fully paid' => 'Request fully paid',

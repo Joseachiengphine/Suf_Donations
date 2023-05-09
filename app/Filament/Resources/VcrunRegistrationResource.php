@@ -107,6 +107,7 @@ class VcrunRegistrationResource extends Resource
                     ->label('Merchant ID')
                     ->toggleable()->toggledHiddenByDefault(),
                     BadgeColumn::make('participation_type')
+                        ->tooltip('Click the filter icon to filter by participation type')
                         ->colors([
                             'primary' => 'PHYSICAL',
                             'secondary' => 'VIRTUAL',
@@ -114,6 +115,7 @@ class VcrunRegistrationResource extends Resource
                     Tables\Columns\TextColumn::make('race_kms')
                         ->searchable(),
                     BadgeColumn::make('status')
+                        ->tooltip('Click the filter icon to filter by payment status')
                         ->colors([
                             'success' => 'PAID',
                             'danger' => 'PENDING',
