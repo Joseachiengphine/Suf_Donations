@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
@@ -10,10 +12,12 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
+use Filament\Pages\Page;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -36,7 +40,16 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(static fn (null|string $state): null|string =>
+                    filled($state) ? Hash::make($state): null,
+                    )->required(static fn (Page $livewire): bool =>
+                        $livewire instanceof CreateUser,
+                    )->dehydrated(static fn (null|string $state): bool =>
+                    filled($state),
+                    )->label(static fn (Page $livewire): string =>
+                    ($livewire instanceof EditUser) ? 'New Password' : 'Password'
+                    ),
                 Forms\Components\TextInput::make('name')
                     ->maxLength(255),
                     ]),
