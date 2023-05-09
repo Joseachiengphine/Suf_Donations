@@ -164,7 +164,7 @@ class DonationRequestResource extends Resource
                 Tables\Columns\TextColumn::make('graduation_class')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('campaign')
-                    ->tooltip('Can be filterd'),
+                    ->tooltip('Click the filter icon to filter by campaign'),
                 Tables\Columns\TextColumn::make('relation')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('student_number')
