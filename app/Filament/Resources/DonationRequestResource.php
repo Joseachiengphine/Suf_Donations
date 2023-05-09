@@ -155,6 +155,7 @@ class DonationRequestResource extends Resource
                 Tables\Columns\TextColumn::make('requestDescription')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('creation_date')
+                    ->tooltip('Click the filter icon to filter by date')
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('last_update')
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
@@ -162,7 +163,8 @@ class DonationRequestResource extends Resource
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('graduation_class')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('campaign'),
+                Tables\Columns\TextColumn::make('campaign')
+                    ->tooltip('Can be filterd'),
                 Tables\Columns\TextColumn::make('relation')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('student_number')

@@ -402,7 +402,6 @@ class IndexController extends Controller
         Log::debug("Save Donation Details: ");
         Log::debug($request->getContent());
         $donationRequests->merchantID = $donation->merchantID;
-        $donationRequests->student_number = $donation->student_number;
         $donationRequests->firstName = $donation->firstName;
         $donationRequests->lastName = $donation->lastName;
         $donationRequests->company = $donation->company;
@@ -410,7 +409,6 @@ class IndexController extends Controller
         $donationRequests->city = $donation->city;
         $donationRequests->email = $donation->email;
         $donationRequests->zipCode = $donation->zipCode;
-        $donationRequests->shirt_size = $donation->shirt_size;
         $donationRequests->currency = $donation->currency;
 //        $donationRequests->salutation = $donation->salutation;
         $donationRequests->salutation = "";

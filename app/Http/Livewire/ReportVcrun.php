@@ -59,6 +59,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
         return [
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
+                ->tooltip('Click the filter button to filter by date')
                 ->date()
                 ->sortable(),
             Tables\Columns\TextColumn::make('updated_at')
