@@ -20,7 +20,7 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
 
     protected function getTablePollingInterval(): ?string
     {
-        return '10s';
+        return '2s';
     }
 
     protected $listeners = ['filtervcrunsupportersbydate', 'Refreshed' => '$refresh'];
