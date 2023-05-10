@@ -14,6 +14,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Model;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 
@@ -90,11 +91,18 @@ class CellulantResponseRequestResource extends Resource
         return $table
 
             ->columns([
-                Tables\Columns\TextColumn::make('donationRequest.firstName')
-                    ->label('First Name')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->getStateUsing(function ($record) {
+                        return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
+                    })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('donationRequest.lastName')
-                    ->label('Last Name'),
+                Tables\Columns\TextColumn::make('requestAmount'),
+                Tables\Columns\TextColumn::make('amountPaid'),
+                Tables\Columns\TextColumn::make('requestDate')
+                    ->label('Paid on')
+                    ->date()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('donationRequest.email')
                     ->searchable()
                     ->toggleable()->toggledHiddenByDefault(),
@@ -122,15 +130,10 @@ class CellulantResponseRequestResource extends Resource
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('accountNumber')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('currencyCode')->label('Currency'),
-                Tables\Columns\TextColumn::make('amountPaid'),
+                Tables\Columns\TextColumn::make('currencyCode')
+                    ->label('Currency'),
                 Tables\Columns\TextColumn::make('requestCurrencyCode')
                 ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('requestAmount')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('requestDate')
-                    ->date()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('payments')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('creation_date')
