@@ -9,6 +9,7 @@ use Filament\Resources\Table;
 use App\Models\DonationRequest;
 use Filament\Resources\Resource;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Model;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
 use App\Filament\Resources\DonationRequestResource\Pages;
 use App\Filament\Resources\DonationRequestResource\Widgets\StatsOverview;
@@ -116,18 +117,24 @@ class DonationRequestResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('Name')
+                    ->getStateUsing(function (Model $record){
+                        return $record->firstName . ' ' . $record->lastName;
+                    }),
+                Tables\Columns\TextColumn::make('country')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('campaign')
+                    ->tooltip('Click the filter icon to filter by campaign'),
+                Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
+                    ->label('Request Amount'),
+                Tables\Columns\TextColumn::make('cellulantresponserequest.amountPaid')
+                    ->label('Paid Amount'),
                 Tables\Columns\TextColumn::make('merchantID')
                     ->label('Merchant ID')
                     ->searchable()
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('firstName')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('lastName')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('phoneNumber')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('country')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('city')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
@@ -140,10 +147,6 @@ class DonationRequestResource extends Resource
                     ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
-                    ->label('To Pay'),
-                Tables\Columns\TextColumn::make('cellulantresponserequest.amountPaid')
-                    ->label('Amount Paid'),
                 Tables\Columns\TextColumn::make('company')
                     ->searchable()
                     ->toggleable()
@@ -163,8 +166,6 @@ class DonationRequestResource extends Resource
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('graduation_class')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('campaign')
-                    ->tooltip('Click the filter icon to filter by campaign'),
                 Tables\Columns\TextColumn::make('relation')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('student_number')

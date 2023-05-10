@@ -86,11 +86,29 @@ class VcrunRegistrationResource extends Resource
     {
         return $table
                 ->columns([
-                    Tables\Columns\TextColumn::make('donationRequest.firstName')
-                        ->label('First Name')
+                    Tables\Columns\TextColumn::make('name')
+                        ->label('Name')
+                        ->getStateUsing(function ($record) {
+                            if ($record->donationRequest) {
+                                return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
+                            }
+                            return '';
+                        })
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('donationRequest.lastName')
-                        ->label('Last Name')
+                    Tables\Columns\TextColumn::make('registration_amount')
+                        ->label('Reg. Amount')
+                        ->tooltip('Registration Amount')
+                        ->searchable(),
+                    Tables\Columns\TextColumn::make('paid_amount'),
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->date()
+                        ->label('Paid on'),
+                    BadgeColumn::make('status')
+                        ->tooltip('Click the filter icon to filter by payment status')
+                        ->colors([
+                            'success' => 'PAID',
+                            'danger' => 'PENDING',
+                        ])
                         ->sortable(),
                     Tables\Columns\TextColumn::make('donationRequest.email')
                         ->label('Email')
@@ -100,8 +118,6 @@ class VcrunRegistrationResource extends Resource
                         ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('currency')
                         ->searchable()
-                        ->toggleable()->toggledHiddenByDefault(),
-                    Tables\Columns\TextColumn::make('created_at')
                         ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('request_merchant_id')
                     ->label('Merchant ID')
@@ -114,25 +130,12 @@ class VcrunRegistrationResource extends Resource
                         ]),
                     Tables\Columns\TextColumn::make('race_kms')
                         ->searchable(),
-                    BadgeColumn::make('status')
-                        ->tooltip('Click the filter icon to filter by payment status')
-                        ->colors([
-                            'success' => 'PAID',
-                            'danger' => 'PENDING',
-                        ])
-                        ->sortable(),
                     Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('matched_amount')
                     ->toggleable()->toggledHiddenByDefault(),
-                    Tables\Columns\TextColumn::make('created_at')
-                    ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('updated_at')
                     ->toggleable()->toggledHiddenByDefault(),
-                    Tables\Columns\TextColumn::make('registration_amount')
-                        ->label('To Pay')
-                        ->searchable(),
-                    Tables\Columns\TextColumn::make('paid_amount'),
                 ])
             ->filters([
                 SelectFilter::make('status')

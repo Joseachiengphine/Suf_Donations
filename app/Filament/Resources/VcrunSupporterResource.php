@@ -72,15 +72,34 @@ class VcrunSupporterResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('donationRequest.firstName')
-                    ->label('First Name')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->getStateUsing(function ($record) {
+                        if ($record->donationRequest) {
+                            return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
+                        }
+                        return '';
+                    })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('donationRequest.lastName')
-                    ->label('Last Name')
+                Tables\Columns\TextColumn::make('registration_amount')
+                    ->label('Reg. Amount')
+                    ->tooltip('Registration Amount')
+                    ->default('1000'),
+                Tables\Columns\TextColumn::make('support_amount')
+                ->label('Supp. Amount')
+                ->tooltip('Support Amount'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Paid on')
+                    ->tooltip('Click the filter icon to filter by date')
+                    ->date()
                     ->sortable(),
+                BadgeColumn::make('status')
+                    ->colors([
+                        'success' => 'PAID',
+                        'danger' => 'PENDING',
+                    ]),
                 Tables\Columns\TextColumn::make('donationRequest.email')
                     ->label('Email')
-                    ->toggleable()->toggledHiddenByDefault()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
                     ->toggleable()->toggledHiddenByDefault(),
@@ -88,15 +107,9 @@ class VcrunSupporterResource extends Resource
                     ->searchable()
                     ->label('Merchant ID')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('request_merchant_id'),
-                Tables\Columns\TextColumn::make('support_amount'),
-                Tables\Columns\TextColumn::make('registration_amount')
-                    ->toggleable()->toggledHiddenByDefault(),
-                BadgeColumn::make('status')
-                    ->colors([
-                        'success' => 'PAID',
-                        'danger' => 'PENDING',
-                    ]),
+                Tables\Columns\TextColumn::make('request_merchant_id')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),
             ])

@@ -65,18 +65,16 @@ class Report extends Component implements Tables\Contracts\HasTable
                     return $record->firstName . ' ' . $record->lastName;
                 }),
                 Tables\Columns\TextColumn::make('campaign'),
-                Tables\Columns\TextColumn::make('creation_date')
-                    ->label('Paid on')
-                    ->tooltip('Click the filter button to filter by date')
-                    ->date()
-                    ->sortable()
-                    ->searchable(['donation_requests.creation_date']),
                 Tables\Columns\TextColumn::make('requestAmount')
-                ->toggleable()
-                ->toggledHiddenByDefault()
                 ->Searchable(),
                Tables\Columns\TextColumn::make('amountPaid')
                 ->Searchable(),
+               Tables\Columns\TextColumn::make('creation_date')
+                ->label('Paid on')
+                ->tooltip('Click the filter button to filter by date')
+                ->date()
+                ->sortable()
+                ->searchable(['donation_requests.creation_date']),
                 Tables\Columns\TextColumn::make('last_update')
                     ->dateTime()
                     ->toggleable()

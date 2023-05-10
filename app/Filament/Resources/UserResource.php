@@ -10,7 +10,6 @@ use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Pages\Page;
 use Filament\Resources\Form;
@@ -63,16 +62,18 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->sortable()
                     ->label('Roles')
-                    ->searchable(),
+                    ->searchable()
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('email'),
+
             ])
             ->filters([
                 //
