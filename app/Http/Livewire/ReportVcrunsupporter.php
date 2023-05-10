@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use App\Models\VcrunSupporter;
 use Filament\Tables\Filters\Filter;
@@ -54,17 +55,31 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     protected function getTableColumns(): array
     {
         return [
+            Tables\Columns\TextColumn::make('Name')
+                ->getStateUsing(function (Model $record){
+                    return $record->firstName . ' ' . $record->lastName;
+                }),
+            Tables\Columns\TextColumn::make('registration_amount')
+                ->label('Reg. Amount')
+                ->tooltip('Registration Amount')
+                ->default('1000'),
+            Tables\Columns\TextColumn::make('support_amount')
+            ->label('Supp. Amount')
+            ->tooltip('Support Amount'),
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')
                 ->date()
                 ->sortable(),
+            BadgeColumn::make('status')
+                ->colors([
+                    'success' => 'PAID',
+                    'danger' => 'PENDING',
+                ])
+                ->sortable(),
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime()
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('firstName')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('lastName'),
             Tables\Columns\TextColumn::make('email')
                 ->searchable(),
             Tables\Columns\TextColumn::make('phoneNumber')
@@ -76,16 +91,9 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                 ->searchable()
                 ->label('Merchant ID')
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('request_merchant_id'),
-            Tables\Columns\TextColumn::make('support_amount'),
-            Tables\Columns\TextColumn::make('registration_amount')
-                ->toggleable()->toggledHiddenByDefault(),
-            BadgeColumn::make('status')
-                ->colors([
-                    'success' => 'PAID',
-                    'danger' => 'PENDING',
-                ])
-                ->sortable(),
+            Tables\Columns\TextColumn::make('request_merchant_id')
+            ->toggleable()
+            ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('matching_donor_id')
                 ->toggleable()->toggledHiddenByDefault(),
         ];

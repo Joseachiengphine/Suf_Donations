@@ -61,3 +61,5 @@ class CellulantExpressCheckoutRequestBodyPayload
         $paymentWebhookUrl = "https://yahoo.com";
     }
 }
+
+//This class represents a payload for making a Cellulant Express Checkout request and contains various properties that hold the data for the request.
