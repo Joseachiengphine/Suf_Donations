@@ -14,29 +14,28 @@ class StatsOverview extends BaseWidget
         $paidRegistrations = VcrunRegistration::sum('paid_amount');
         $difference = $expectedAmount - $paidRegistrations;
 
-        return [
-            //Card::make('All Vice chancellor\'s Run Registrations', VcrunRegistration::all()->count())
-                //->description('Vice chancellor\'s Run Registrations')
-                //->descriptionIcon('heroicon-s-receipt-refund')
-                //->chart([7, 2, 10, 3, 15, 4, 17])
-                //->color('success'),
+        $totalAmount = $paidRegistrations + $difference;
 
-            Card::make('Total Amount Paid', 'KES ' . number_format($paidRegistrations, 2, '.', ','))
-                ->description('Amount Paid in Kes')
-                ->descriptionIcon('heroicon-s-gift')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
+        $paidRegistrationsPercentage = ($paidRegistrations / $totalAmount) * 100;
+        $differencePercentage = ($difference / $totalAmount) * 100;
+
+        return [
+            Card::make('Total Expected Amount', 'KES ' . number_format($expectedAmount, 2, '.', ','))
+                ->description('100% Expected')
+                ->descriptionIcon('heroicon-s-sparkles')
+                ->chart([0, 20, 40, 60, 80, 100])
                 ->color('success'),
 
-            Card::make('Total Expected Amount', 'KES ' . number_format($expectedAmount, 2, '.', ','))
-                ->description('Amount expected from registrations')
-                ->descriptionIcon('heroicon-s-gift')
+            Card::make('Total Amount Paid', 'KES ' . number_format($paidRegistrations, 2, '.', ','))
+                ->description(number_format($paidRegistrationsPercentage, 2) . '% Paid')
+                ->descriptionIcon('heroicon-s-sparkles')
                 ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),
 
             Card::make('Difference Between Amounts', 'KES ' . number_format($difference, 2, '.', ','))
-                ->description('Amount Not Paid')
+                ->description(number_format($differencePercentage, 2) . '% Diffrence')
                 ->descriptionIcon('heroicon-s-credit-card')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
+                ->chart([10, 6, 2, -4, -8, -12, -16])
                 ->color($difference > 0 ? 'danger' : 'success'),
         ];
     }
