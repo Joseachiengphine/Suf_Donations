@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 
 use Filament\Forms;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use App\Models\VcrunRegistration;
 use Filament\Tables\Filters\Filter;
@@ -57,6 +58,19 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     protected function getTableColumns(): array
     {
         return [
+            Tables\Columns\TextColumn::make('Name')
+                ->getStateUsing(function (Model $record){
+                    return $record->firstName . ' ' . $record->lastName;
+                }),
+            Tables\Columns\TextColumn::make('student_number')
+                ->searchable()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('registration_amount')
+                ->label('Reg. Amount')
+                ->tooltip('Registration Amount')
+                ->searchable(),
+            Tables\Columns\TextColumn::make('paid_amount'),
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')
@@ -65,13 +79,21 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime()
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('student_number')
-                ->searchable()
-                ->toggleable()
-                ->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('firstName')
+            BadgeColumn::make('status')
+                ->label('Status')
+                ->colors([
+                    'success' => 'PAID',
+                    'danger' => 'PENDING',
+                ])
+                ->sortable(),
+            BadgeColumn::make('participation_type')
+                ->colors([
+                    'primary' => 'PHYSICAL',
+                    'secondary' => 'VIRTUAL',
+                ])
                 ->searchable(),
-            Tables\Columns\TextColumn::make('lastName'),
+            Tables\Columns\TextColumn::make('race_kms')
+                ->searchable(),
             Tables\Columns\TextColumn::make('email')
                 ->searchable(),
             Tables\Columns\TextColumn::make('phoneNumber')
@@ -86,23 +108,6 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('request_merchant_id')
                 ->label('Merchant ID')
                 ->toggleable()->toggledHiddenByDefault(),
-            BadgeColumn::make('participation_type')
-                ->colors([
-                    'primary' => 'PHYSICAL',
-                    'secondary' => 'VIRTUAL',
-                ])
-                ->searchable(),
-            Tables\Columns\TextColumn::make('race_kms')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('registration_amount')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('paid_amount'),
-            BadgeColumn::make('status')
-                ->colors([
-                    'success' => 'PAID',
-                    'danger' => 'PENDING',
-                ])
-                ->sortable(),
             Tables\Columns\TextColumn::make('matching_donor_id')
                 ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('matched_amount')

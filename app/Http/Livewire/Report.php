@@ -6,6 +6,8 @@ namespace App\Http\Livewire;
 use DateTime;
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Tables\Columns\Layout\Grid;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use App\Models\DonationRequest;
 use Filament\Tables\Filters\Filter;
@@ -58,12 +60,23 @@ class Report extends Component implements Tables\Contracts\HasTable
     protected function getTableColumns(): array
     {
         return [
+                Tables\Columns\TextColumn::make('Name')
+                ->getStateUsing(function (Model $record){
+                    return $record->firstName . ' ' . $record->lastName;
+                }),
+                Tables\Columns\TextColumn::make('campaign'),
                 Tables\Columns\TextColumn::make('creation_date')
                     ->label('Paid on')
                     ->tooltip('Click the filter button to filter by date')
                     ->date()
                     ->sortable()
                     ->searchable(['donation_requests.creation_date']),
+                Tables\Columns\TextColumn::make('requestAmount')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+               Tables\Columns\TextColumn::make('amountPaid')
+                ->Searchable(),
                 Tables\Columns\TextColumn::make('last_update')
                     ->dateTime()
                     ->toggleable()
@@ -78,8 +91,6 @@ class Report extends Component implements Tables\Contracts\HasTable
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->Searchable(),
-                Tables\Columns\TextColumn::make('firstName'),
-                Tables\Columns\TextColumn::make('lastName'),
                 Tables\Columns\TextColumn::make('phoneNumber')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
@@ -95,7 +106,6 @@ class Report extends Component implements Tables\Contracts\HasTable
                     ->Searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('campaign'),
                 Tables\Columns\TextColumn::make('company')
                     ->Searchable()
                     ->toggleable()
@@ -103,12 +113,6 @@ class Report extends Component implements Tables\Contracts\HasTable
                 Tables\Columns\TextColumn::make('currency')
                     ->toggleable()
                     ->toggledHiddenByDefault()
-                    ->Searchable(),
-                Tables\Columns\TextColumn::make('requestAmount')
-                    ->toggleable()
-                    ->toggledHiddenByDefault()
-                    ->Searchable(),
-                Tables\Columns\TextColumn::make('amountPaid')
                     ->Searchable(),
                 Tables\Columns\TextColumn::make('requestDescription')
                     ->toggleable()
