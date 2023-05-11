@@ -9,6 +9,7 @@ class Salutation extends Model
 {
     use HasFactory;
     protected $guarded = ['title'];
+
     protected $table = 'salutations';
     protected $primaryKey = 'title';
     public $incrementing = false;

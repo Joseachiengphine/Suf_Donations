@@ -35,12 +35,19 @@
                   </div>
 
                   <div class="col-sm-2">
-                      <label for="amountCurrency"></label><select class="form-select" id="amountCurrency">
+                      <select class="form-select" id="amountCurrency" style="width: 300px;">
                           @foreach($pageBo->allowedCurrencies as $currency)
-                              <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                              @if($currency->currency_code === 'KES')
+                                  <option value="{{ $currency->currency_code }}">Kenya Shillings (KES)</option>
+                              @elseif($currency->currency_code === 'USD')
+                                  <option value="{{ $currency->currency_code }}">US dollars (USD)</option>
+                              @else
+                                  <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                              @endif
                           @endforeach
                       </select>
                   </div>
+
               </div>
               <div id="campaignClassDiv" class="mb-3 row">
                   <label class="col-sm-2" for="campaign">Campaign</label>
@@ -100,10 +107,10 @@
                         <div class="mb-3 row">
                             <label class="col-sm-2 col-form-label" for="firstName">Name *</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control rounded" id="firstName" placeholder="John">
+                                <input type="text" class="form-control rounded" id="firstName" placeholder="First Name">
                             </div>
                             <div class="col-sm-5">
-                                <label for="lastName"></label><input type="text" class="form-control is-invalid" id="lastName" placeholder="Doe">
+                                <input type="text" class="form-control rounded" id="lastName" placeholder="Last Name">
                             </div>
                         </div>
 

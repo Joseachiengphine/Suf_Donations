@@ -13,6 +13,7 @@ class DonationRequest extends Model
 {
     use HasFactory;
     protected $guarded = ['merchantID'];
+
     protected $table = 'donation_requests';
     protected $primaryKey = 'merchantID';
     public $incrementing = false;

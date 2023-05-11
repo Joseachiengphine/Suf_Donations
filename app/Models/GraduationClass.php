@@ -9,6 +9,7 @@ class GraduationClass extends Model
 {
     use HasFactory;
     protected $guarded = ['graduation_key'];
+
     protected $table = 'graduation_classes';
     protected $primaryKey = 'graduation_key';
     public $incrementing = false;

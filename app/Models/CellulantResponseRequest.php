@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CellulantResponseRequest extends Model
 {
-    protected $guarded = ['cellulantResponseID'];
     use HasFactory;
+
+    protected $guarded = ['cellulantResponseID'];
+
     protected $table = 'cellulant_responses';
     protected $primaryKey = 'cellulantResponseID';
     public $incrementing = true;
