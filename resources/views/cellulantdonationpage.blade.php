@@ -312,7 +312,7 @@
             }*/
             if($('#campaign option:active').length === 0){
                 var val = $('#campaign').children("option:selected").attr('showText');
-                if(val == 1){
+                if(val === 1){
                     if($('#description').val() === "" || $('#description').val() === null){
                         $('#description').addClass("is-invalid");
                         $('#description').removeClass("is-valid");
@@ -325,7 +325,7 @@
 
             if($('#relation option:selected').length === 0){
                 var val = $('#relation').children("option:selected").attr('showText');
-                if(val == 1){
+                if(val === 1){
                     if($('#classOf').children("option:selected").val() === "" || $('#classOf').children("option:selected").val() === null){
                         $('#description').addClass("is-invalid");
                         $('#description').removeClass("is-valid");
@@ -603,7 +603,7 @@
             }
         });
         $('#amountCurrency').change(function(){
-            if($(this).val() == "USD"){
+            if($(this).val() === "USD"){
                 $('#basic-addon1').html('$')
                 if($('#campaign').val() === "Vice Chancellor's Run"){
                     prefillVcRunAmount();
