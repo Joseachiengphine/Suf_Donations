@@ -57,14 +57,23 @@
                             <div class="card">
                                 <div class="card-header">
                                     Currency Options
-                                    <label for="amountCurrency"></label><select class="form-select" id="amountCurrency">
+                                    <label for="amountCurrency"></label>
+                                    <select class="form-select" id="amountCurrency">
                                         @foreach($pageBo->allowedCurrencies as $currency)
-                                            <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                                            @if($currency->currency_code === 'KES')
+                                                <option value="{{ $currency->currency_code }}">Kenya shillings (KES)</option>
+                                            @elseif($currency->currency_code === 'USD')
+                                                <option value="{{ $currency->currency_code }}">US dollars (USD)</option>
+                                            @else
+                                                <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                        </div>
 
-                                {{-- participation section --}}
+                        {{-- participation section --}}
                                 <div class="card-body">
                                     <h5 class="card-title">How would you like to participate?</h5>
                                     <div class="input-group">
@@ -233,7 +242,7 @@
 
 {{--                                    <h5 class="card-title">Minimum Registration Amount: </h5><h4 id="registrationCost1">KES {{number_format(setting(\App\Setting::REGISTRATION_AMOUNT,1000))}}</h4> --}}
                                 </div>
-                            </div>
+{{--                            </div>--}}
 
 
 
@@ -241,47 +250,41 @@
                         <hr>
                         <div class="q-box__question">
                             <div class="form-check">
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Click here for more Info
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Click here to Learn More
                                 </button>
+
                                 <!-- Button trigger modal -->
 
-
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Participation Options
-                                                </h5>
-                                                <button type="button" class="btn-close"
-                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title" id="exampleModalLabel">Participation Options</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
 
-                                            <div class="modal-body">
-                                                <p>1: You can register and participate on the:
-                                                <h5>21 Kilometers Run</h5>
-                                                <h5>10 Kilometers Run</h5>
-                                                <h5>5 Kilometers Run</h5>
-                                                </p>
-
-                                                <h4>The registration costs </h4><h4 id="registrationCost"></h4>
-
-
-
+                                            <div class="modal-body" style="padding: 20px;">
+                                                <p style="font-size: 18px; margin-bottom: 10px;">You can register to participate on the:</p>
+                                                <ol style="list-style-type: upper-roman; padding-left: 20px;">
+                                                    <li style="font-size: 16px; margin-bottom: 10px; color: black;">21 Kilometers Run</li>
+                                                    <li style="font-size: 16px; margin-bottom: 10px; color: black;">10 Kilometers Run</li>
+                                                    <li style="font-size: 16px; margin-bottom: 10px; color: black;">5 Kilometers Run</li>
+                                                </ol>
+                                                <h4 style="font-size: 18px; margin-top: 20px; margin-bottom: 5px; color: black;">The Registration Costs:</h4>
+                                                <h4 id="registrationCost" style="font-size: 24px; font-weight: bold; color: goldenrod;"></h4>
                                             </div>
+
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -309,12 +312,12 @@
     <script src="{{ $pageBo->expressCheckoutUrl }}"></script>
     <script>
         var currencies = @json($pageBo->allowedCurrencies->pluck('exchange_rate','currency_code'));
-        var registrationAmount = {{setting(\App\Models\Setting::REGISTRATION_AMOUNT,1000)}}
+        var registrationAmount = {{setting(App\Models\Setting::REGISTRATION_AMOUNT,1000)}}
         $("input[name=participation][value='partPhysical']").prop("checked",true);
         $("input[name=noKM][value='21km']").prop("checked",true);
         $("input[name=relation][value='Friend']").prop("checked",true);
 
-        if($('#amountCurrency').val()=='KES'){
+        if($('#amountCurrency').val()==='KES'){
                 $('#amountVC').val(registrationAmount);
             }else{
                 var currencyCode = $('#amountCurrency').children("option:selected").val();
