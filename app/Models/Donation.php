@@ -9,9 +9,11 @@ class Donation extends Model
 {
     use HasFactory;
     protected $guarded = ['donation_code'];
+
     protected $table = 'donations';
     protected $primaryKey = 'donation_code';
     public $incrementing = false;
     protected $keyType = 'string';
+
     public $timestamps = false;
 }
