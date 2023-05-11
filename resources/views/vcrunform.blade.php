@@ -266,7 +266,7 @@
                                             </div>
 
                                             <div class="modal-body" style="padding: 20px;">
-                                                <p style="font-size: 18px; margin-bottom: 10px;">You can register to participate on the:</p>
+                                                <p style="font-size: 18px; margin-bottom: 10px;">You can register to participate in the:</p>
                                                 <ol style="list-style-type: upper-roman; padding-left: 20px;">
                                                     <li style="font-size: 16px; margin-bottom: 10px; color: black;">21 Kilometers Run</li>
                                                     <li style="font-size: 16px; margin-bottom: 10px; color: black;">10 Kilometers Run</li>
