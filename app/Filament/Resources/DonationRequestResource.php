@@ -161,9 +161,7 @@ class DonationRequestResource extends Resource
                 Tables\Columns\TextColumn::make('creation_date')
                     ->label('Paid on')
                     ->tooltip('Click the filter icon to filter by date')
-                    ->date()
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
+                    ->date(),
                 Tables\Columns\TextColumn::make('last_update')
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('job_title')
