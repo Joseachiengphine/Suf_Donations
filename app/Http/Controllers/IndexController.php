@@ -351,15 +351,25 @@ class IndexController extends Controller
 
     }
 
+//    public function paramPage($donationCode){
+//        $pageBo = $this->preparePageBo($donationCode);
+//        $participationOption=ParticipationOption::all();
+//        return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
+////        if(!is_null($pageBo)) {
+////
+////        } else {
+////            return view('error500');
+////        }
+//    }
+
     public function paramPage($donationCode){
         $pageBo = $this->preparePageBo($donationCode);
-        $participationOption=ParticipationOption::all();
-        return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
-//        if(!is_null($pageBo)) {
-//
-//        } else {
-//            return view('error500');
-//        }
+        if(!is_null($pageBo)) {
+
+            return view('cellulantdonationpage')->with('pageBo', $pageBo);
+        } else {
+            return view('error500');
+        }
     }
 
 

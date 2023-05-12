@@ -100,11 +100,11 @@
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col">
-                                                    <input class="form-check-input question__input" id="isStudent" name="studentStatus" type="radio" value="1" required onclick="showStudentNumberForm()">
+                                                    <input class="form-check-input question__input" name="student" id="isStudent" type="radio" value="1" required onclick="showStudentNumberForm()">
                                                     <label class="form-check-label question__label" for="isStudent">Yes</label>
                                                 </div>
                                                 <div class="col">
-                                                    <input class="form-check-input question__input" id="isNotStudent" name="studentStatus" type="radio" value="0" onclick="hideStudentNumberForm()">
+                                                    <input class="form-check-input question__input" name="student" id="isNotStudent" type="radio" value="0" onclick="hideStudentNumberForm()">
                                                     <label class="form-check-label question__label" for="isNotStudent">No</label>
                                                 </div>
                                             </div>
@@ -112,8 +112,8 @@
                                             <div id="studentNumberForm" style="display: none;">
                                                 <h5 class="card-title">Enter your student number</h5>
                                                 <div class="input-group">
-                                                <input type="text" aria-label="Name" class="form-control" name="studentNumber"
-                                                       placeholder="123456" id="username" >
+                                                <input type="text" aria-label="studentNumber" class="form-control"
+                                                       placeholder="123456" id="studentNumber" >
                                                 <div class="invalid-feedback">
                                                     Enter a valid Student Number
                                                 </div>
@@ -187,20 +187,21 @@
                                     <div class="container">
                                         <h5 class="card-title">Your Information</h5>
                                         <div class="input-group">
-                                            <input type="text" aria-label="Name" class="form-control" name="username"
+                                            <input type="text" aria-label="Name" class="form-control is-invalid" name="username"
                                                    placeholder="Name (first and last names)" id="username">
                                             <div class="invalid-feedback">
                                                 Enter a valid name
                                             </div>
                                         </div>
                                         <br>
+                                            <div class="card">
                                             <div class="card-header">
                                             Shirt Size
                                             </div>
                                             <div class="input-group">
-                                                <label for="shirtSize"></label><select class="form-select" id="shirtSize">
+                                                <select class="form-select" id="shirtSize">
                                                 <option value="S">Small</option>
-                                                <option value="M">Medium</option>
+                                                <option value="M" selected>Medium</option>
                                                 <option value="L">Large</option>
                                                 <option value="XL">Extra Large</option>
                                                 <option value="XXL">XXL</option>
@@ -225,7 +226,7 @@
                                         Relation
                                         @foreach ($pageBo->relations as $item)
                                             <div class="form-check">
-                                                <label for="relation"></label><input class="form-check-input" type="radio" id="relation" name="relation" id="{{$item->relation_name}}" value="{{$item->relation_name}}">
+                                                <input class="form-check-input" type="radio" id="relation" name="relation" id="{{$item->relation_name}}" value="{{$item->relation_name}}">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     {{$item->relation_name}}
                                                 </label>
