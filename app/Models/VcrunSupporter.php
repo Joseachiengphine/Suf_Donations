@@ -6,6 +6,7 @@ use App\Models\DonationRequest;
 use App\Models\VcrunRegistration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VcrunSupporter extends Model
 {
@@ -13,11 +14,11 @@ class VcrunSupporter extends Model
     public function getBalanceAttribute() {
         return $this->support_amount - $this->paid_amount;
     }
-    public function donationRequest(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function donationRequest(): BelongsTo
     {
         return $this->belongsTo(DonationRequest::class,'request_merchant_id','merchantID');
     }
-    public function supportedRegistrant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function supportedRegistrant(): BelongsTo
     {
         return $this->belongsTo(VcrunRegistration::class, 'supported_registrant_id');
     }
