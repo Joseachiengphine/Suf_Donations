@@ -22,11 +22,6 @@ class Report extends Component implements Tables\Contracts\HasTable
 
     use InteractsWithTable;
 
-    protected function getTablePollingInterval(): ?string
-    {
-        return '2s';
-    }
-
     protected $listeners = ['filterbyDate', 'Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
@@ -63,9 +58,11 @@ class Report extends Component implements Tables\Contracts\HasTable
                     return $record->firstName . ' ' . $record->lastName;
                 }),
                 Tables\Columns\TextColumn::make('campaign'),
-                Tables\Columns\TextColumn::make('requestAmount')
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
+                ->label('Request Amount')
                 ->Searchable(),
-               Tables\Columns\TextColumn::make('amountPaid')
+               Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
+                ->label('Amount Paid')
                 ->Searchable(),
                Tables\Columns\TextColumn::make('creation_date')
                 ->label('Paid on')

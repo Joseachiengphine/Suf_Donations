@@ -22,10 +22,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-    protected function getTablePollingInterval(): ?string
-    {
-        return '2s';
-    }
+
 
     protected $listeners = ['filtervcregistrationsbydate', 'Refreshed' => '$refresh'];
     /**
@@ -60,9 +57,10 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
         return [
             Tables\Columns\TextColumn::make('Name')
                 ->getStateUsing(function (Model $record){
-                    return $record->firstName . ' ' . $record->lastName;
+                    return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
                 }),
-            Tables\Columns\TextColumn::make('student_number')
+            Tables\Columns\TextColumn::make('DonationRequest.student_number')
+                ->label('Student Number')
                 ->searchable()
                 ->toggleable()
                 ->toggledHiddenByDefault(),
@@ -101,7 +99,8 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('currency')
                 ->searchable()
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('shirt_size')
+            Tables\Columns\TextColumn::make('DonationRequest.shirt_size')
+                ->label('Shirt Size')
                 ->searchable()
                 ->toggleable()
                 ->toggledHiddenByDefault(),

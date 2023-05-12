@@ -107,10 +107,10 @@
                         <div class="mb-3 row">
                             <label class="col-sm-2 col-form-label" for="firstName">Name *</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control rounded" id="firstName" placeholder="First Name">
+                                <input type="text" class="form-control rounded" id="firstName" placeholder="Surname">
                             </div>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control rounded" id="lastName" placeholder="Last Name">
+                                <input type="text" class="form-control rounded" id="lastName" placeholder="Other Name's">
                             </div>
                         </div>
 
