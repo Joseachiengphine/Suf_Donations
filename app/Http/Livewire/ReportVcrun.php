@@ -22,8 +22,6 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-
-
     protected $listeners = ['filtervcregistrationsbydate', 'Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
@@ -41,8 +39,6 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     protected function getTableQuery(): Builder
     {
         return VcrunRegistration::query()
-            ->select('vcrun_registrations.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency', 'donation_requests.student_number', 'donation_requests.shirt_size')
-            ->Join('donation_requests','vcrun_registrations.request_merchant_id', '=','donation_requests.merchantID')
             ->when(
                 $this->fromRegDate,
                 fn (Builder $query): Builder => $query
@@ -56,8 +52,8 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     {
         return [
             Tables\Columns\TextColumn::make('Name')
-                ->getStateUsing(function (Model $record){
-                    return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
+                ->getStateUsing(function (Model $record) {
+                    return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                 }),
             Tables\Columns\TextColumn::make('DonationRequest.student_number')
                 ->label('Student Number')
@@ -92,11 +88,14 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->searchable(),
             Tables\Columns\TextColumn::make('race_kms')
                 ->searchable(),
-            Tables\Columns\TextColumn::make('email')
+            Tables\Columns\TextColumn::make('DonationRequest.email')
+                ->label('Email')
                 ->searchable(),
-            Tables\Columns\TextColumn::make('phoneNumber')
+            Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
+                ->label('Phone Number')
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('currency')
+            Tables\Columns\TextColumn::make('DonationRequest.currency')
+                ->label('Currency')
                 ->searchable()
                 ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('DonationRequest.shirt_size')

@@ -36,8 +36,6 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     protected function getTableQuery(): Builder
     {
         return Vcrunsupporter::query()
-            ->select('vcrun_supporters.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
-            ->Join('donation_requests','vcrun_supporters.request_merchant_id', '=','donation_requests.merchantID')
         ->when(
         $this->fromSuppDate,
         fn (Builder $query): Builder => $query
@@ -51,8 +49,8 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     {
         return [
             Tables\Columns\TextColumn::make('Name')
-                ->getStateUsing(function (Model $record){
-                    return $record->firstName . ' ' . $record->lastName;
+                ->getStateUsing(function (Model $record) {
+                    return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                 }),
             Tables\Columns\TextColumn::make('registration_amount')
                 ->label('Reg. Amount')
@@ -75,11 +73,11 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime()
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('email')
+            Tables\Columns\TextColumn::make('DonationRequest.email')
                 ->searchable(),
-            Tables\Columns\TextColumn::make('phoneNumber')
+            Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                 ->toggleable()->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('currency')
+            Tables\Columns\TextColumn::make('DonationRequest.currency')
                 ->searchable()
                 ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('supported_registrant_id')
