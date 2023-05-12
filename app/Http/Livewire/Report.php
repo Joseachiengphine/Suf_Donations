@@ -40,8 +40,6 @@ class Report extends Component implements Tables\Contracts\HasTable
     protected function getTableQuery(): Builder
     {
         return DonationRequest::query()
-            ->select('donation_requests.*', 'cellulant_responses.requestAmount', 'cellulant_responses.amountPaid')
-            ->join('cellulant_responses', 'donation_requests.merchantID', '=', 'cellulant_responses.merchantTransactionID')
             ->when(
                 $this->fromDate,
                 fn (Builder $query): Builder => $query
@@ -58,7 +56,7 @@ class Report extends Component implements Tables\Contracts\HasTable
                     return $record->firstName . ' ' . $record->lastName;
                 }),
                 Tables\Columns\TextColumn::make('campaign'),
-                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
+                Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
                 ->label('Request Amount')
                 ->Searchable(),
                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
