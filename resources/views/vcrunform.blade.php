@@ -39,8 +39,8 @@
                     <h3>Days Left</h3>
                     <br>
                     <h2 id="daysLeft"></h2>
-                    <h3>Sponsors</h3>
-                    <img height="200" src="{{ asset("images/orchard.png") }}" alt="ochard">
+{{--                    <h3>Sponsors</h3>--}}
+{{--                    <img height="200" src="{{ asset("images/orchard.png") }}" alt="ochard">--}}
                 </div>
         </div>
             <!-- FORMS -->
@@ -57,7 +57,6 @@
                             <div class="card">
                                 <div class="card-header">
                                     Currency Options
-                                    <label for="amountCurrency"></label>
                                     <select class="form-select" id="amountCurrency">
                                         @foreach($pageBo->allowedCurrencies as $currency)
                                             @if($currency->currency_code === 'KES')
@@ -153,7 +152,7 @@
                                                     <input class="form-check-input question__input" id="noKm5"
                                                            name="noKM" type="radio" value="5km" required>
                                                     <label class="form-check-label question__label"
-                                                           for="noKm5">5 KM</label>
+                                                           for="noKm5">5 KM Run/Walk</label>
                                                 </div>
 
                                             </div>
