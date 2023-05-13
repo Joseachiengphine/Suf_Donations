@@ -714,6 +714,7 @@
                             },
                             "body": JSON.stringify(payload)
                         })
+
                         .then(response => response.json())
                         .then(function (data) {
                             Tingg.renderCheckout({
