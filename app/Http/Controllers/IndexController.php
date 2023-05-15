@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Support\Facades\DB;
-use DateTime;
 use Exception;
 use App\Models\User;
 use App\Models\Setting;
@@ -12,21 +10,19 @@ use App\Models\Campaign;
 use App\Models\Donation;
 use App\Models\Relations;
 use App\Models\Salutation;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use App\CustomClass\Checkout;
 use App\Models\VcrunSupporter;
 use App\Models\AllowedCurrency;
 use App\Models\DonationRequest;
 use App\Models\GraduationClass;
 use App\Models\VcrunRegistration;
-use App\CustomClass\DonationPageBO;
 use App\Models\ParticipationOption;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use App\Models\CampaignParticipation;
-use App\Models\CellulantResponseRequest;
 use App\CustomClass\DonationPageBoBuilder;
-use App\CustomClass\CellulantExpressCheckoutRequestBodyPayload;
 use App\CustomClass\CellulantExpressCheckoutRequestBodyPayloadBuilder;
 
 class IndexController extends Controller
@@ -54,9 +50,9 @@ class IndexController extends Controller
      * Store a new user.
      *
      * @param  Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \Illuminate\Foundation\Application|View|Factory|Application
     {
         $pageBo = $this->preparePageBo(null);
         if(!is_null($pageBo)) {
@@ -377,7 +373,6 @@ class IndexController extends Controller
     //The function takes in a request object as a parameter, which contains information about the donation.
     public function saveDonationRequest(Request $request){
         Log::debug("SAVING REQUEST");
-
         //New DonationRequest object.
         $donationRequests = new DonationRequest();
         $donation = json_decode($request->getContent());
