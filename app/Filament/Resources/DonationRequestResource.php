@@ -128,10 +128,12 @@ class DonationRequestResource extends Resource
                     ->tooltip('Click the filter icon to filter by campaign'),
                 Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
                     ->label('Request Amount')
-                    ->money('KES', '100'),
+                    ->money('KES', '100')
+                    ->default('0'),
                 Tables\Columns\TextColumn::make('cellulantresponserequest.amountPaid')
                     ->label('Paid Amount')
-                    ->money('KES', '100'),
+                    ->money('KES', '100')
+                    ->default('0'),
                 Tables\Columns\TextColumn::make('merchantID')
                     ->label('Merchant ID')
                     ->searchable()
