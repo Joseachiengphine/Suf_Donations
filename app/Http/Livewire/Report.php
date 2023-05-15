@@ -58,10 +58,12 @@ class Report extends Component implements Tables\Contracts\HasTable
                 Tables\Columns\TextColumn::make('campaign'),
                 Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
                 ->label('Request Amount')
-                ->Searchable(),
+                ->Searchable()
+                    ->money('KES', '100'),
                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
                 ->label('Amount Paid')
-                ->Searchable(),
+                ->Searchable()
+                   ->money('KES', '100'),
                Tables\Columns\TextColumn::make('creation_date')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')

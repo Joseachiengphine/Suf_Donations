@@ -97,8 +97,10 @@ class CellulantResponseRequestResource extends Resource
                         return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
                     })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('requestAmount'),
-                Tables\Columns\TextColumn::make('amountPaid'),
+                Tables\Columns\TextColumn::make('requestAmount')
+                    ->money('KES', '100'),
+                Tables\Columns\TextColumn::make('amountPaid')
+                    ->money('KES', '100'),
                 Tables\Columns\TextColumn::make('requestDate')
                     ->label('Paid on')
                     ->date()

@@ -63,8 +63,10 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('registration_amount')
                 ->label('Reg. Amount')
                 ->tooltip('Registration Amount')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('paid_amount'),
+                ->searchable()
+                ->money('KES', '100'),
+            Tables\Columns\TextColumn::make('paid_amount')
+                ->money('KES', '100'),
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')
