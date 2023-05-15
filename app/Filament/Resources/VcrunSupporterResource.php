@@ -84,10 +84,12 @@ class VcrunSupporterResource extends Resource
                 Tables\Columns\TextColumn::make('registration_amount')
                     ->label('Reg. Amount')
                     ->tooltip('Registration Amount')
-                    ->default('1000'),
+                    ->default('1000')
+                    ->money('KES', '100'),
                 Tables\Columns\TextColumn::make('support_amount')
-                ->label('Supp. Amount')
-                ->tooltip('Support Amount'),
+                    ->label('Supp. Amount')
+                    ->tooltip('Support Amount')
+                    ->money('KES', '100'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Paid on')
                     ->tooltip('Click the filter icon to filter by date')
