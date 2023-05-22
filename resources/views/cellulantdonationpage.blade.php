@@ -84,22 +84,23 @@
   </div>
 
         {{--start of VCrun file--}}
-                <div id="participationDiv" class="mb-3 row" style="display: none">
-                    <label class="col-sm-2" for="participation">How would you like to participate?</label>
-                    <div class="col-sm-5">
-                        @foreach ($participation as $item)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{$item->id}}" id="participation{{$item->id}}">
-                            <label class="form-check-label" for="participation{{$item->id}}">
-                                {{$item->name}}
-                            </label>
-                          </div>
-                        @endforeach
-                    </div>
-                </div>
+  <div id="participationDiv" class="mb-3 row" style="display: none">
+      <label class="col-sm-2" for="participation">How would you like to participate?</label>
+      <div class="col-sm-5">
+          @foreach ($participation as $item)
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="{{$item->id}}" id="participation{{$item->id}}">
+                  <label class="form-check-label" for="participation{{$item->id}}">
+                      {{$item->name}}
+                  </label>
+              </div>
+          @endforeach
+      </div>
+  </div>
+
+          {{--End of VCrun file--}}
 
             <br>
-        {{--End of VCrun file--}}
 
   <div id="contactDetailsSection">
   <h3 class="sectionTitle">Contact Details</h3>
@@ -631,7 +632,7 @@
             }
         });
 
-        //Prefill form with data when vc run is selected
+        //Prefill form with data when vc run is selected -- can be used to change the amount of the vcrun
         function prefillVcRunAmount()
         {
             if($('#amountCurrency').val()==='KES'){

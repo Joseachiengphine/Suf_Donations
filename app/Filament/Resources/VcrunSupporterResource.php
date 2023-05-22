@@ -23,6 +23,7 @@ class VcrunSupporterResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
 
+    protected ?string $maxContentWidth = 'full';
 
     protected static ?string $navigationGroup = 'Vice Chancellor\'s Run';
 
@@ -75,21 +76,26 @@ class VcrunSupporterResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->getStateUsing(function ($record) {
-                        if ($record->donationRequest) {
-                            return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
+                        if ($record->DonationRequest) {
+                            return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
                         }
                         return '';
                     })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('registration_amount')
-                    ->label('Reg. Amount')
-                    ->tooltip('Registration Amount')
-                    ->default('1000')
-                    ->money('KES', '100'),
+                BadgeColumn::make('DonationRequest.relation')
+                    ->label('Relation')
+                    ->colors([
+                    ]),
                 Tables\Columns\TextColumn::make('support_amount')
                     ->label('Supp. Amount')
-                    ->tooltip('Support Amount')
-                    ->money('KES', '100'),
+                    ->tooltip('support Amount')
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->default('1000')
+                    ->money('KES', '1'),
+                Tables\Columns\TextColumn::make('paid_amount')
+                    ->label('Paid Amount')
+                    ->money('KES', '1'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Paid on')
                     ->tooltip('Click the filter icon to filter by date')
@@ -100,10 +106,8 @@ class VcrunSupporterResource extends Resource
                         'success' => 'PAID',
                         'danger' => 'PENDING',
                     ]),
-                Tables\Columns\TextColumn::make('donationRequest.email')
-                    ->label('Email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
+                Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
+                    ->label('Phone Number')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('supported_registrant_id')
                     ->searchable()
@@ -114,6 +118,13 @@ class VcrunSupporterResource extends Resource
                 ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),
+                BadgeColumn::make('DonationRequest.relation')
+                    ->label('Relation')
+                    ->colors([
+                    ]),
+                Tables\Columns\TextColumn::make('DonationRequest.email')
+                    ->label('Email')
+                    ->searchable(),
             ])
             ->filters([
                 SelectFilter::make('status')

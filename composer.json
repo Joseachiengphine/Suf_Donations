@@ -36,7 +36,8 @@
         "uccellolabs/filament-theme-color": "^1.0",
         "webbingbrasil/filament-advancedfilter": "^1.2",
         "webbingbrasil/filament-datefilter": "^1.1",
-        "yepsua/filament-themes": "^0.2.1"
+        "yepsua/filament-themes": "^0.2.1",
+      "ext-openssl": "*"
     },
     "require-dev": {
         "doctrine/dbal": "^3.6",

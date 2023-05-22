@@ -22,17 +22,33 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-    protected $listeners = ['filtervcregistrationsbydate', 'Refreshed' => '$refresh'];
+    protected $listeners = ['filtervcregistrationsbydate','filterbyparticipation','filterbyrelation','Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
     public  $fromRegDate;
     public $toRegDate;
 
+    public $participation_type;
+
+    public $relation;
+
     public function filtervcregistrationsbydate($data)
     {
         $this->fromRegDate = $data['from_Reg_date'];
         $this->toRegDate = $data['to_Reg_date'];
+        $this->emitSelf('Refreshed');
+    }
+
+    public function filterbyparticipation($data)
+    {
+        $this->participation_type = $data['participation_type'];
+        $this->emitSelf('Refreshed');
+    }
+
+    public function filterbyrelation($data)
+    {
+        $this->relation = $data['relation'];
         $this->emitSelf('Refreshed');
     }
 
@@ -44,7 +60,22 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 fn (Builder $query): Builder => $query
                     ->whereDate('vcrun_registrations.created_at', '>=', $this->fromRegDate)
                     ->whereDate('vcrun_registrations.created_at', '<=', $this->toRegDate)
+            )
+            ->where('paid_amount', '>', 0)
+
+            ->when(
+                 $this->participation_type,
+                 fn(Builder $query): Builder => $query
+                 ->where('participation_type', $this->participation_type)
+            )
+
+            ->join('donation_requests', 'donation_requests.merchantID', '=', 'vcrun_registrations.request_merchant_id')
+            ->when(
+                 $this->relation,
+                 fn(Builder $query): Builder => $query
+                 ->where('donation_requests.relation', $this->relation)
             );
+
     }
 
 
@@ -55,6 +86,10 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->getStateUsing(function (Model $record) {
                     return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                 }),
+            BadgeColumn::make('DonationRequest.relation')
+                ->label('Relation')
+                ->colors([
+                ]),
             Tables\Columns\TextColumn::make('DonationRequest.student_number')
                 ->label('Student Number')
                 ->searchable()
@@ -63,17 +98,19 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('registration_amount')
                 ->label('Reg. Amount')
                 ->tooltip('Registration Amount')
+                ->toggleable()
+                ->toggledHiddenByDefault()
                 ->searchable()
-                ->money('KES', '100'),
+                ->money('KES', '1'),
             Tables\Columns\TextColumn::make('paid_amount')
-                ->money('KES', '100'),
+                ->money('KES', '1'),
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')
                 ->date()
                 ->sortable(),
             Tables\Columns\TextColumn::make('updated_at')
-                ->dateTime()
+                ->date()
                 ->toggleable()->toggledHiddenByDefault(),
             BadgeColumn::make('status')
                 ->label('Status')

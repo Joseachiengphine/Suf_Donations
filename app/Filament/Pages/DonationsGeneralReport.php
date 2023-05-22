@@ -4,6 +4,8 @@ namespace App\Filament\Pages;
 
 
 use App\Http\Livewire\Report;
+use App\Models\Campaign;
+use App\Models\Relations;
 use Filament\Forms;
 use Filament\Pages\Page;
 use Filament\Pages\Actions\Action;
@@ -29,6 +31,8 @@ class DonationsGeneralReport extends Page
 
     protected static ?string $navigationGroup = 'REPORTS';
 
+    protected ?string $maxContentWidth = 'full';
+
     protected static string $view = 'filament.pages.donations-general-report';
 
     protected function getActions(): array
@@ -46,8 +50,58 @@ class DonationsGeneralReport extends Page
                         ->required(),
                     Forms\Components\Datepicker::make('to_date')
                         ->label('To Date')
-                        ->required(),
+                        ->required()
+                        ->afterOrEqual('from_date'),
                 ]),
+            Action::make('filterbycampaign')
+               ->label('Filter By Campaign')
+               ->icon('heroicon-s-fire')
+               ->action(function(array $data): void {
+                   $this->emitTo(Report::class, 'filterbycampaign', $data);
+               })
+               ->form([
+                   Forms\Components\Select::make('campaign')
+                       ->label('Pick a Campaign')
+                       ->searchable()
+//                       ->options(Campaign::all()->pluck('campaign_name'))
+                       ->options([
+                           'elimisha stratizen' => 'Elimisha stratizen',
+                           'lisha mkenya' => 'Lisha Mkenya',
+                           'macheo' => 'Macheo',
+                           'professional chairs & research center' => 'Professional Chairs & Research Center',
+                           'Other' => 'Other',
+                           'scholarship' => 'Scholarship',
+                           'student support' => 'Student Support',
+                           'vice chancellor\'s run' => 'Vice Chancellor\'s run',
+                       ])
+                       ->rules(['required'])
+                       ->disablePlaceholderSelection()
+               ]),
+            Action::make('filterbyrelation')
+                ->label('Filter By Relation')
+                ->icon('heroicon-s-heart')
+                ->action(function(array $data): void {
+                    $this->emitTo(Report::class, 'filterbyrelation', $data);
+                })
+                ->form([
+                    Forms\Components\Select::make('relation')
+                        ->label('Pick a Relation')
+                        ->searchable()
+//                        ->options(Relations::all()->pluck('relation_name'))
+                        ->options([
+                            'alumni' => 'Alumni',
+                            'friend' => 'Friend',
+                            'other' => 'Other',
+                            'parent' => 'Parent',
+                            'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+                            'staff' => 'Staff',
+                            'student' => 'Student',
+                        ])
+                        ->rules(['required'])
+                        ->disablePlaceholderSelection()
+
+                ])
+
         ];
     }
 }

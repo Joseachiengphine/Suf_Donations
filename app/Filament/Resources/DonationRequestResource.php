@@ -8,6 +8,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use App\Models\DonationRequest;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
@@ -122,17 +123,25 @@ class DonationRequestResource extends Resource
                     ->getStateUsing(function (Model $record){
                         return $record->firstName . ' ' . $record->lastName;
                     }),
+                BadgeColumn::make('relation')
+                    ->colors([
+                    ]),
                 Tables\Columns\TextColumn::make('country')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('campaign')
+                BadgeColumn::make('campaign')
+                    ->colors([
+                        'primary',
+                    ])
                     ->tooltip('Click the filter icon to filter by campaign'),
-                Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
                     ->label('Request Amount')
-                    ->money('KES', '100')
-                    ->default('0'),
-                Tables\Columns\TextColumn::make('cellulantresponserequest.amountPaid')
+                    ->money('KES', '1')
+                    ->default('0')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
                     ->label('Paid Amount')
-                    ->money('KES', '100')
+                    ->money('KES', '1')
                     ->default('0'),
                 Tables\Columns\TextColumn::make('merchantID')
                     ->label('Merchant ID')
@@ -167,17 +176,18 @@ class DonationRequestResource extends Resource
                     ->tooltip('Click the filter icon to filter by date')
                     ->date(),
                 Tables\Columns\TextColumn::make('last_update')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
+                    ->date()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('job_title')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('graduation_class')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('relation')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('student_number')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('shirt_size')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
             ])
             ->filters([
                 SelectFilter::make('campaign')

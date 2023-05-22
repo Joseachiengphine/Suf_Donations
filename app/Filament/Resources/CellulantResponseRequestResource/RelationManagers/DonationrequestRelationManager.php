@@ -12,7 +12,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 
 class DonationrequestRelationManager extends RelationManager
 {
-    protected static string $relationship = 'donationRequest';
+    protected static string $relationship = 'DonationRequest';
 
     protected static ?string $recordTitleAttribute = 'merchantID';
 

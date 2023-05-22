@@ -19,17 +19,25 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
 {
     use InteractsWithTable;
 
-    protected $listeners = ['filtervcrunsupportersbydate', 'Refreshed' => '$refresh'];
+    protected $listeners = ['filtervcrunsupportersbydate','filterbyrelation', 'Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
     public  $fromSuppDate;
     public $toSuppDate;
 
+    public $relation;
+
     public function filtervcrunsupportersbydate($data)
     {
         $this->fromSuppDate = $data['from_Supp_date'];
         $this->toSuppDate = $data['to_Supp_date'];
+        $this->emitSelf('Refreshed');
+    }
+
+    public function filterbyrelation($data)
+    {
+        $this->relation = $data['relation'];
         $this->emitSelf('Refreshed');
     }
 
@@ -41,7 +49,17 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
         fn (Builder $query): Builder => $query
             ->whereDate('vcrun_supporters.created_at', '>=', $this->fromSuppDate)
             ->whereDate('vcrun_supporters.created_at', '<=', $this->toSuppDate)
-    );
+    )
+            ->where('paid_amount', '>', 0)
+
+            ->join('donation_requests', 'donation_requests.merchantID', '=', 'vcrun_supporters.request_merchant_id')
+
+            ->when(
+            $this->relation,
+            fn(Builder $query): Builder => $query
+                ->where('donation_requests.relation', $this->relation)
+        );
+
     }
 
 
@@ -52,15 +70,19 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                 ->getStateUsing(function (Model $record) {
                     return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                 }),
-            Tables\Columns\TextColumn::make('registration_amount')
+            BadgeColumn::make('DonationRequest.relation')
+                ->label('Relation')
+                ->colors([
+                ]),
+            Tables\Columns\TextColumn::make('support_amount')
                 ->label('Reg. Amount')
                 ->tooltip('Registration Amount')
-                ->default('1000')
-                ->money('KES', '100'),
-            Tables\Columns\TextColumn::make('support_amount')
-            ->label('Supp. Amount')
-            ->tooltip('Support Amount')
-                ->money('KES', '100'),
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->money('KES', '1'),
+            Tables\Columns\TextColumn::make('paid_amount')
+                ->label('Paid Amount')
+                ->money('KES', '1'),
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')
@@ -72,14 +94,24 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                     'danger' => 'PENDING',
                 ])
                 ->sortable(),
+//            BadgeColumn::make('supportedRegistrant.participation_type')
+//                ->label('Participation Type')
+//                ->colors([
+//                    'primary' => 'PHYSICAL',
+//                    'secondary' => 'VIRTUAL',
+//                ])
+//                ->searchable(),
             Tables\Columns\TextColumn::make('updated_at')
-                ->dateTime()
+                ->date()
                 ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('DonationRequest.email')
+                ->label('Email')
                 ->searchable(),
             Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
+                ->label('Phone Number')
                 ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('DonationRequest.currency')
+                ->label('Currency')
                 ->searchable()
                 ->toggleable()->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('supported_registrant_id')

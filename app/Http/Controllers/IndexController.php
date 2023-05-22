@@ -72,7 +72,7 @@ class IndexController extends Controller
             $vcParticipants=VcrunRegistration::query()
                 ->where('status','=','PAID')
                 ->whereNotIn('request_merchant_id',['VC'])
-                ->with('donationRequest')
+                ->with('DonationRequest')
                 ->get();
             return view('vcrunform')->with(['pageBo'=> $pageBo,
                 'participation'=>$participationOption,
@@ -398,6 +398,7 @@ class IndexController extends Controller
         $donationRequests->save();
 
     }
+
     public function saveVcRunDonationRequest(Request $request) {
         Log::debug("SAVING VC RUN DONATION REQUEST");
 

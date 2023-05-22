@@ -89,19 +89,25 @@ class VcrunRegistrationResource extends Resource
                     Tables\Columns\TextColumn::make('name')
                         ->label('Name')
                         ->getStateUsing(function ($record) {
-                            if ($record->donationRequest) {
-                                return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
+                            if ($record->DonationRequest) {
+                                return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
                             }
                             return '';
                         })
                         ->searchable(),
+                    BadgeColumn::make('DonationRequest.relation')
+                        ->label('Relation')
+                        ->colors([
+                        ]),
                     Tables\Columns\TextColumn::make('registration_amount')
                         ->label('Reg. Amount')
                         ->tooltip('Registration Amount')
                         ->searchable()
-                        ->money('KES', '100'),
+                        ->toggleable()
+                        ->toggledHiddenByDefault()
+                        ->money('KES', '1'),
                     Tables\Columns\TextColumn::make('paid_amount')
-                        ->money('KES', '100'),
+                        ->money('KES', '1'),
                     Tables\Columns\TextColumn::make('created_at')
                         ->date()
                         ->label('Paid on'),
@@ -112,11 +118,9 @@ class VcrunRegistrationResource extends Resource
                             'danger' => 'PENDING',
                         ])
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('donationRequest.email')
-                        ->label('Email')
-                        ->toggleable()->toggledHiddenByDefault()
-                        ->searchable(),
-                    Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
+
+                    Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
+                        ->label('Phone Number')
                         ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('currency')
                         ->searchable()
@@ -131,6 +135,9 @@ class VcrunRegistrationResource extends Resource
                             'secondary' => 'VIRTUAL',
                         ]),
                     Tables\Columns\TextColumn::make('race_kms')
+                        ->searchable(),
+                    Tables\Columns\TextColumn::make('DonationRequest.email')
+                        ->label('Email')
                         ->searchable(),
                     Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),

@@ -44,20 +44,50 @@ module.exports = {
         extend: {
             colors: {
                 primary: {
-                    '50':  withOpacityValue('--color-primary-50'),
-                    '100': withOpacityValue('--color-primary-100'),
-                    '200': withOpacityValue('--color-primary-200'),
-                    '300': withOpacityValue('--color-primary-300'),
-                    '400': withOpacityValue('--color-primary-400'),
-                    '500': withOpacityValue('--color-primary-500'),
-                    '600': withOpacityValue('--color-primary-600'),
-                    '700': withOpacityValue('--color-primary-700'),
-                    '800': withOpacityValue('--color-primary-800'),
-                    '900': withOpacityValue('--color-primary-900')
+                    '50': '#f5f7fb',
+                    '100': '#ebeff7',
+                    '200': '#ced7eb',
+                    '300': '#b0bedf',
+                    '400': '#758ec6',
+                    '500': '#3A5DAE',
+                    '600': '#34549d',
+                    '700': '#2c4683',
+                    '800': '#233868',
+                    '900': '#1c2e55',
+                    DEFAULT: '#3A5DAE'
                 },
-                danger: colors.red,
-                success: colors.green,
-                warning: colors.amber,
+                secondary: {...colors.slate, DEFAULT: colors.slate["500"]},
+                accent: {
+                    '50': '#fcfaf6',
+                    '100': '#faf6ee',
+                    '200': '#f2e7d4',
+                    '300': '#ead9ba',
+                    '400': '#dbbd86',
+                    '500': '#CBA052',
+                    '600': '#b7904a',
+                    '700': '#98783e',
+                    '800': '#7a6031',
+                    '900': '#634e28',
+                    DEFAULT: '#CBA052'
+                },
+                warning: {...colors.amber, DEFAULT: colors.amber["500"]},
+                danger: {
+                    DEFAULT: '#B42025',
+                    '50': '#F5C5C6',
+                    '100': '#F1AFB1',
+                    '200': '#E98487',
+                    '300': '#E1595D',
+                    '400': '#DA2D33',
+                    '500': '#B42025',
+                    '600': '#89181C',
+                    '700': '#5D1113',
+                    '800': '#32090A',
+                    '900': '#070101'
+                },
+                success: {
+                    ...colors.green,
+                    DEFAULT: colors.green["500"]
+                },
             },
             fontFamily: {
                 sans: ['DM Sans', ...defaultTheme.fontFamily.sans],

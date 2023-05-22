@@ -3,24 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\CellulantResponseRequest;
-use App\CustomClass\CellulantExpressCheckoutRequestBodyPayloadBuilder;
-use App\CustomClass\DonationPageBoBuilder;
-use App\CustomClass\PaymentWebHookResponce;
 use App\CustomClass\PaymentWebHookResponceBuilder;
-use App\Models\DonationRequests;
-use App\Models\Donations;
-use App\Models\Salutation;
+use App\Models\DonationRequest;
 use App\Models\VcrunSupporter;
 use Exception;
 use Illuminate\Http\Request;
-use App\CustomClass\Checkout;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-
-use App\CustomClass\DonationPageBO;
-use App\CustomClass\CellulantExpressCheckoutRequestBodyPayload;
-use Illuminate\Support\Facades\Http;
-use App\Models\AllowedCurrency;
 
 class PaymentWebHookController extends Controller
 {
@@ -68,7 +57,12 @@ class PaymentWebHookController extends Controller
                 $cellulantResponseRequest->requestDate = $paymentWebHookRequest->requestDate;
                 $cellulantResponseRequest->payments = json_encode($paymentWebHookRequest->payments);
                 $cellulantResponseRequest->save();
-//New object of PaymentWebHookResponceBuilder class and sets its properties with the appropriate values.
+                Log::debug('cellulant response');
+
+
+
+                //New object of PaymentWebHookResponceBuilder class and sets its properties with the appropriate values.
+
                 $paymentWebHookResponce = new PaymentWebHookResponceBuilder();
                 $paymentWebHookResponce->addMerchantTransactionID($paymentWebHookRequest->merchantTransactionID)
                     ->addCheckoutRequestID($paymentWebHookRequest->checkoutRequestID)
@@ -135,9 +129,9 @@ class PaymentWebHookController extends Controller
                 $cellulantResponseRequest->save();
 
                 /**
-                 * @var DonationRequests $req
+                 * @var DonationRequest $req
                  */
-                $req = $cellulantResponseRequest->donationRequest;
+                $req = $cellulantResponseRequest->DonationRequest;
                 $remaining = $cellulantResponseRequest->amountPaid;
                 if ($req->vcrunRegistration) {
                     // Mark reg as paid or record paid amount
