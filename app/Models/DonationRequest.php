@@ -29,7 +29,7 @@ class DonationRequest extends Model
         return $this->hasOne(VcrunRegistration::class,'request_merchant_id','merchantID');
     }
 
-    public function cellulantresponserequest(): HasOne
+    public function CellulantResponseRequest(): HasOne
     {
        return $this->hasOne(CellulantResponseRequest::class,'merchantTransactionID','merchantID');
     }

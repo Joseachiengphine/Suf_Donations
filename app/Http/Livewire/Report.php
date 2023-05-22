@@ -4,8 +4,10 @@ namespace App\Http\Livewire;
 
 
 
+use App\Models\Campaign;
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use App\Models\DonationRequest;
@@ -23,12 +25,16 @@ class Report extends Component implements Tables\Contracts\HasTable
 
     use InteractsWithTable;
 
-    protected $listeners = ['filterbyDate', 'Refreshed' => '$refresh'];
+    protected $listeners = ['filterbyDate','filterbycampaign','filterbyrelation','Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
     public  $fromDate;
     public $toDate;
+
+    Public $campaign;
+
+    public $relation;
 
       public function filterbyDate($data)
       {
@@ -37,6 +43,16 @@ class Report extends Component implements Tables\Contracts\HasTable
           $this->emitSelf('Refreshed');
       }
 
+      public function filterbycampaign($data)
+      {
+          $this->campaign = $data['campaign'];
+          $this->emitSelf('Refreshed');
+      }
+      public function filterbyrelation($data)
+      {
+        $this->relation = $data['relation'];
+        $this->emitSelf('Refreshed');
+      }
 
     protected function getTableQuery(): Builder
     {
@@ -46,7 +62,22 @@ class Report extends Component implements Tables\Contracts\HasTable
                 fn (Builder $query): Builder => $query
                     ->whereDate('donation_requests.creation_date', '>=', $this->fromDate)
                     ->whereDate('donation_requests.creation_date', '<=', $this->toDate)
-            );
+            )
+
+            ->whereHas('CellulantResponseRequest', function (Builder $query) {
+                  $query->where('amountPaid', '>', 0);
+            })
+
+           ->when(
+               $this->campaign,
+               fn(Builder $query): Builder => $query
+                ->where('campaign', $this->campaign)
+           )
+          ->when(
+              $this->relation,
+              fn(Builder $query): Builder => $query
+                 ->where('relation', $this->relation)
+          );
     }
 
     protected function getTableColumns(): array
@@ -56,16 +87,24 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->getStateUsing(function (Model $record){
                     return $record->firstName . ' ' . $record->lastName;
                 }),
-                Tables\Columns\TextColumn::make('campaign'),
-                Tables\Columns\TextColumn::make('cellulantresponserequest.requestAmount')
+            BadgeColumn::make('relation')
+                ->colors([
+                ]),
+            BadgeColumn::make('campaign')
+                ->colors([
+                    'primary',
+                ]),
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
                     ->label('Request Amount')
                     ->Searchable()
-                    ->money('KES', '100')
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->money('KES', '1')
                     ->default('0'),
                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
                    ->label('Amount Paid')
                    ->Searchable()
-                   ->money('KES', '100')
+                   ->money('KES', '1')
                    ->default('0'),
                Tables\Columns\TextColumn::make('creation_date')
                 ->label('Paid on')
@@ -90,6 +129,10 @@ class Report extends Component implements Tables\Contracts\HasTable
                 Tables\Columns\TextColumn::make('phoneNumber')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
+                BadgeColumn::make('campaign')
+                ->colors([
+                    'primary',
+                ]),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('zipCode')
                     ->toggleable()
@@ -122,10 +165,6 @@ class Report extends Component implements Tables\Contracts\HasTable
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->Searchable(),
-                Tables\Columns\TextColumn::make('relation')
-                    ->toggleable()
-                    ->toggledHiddenByDefault()
-                    ->Searchable(),
                 Tables\Columns\TextColumn::make('student_number')
                     ->toggleable()
                     ->toggledHiddenByDefault()
@@ -147,20 +186,20 @@ class Report extends Component implements Tables\Contracts\HasTable
     {
 
         return [
-            Filter::make('creation_date')
-                ->form([
-                    Forms\Components\DatePicker::make('creation_date'),
-                    Forms\Components\DatePicker::make('last_update'),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['creation_date'],
-                            fn (Builder $query, $date): Builder => $query
-                                ->whereDate('donation_requests.creation_date', '>=', $this->fromDate)
-                                ->whereDate('donation_requests.creation_date', '<=', $this->toDate),
-                        );
-                })
+//            Filter::make('creation_date')
+//                ->form([
+//                    Forms\Components\DatePicker::make('creation_date'),
+//                    Forms\Components\DatePicker::make('last_update'),
+//                ])
+//                ->query(function (Builder $query, array $data): Builder {
+//                    return $query
+//                        ->when(
+//                            $data['creation_date'],
+//                            fn (Builder $query, $date): Builder => $query
+//                                ->whereDate('donation_requests.creation_date', '>=', $this->fromDate)
+//                                ->whereDate('donation_requests.creation_date', '<=', $this->toDate),
+//                        );
+//                })
 
         ];
     }

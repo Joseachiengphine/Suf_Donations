@@ -91,24 +91,30 @@ class CellulantResponseRequestResource extends Resource
         return $table
 
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
-                    ->getStateUsing(function ($record) {
-                        return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
+                Tables\Columns\TextColumn::make('Name')
+                    ->getStateUsing(function (Model $record) {
+                        return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                     })
                     ->searchable(),
+                BadgeColumn::make('DonationRequest.relation')
+                    ->label('Relation')
+                    ->colors([
+                    ]),
                 Tables\Columns\TextColumn::make('requestAmount')
-                    ->money('KES', '100'),
+                    ->money('KES', '1')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('amountPaid')
-                    ->money('KES', '100'),
+                    ->money('KES', '1'),
                 Tables\Columns\TextColumn::make('requestDate')
                     ->label('Paid on')
                     ->date()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('donationRequest.email')
+                Tables\Columns\TextColumn::make('DonationRequest.email')
+                    ->label('Email')
                     ->searchable()
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
+                Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                     ->toggleable()->toggledHiddenByDefault()
                     ->label('Phone Number'),
                 Tables\Columns\TextColumn::make('checkOutRequestID')
@@ -133,7 +139,9 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Columns\TextColumn::make('accountNumber')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('currencyCode')
-                    ->label('Currency'),
+                    ->label('Currency')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('requestCurrencyCode')
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('payments')
