@@ -2473,7 +2473,7 @@ trix-toolbar .filament-forms-rich-editor-component-toolbar-button.trix-active{
 
 @tailwind utilities;
 
-/* ! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com */
+/* ! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -3089,6 +3089,9 @@ html {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -3136,6 +3139,9 @@ html {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -3730,26 +3736,20 @@ html {
   width: 66.666667%;
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #e5e7eb var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(229 231 235 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(229 231 235 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(117 142 198 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #758ec6 var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #e5e7eb var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 :is(.dark .filament-login-page form)::before{
   --tw-gradient-from: #374151 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(117 142 198 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #758ec6 var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #374151 var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 .filament-login-page form::before {
@@ -3769,26 +3769,20 @@ html {
   width: 100%;
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #e5e7eb var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(229 231 235 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(229 231 235 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(117 142 198 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #758ec6 var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #e5e7eb var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 :is(.dark .filament-sidebar-header)::before{
   --tw-gradient-from: #374151 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(117 142 198 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #758ec6 var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #374151 var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 .filament-sidebar-header::before {
@@ -5328,24 +5322,18 @@ html {
 
 .from-gray-700{
   --tw-gradient-from: #374151 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .from-gray-700\/50{
   --tw-gradient-from: rgb(55 65 81 / 0.5) var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .via-transparent{
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
   --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
@@ -8645,3 +8633,6 @@ html {
     gap: 0.75rem;
   }
 }
+
+
+
