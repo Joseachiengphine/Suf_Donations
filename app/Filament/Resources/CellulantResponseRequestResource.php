@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\CellulantResponseRequestResource\Pages;
 use App\Filament\Resources\CellulantResponseRequestResource\RelationManagers\DonationrequestRelationManager;
 use App\Models\CellulantResponseRequest;
@@ -13,10 +12,11 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
-use Webbingbrasil\FilamentDateFilter\DateFilter;
-
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TernaryFilter;
 
 class CellulantResponseRequestResource extends Resource
 {
@@ -94,8 +94,7 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Columns\TextColumn::make('Name')
                     ->getStateUsing(function (Model $record) {
                         return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
-                    })
-                    ->searchable(),
+                    }),
                 BadgeColumn::make('DonationRequest.relation')
                     ->label('Relation')
                     ->colors([
@@ -106,10 +105,6 @@ class CellulantResponseRequestResource extends Resource
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('amountPaid')
                     ->money('KES', '1'),
-                Tables\Columns\TextColumn::make('requestDate')
-                    ->label('Paid on')
-                    ->date()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('DonationRequest.email')
                     ->label('Email')
                     ->searchable()
@@ -132,6 +127,10 @@ class CellulantResponseRequestResource extends Resource
                         'success' => 'Request fully paid',
                         'danger' => 'Request Pending Payment',
                     ]),
+                Tables\Columns\TextColumn::make('last_update')
+                    ->label('Paid on')
+                    ->date()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('MSISDN')
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('serviceCode')
@@ -146,12 +145,11 @@ class CellulantResponseRequestResource extends Resource
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('payments')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('creation_date')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date')
-,
-                Tables\Columns\TextColumn::make('last_update')
+                Tables\Columns\TextColumn::make('requestDate')
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
-            ])
+                Tables\Columns\TextColumn::make('creation_date')
+                    ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date'),
+                ])
             ->filters([
 
                 SelectFilter::make('requestStatusDescription')
@@ -165,12 +163,28 @@ class CellulantResponseRequestResource extends Resource
                         'kes' => 'KES',
                         'usd' => 'USD',
                     ]),
-                DateFilter::make('requestDate')
-                    ->useColumn('requestDate'),
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('From_Date'),
+                        Forms\Components\DatePicker::make('To_date'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['From_Date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('last_update', '>=', $date),
+                            )
+                            ->when(
+                                $data['To_date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('last_update', '<=', $date),
+                            );
+                    })
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),

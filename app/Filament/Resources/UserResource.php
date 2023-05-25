@@ -17,6 +17,8 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
@@ -80,7 +82,9 @@ class UserResource extends Resource
 
             ])
             ->filters([
-                //
+                SelectFilter::make('roles.name')
+                ->relationship('roles', 'name')
+                ->multiple()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

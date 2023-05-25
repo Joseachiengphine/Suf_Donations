@@ -8,6 +8,8 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 use Tables\Columns\TextColumn;
 use Filament\Resources\Resource;
 use App\Models\VcrunRegistration;
@@ -158,7 +160,23 @@ class VcrunRegistrationResource extends Resource
                         'physical' => 'Physical',
                         'virtual' => 'Virtual',
 
+                    ]),
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('From_Date'),
+                        Forms\Components\DatePicker::make('To_date'),
                     ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['From_Date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['To_date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

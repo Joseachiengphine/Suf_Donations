@@ -11,6 +11,7 @@ use Filament\Resources\Table;
 use App\Models\VcrunSupporter;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -132,7 +133,24 @@ class VcrunSupporterResource extends Resource
                         'paid' => 'Paid',
                         'pending' => 'Pending',
 
+                    ]),
+
+                Filter::make('created_at')
+                        ->form([
+                        Forms\Components\DatePicker::make('From_Date'),
+                        Forms\Components\DatePicker::make('To_date'),
                     ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['From_Date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['To_date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

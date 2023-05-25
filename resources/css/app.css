@@ -50,10 +50,15 @@
     @apply bg-accent-500 dark:bg-gray-900 dark:border-gray-700;
 }
 
-.filament-sidebar-header{
+.filament-sidebar-header {
     @apply bg-accent-500 dark:bg-gray-900 dark:border-gray-700;
     /*@apply bg-primary-800 bg-gradient-to-tl from-primary-600 to-primary-700 dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;*/
 }
+
+/*.filament-forms-text-input-component{*/
+/*    @apply bg-accent-500 dark:bg-gray-900 dark:border-gray-700;*/
+/*}*/
+
 
 /*@layer components {*/
 /*    .filament-app-layout {*/

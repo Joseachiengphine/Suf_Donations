@@ -9,7 +9,9 @@ use Filament\Resources\Table;
 use App\Models\DonationRequest;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
 use App\Filament\Resources\DonationRequestResource\Pages;
@@ -202,8 +204,22 @@ class DonationRequestResource extends Resource
                         'Vice Chancellor\'s Run' => 'Vice Chancellor\'s Run',
                         'other' => 'Other',
                     ]),
-                DateFilter::make('creation_date')
-                    ->useColumn('creation_date'),
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('From_Date'),
+                        Forms\Components\DatePicker::make('To_date'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['From_Date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['To_date'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '<=', $date),
+                            );
+                    })
 
 
             ])
