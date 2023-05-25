@@ -1,23 +1,26 @@
-<div class="mt-8">
-    <h2 class="text-2xl font-semibold mb-4">
+<x-filament-breezy::grid-section class="mt-8">
+
+    <x-slot name="title">
         {{ __('filament-breezy::default.profile.personal_info.heading') }}
-    </h2>
+    </x-slot>
 
-    <p class="text-gray-600 mb-4">
+    <x-slot name="description">
         {{ __('filament-breezy::default.profile.personal_info.subheading') }}
-    </p>
+    </x-slot>
 
-    <form wire:submit.prevent="updateProfile" class="max-w-xl mx-auto">
-        <div class="bg-primary-800 shadow-accent-500 rounded-lg p-4">
-            <div class="bg-white rounded-lg p-6">
-                {{ $this->updateProfileForm }}
-            </div>
-        </div>
+    <form wire:submit.prevent="updateProfile" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+        <x-filament::card>
 
-        <div class="mt-4 text-right">
-            <button type="submit" class="bg-primary-800 text-white px-4 py-2 rounded">
-                {{ __('filament-breezy::default.profile.personal_info.submit.label') }}
-            </button>
-        </div>
+            {{ $this->updateProfileForm }}
+
+            <x-slot name="footer">
+                <div class="text-right">
+                    <x-filament::button type="submit">
+                        {{ __('filament-breezy::default.profile.personal_info.submit.label') }}
+                    </x-filament::button>
+                </div>
+            </x-slot>
+        </x-filament::card>
     </form>
-</div>
+
+</x-filament-breezy::grid-section>
