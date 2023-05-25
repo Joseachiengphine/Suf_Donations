@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
@@ -30,4 +30,4 @@ class MyProfile extends \JeffGreco13\FilamentBreezy\Pages\MyProfile
         ];
     }
 
-}
+}*/
