@@ -276,76 +276,76 @@ class IndexController extends Controller
     }
 
     //Login View
-    public function loginView()
-    {
-        return view('login');
-    }
-
-    public function signupView()
-    {
-        return view('signup');
-    }
-
-    public function logout(Request $request)
-    {
-        $request->session()->flush();
-        return redirect()->route('login');
-    }
-
-
-
-    public function checkEmail($email)
-    {
-        $allowedAdmins=config('app.admins');
-        if(in_array($email,$allowedAdmins)){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-
-    //TODO::CAS Auth
-    public function login_user(Request $request)
-    {
-        $email=$request->email;
-        $password=$request->password;
-
-        //get allowed users from config/app.php
-        $allowedAdmins=config('app.admins');
-
-        if(in_array($email,$allowedAdmins)){
-            $user=User::where('email',$email)->get()->first();
-            if($user->exists() && \Hash::check($password,$user->password)){
-                $request->session()->put('logged',true);
-                $request->session()->put('username',$email);
-                return redirect()->route('report');
-            }else{
-                return view('login')->with('error','Check your username or password');
-            }
-        }
-        else {
-            return view('login')->with('error','Your email is not configured to access this system, contact your administrator');
-        }
-    }
-
-
-    public function create_user(Request $request)
-    {
-        $email=$request->email;
-        $password=$request->password;
-        $existingUser=User::where('email',$email)->first();
-        if($existingUser===null){
-            $user=new User;
-            $user->email=$email;
-            $user->password=\Hash::make($password);
-            $user->save();
-            return view('login')->with('error','User Saved Successfully');
-        }else{
-            return view('signup')->with('error','That user already exists');
-        }
-
-    }
+//    public function loginView()
+//    {
+//        return view('login');
+//    }
+//
+//    public function signupView()
+//    {
+//        return view('signup');
+//    }
+//
+//    public function logout(Request $request)
+//    {
+//        $request->session()->flush();
+//        return redirect()->route('login');
+//    }
+//
+//
+//
+//    public function checkEmail($email)
+//    {
+//        $allowedAdmins=config('app.admins');
+//        if(in_array($email,$allowedAdmins)){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//
+//    }
+//
+//    //TODO::CAS Auth
+//    public function login_user(Request $request)
+//    {
+//        $email=$request->email;
+//        $password=$request->password;
+//
+//        //get allowed users from config/app.php
+//        $allowedAdmins=config('app.admins');
+//
+//        if(in_array($email,$allowedAdmins)){
+//            $user=User::where('email',$email)->get()->first();
+//            if($user->exists() && \Hash::check($password,$user->password)){
+//                $request->session()->put('logged',true);
+//                $request->session()->put('username',$email);
+//                return redirect()->route('report');
+//            }else{
+//                return view('login')->with('error','Check your username or password');
+//            }
+//        }
+//        else {
+//            return view('login')->with('error','Your email is not configured to access this system, contact your administrator');
+//        }
+//    }
+//
+//
+//    public function create_user(Request $request)
+//    {
+//        $email=$request->email;
+//        $password=$request->password;
+//        $existingUser=User::where('email',$email)->first();
+//        if($existingUser===null){
+//            $user=new User;
+//            $user->email=$email;
+//            $user->password=\Hash::make($password);
+//            $user->save();
+//            return view('login')->with('error','User Saved Successfully');
+//        }else{
+//            return view('signup')->with('error','That user already exists');
+//        }
+//
+//    }
 
 //    public function paramPage($donationCode){
 //        $pageBo = $this->preparePageBo($donationCode);
@@ -361,8 +361,8 @@ class IndexController extends Controller
     public function paramPage($donationCode){
         $pageBo = $this->preparePageBo($donationCode);
         if(!is_null($pageBo)) {
-
-            return view('cellulantdonationpage')->with('pageBo', $pageBo);
+            //$participation = [{'id': 1,'name':'123'}, {'id': 1, 'name': '123'}];
+            return view('cellulantdonationpage')->with('pageBo', $pageBo)->with('participation', $participation);
         } else {
             return view('error500');
         }

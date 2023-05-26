@@ -204,23 +204,22 @@ class DonationRequestResource extends Resource
                         'Vice Chancellor\'s Run' => 'Vice Chancellor\'s Run',
                         'other' => 'Other',
                     ]),
-                Filter::make('created_at')
-                    ->form([
-                        Forms\Components\DatePicker::make('From_Date'),
-                        Forms\Components\DatePicker::make('To_date'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['From_Date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '>=', $date),
-                            )
-                            ->when(
-                                $data['To_date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '<=', $date),
-                            );
-                    })
-
+//                Filter::make('created_at')
+//                    ->form([
+//                        Forms\Components\DatePicker::make('From_Date'),
+//                        Forms\Components\DatePicker::make('To_date')->afterOrEqual('From_Date'),
+//                    ])
+//                    ->query(function (Builder $query, array $data): Builder {
+//                        return $query
+//                            ->when(
+//                                $data['From_Date'],
+//                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '>=', $date),
+//                            )
+//                            ->when(
+//                                $data['To_date'],
+//                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '<=', $date),
+//                            );
+//                    })
 
             ])
             ->actions([

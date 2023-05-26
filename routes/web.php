@@ -19,18 +19,18 @@ use App\Http\Controllers\IndexController;
 
 
 //Route::get('/', function () {return view('welcome');});
-Route::get('/login', [IndexController::class, 'loginView'])->name('login');
-Route::post('/login_user', [IndexController::class, 'login_user'])->name('loginUser');
+//Route::get('login/login', [IndexController::class, 'loginView'])->name('login');
+//Route::post('login/login_user', [IndexController::class, 'login_user'])->name('loginUser');
 
 Route::match(['post','get'],'/vcrun', [IndexController::class, 'vcRunView'])->name('vcRunView');
 
-Route::get('/autocomplete', [IndexController::class, 'autoComplete'])->name('autocomplete');
+//Route::get('/autocomplete', [IndexController::class, 'autoComplete'])->name('autocomplete');
 
-Route::get('/signup', [IndexController::class, 'signupView'])->name('signupView');
-Route::post('/create_user', [IndexController::class, 'create_user'])->name('createUser');
+//Route::get('/signup', [IndexController::class, 'signupView'])->name('signupView');
+//Route::post('/create_user', [IndexController::class, 'create_user'])->name('createUser');
 
 
-Route::get('/logout', [IndexController::class, 'logout'])->name('logout');
+//Route::get('/logout', [IndexController::class, 'logout'])->name('logout');
 
 Route::post('/api/encrypt/{donationCode}', [EncryptionController::class, 'encrypt']);
 

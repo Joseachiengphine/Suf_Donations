@@ -161,22 +161,22 @@ class VcrunRegistrationResource extends Resource
                         'virtual' => 'Virtual',
 
                     ]),
-                Filter::make('created_at')
-                    ->form([
-                        Forms\Components\DatePicker::make('From_Date'),
-                        Forms\Components\DatePicker::make('To_date'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['From_Date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['To_date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })
+//                Filter::make('created_at')
+//                    ->form([
+//                        Forms\Components\DatePicker::make('From_Date'),
+//                        Forms\Components\DatePicker::make('To_date')->afterOrEqual('From_Date'),
+//                    ])
+//                    ->query(function (Builder $query, array $data): Builder {
+//                        return $query
+//                            ->when(
+//                                $data['From_Date'],
+//                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+//                            )
+//                            ->when(
+//                                $data['To_date'],
+//                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+//                            );
+//                    })
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
