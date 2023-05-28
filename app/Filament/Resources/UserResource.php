@@ -37,23 +37,26 @@ class UserResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->maxLength(255),
+                        Forms\Components\TextInput::make('username')
+                            ->maxLength(255),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('password')
-                            ->password()
-                            ->required()
                             ->maxLength(255)
-                            ->dehydrateStateUsing(static fn (null|string $state): null|string =>
-                            filled($state) ? Hash::make($state): null,
-                            )->required(static fn (Page $livewire): bool =>
-                                $livewire instanceof CreateUser,
-                            )->dehydrated(static fn (null|string $state): bool =>
-                            filled($state),
-                            )->label(static fn (Page $livewire): string =>
-                            ($livewire instanceof EditUser) ? 'New Password' : 'Password'
-                            ),
+                            ->disabled(),
+//                        Forms\Components\TextInput::make('password')
+//                            ->password()
+//                            ->required()
+//                            ->maxLength(255)
+//                            ->dehydrateStateUsing(static fn (null|string $state): null|string =>
+//                            filled($state) ? Hash::make($state): null,
+//                            )->required(static fn (Page $livewire): bool =>
+//                                $livewire instanceof CreateUser,
+//                            )->dehydrated(static fn (null|string $state): bool =>
+//                            filled($state),
+//                            )->label(static fn (Page $livewire): string =>
+//                            ($livewire instanceof EditUser) ? 'New Password' : 'Password'
+//                            ),
                     ]),
 
 
@@ -68,7 +71,12 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-
+                Tables\Columns\TextColumn::make('username'),
+                BadgeColumn::make('username')
+                    ->colors([
+                        'primary',
+                    ])
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->sortable()
                     ->label('Roles')
