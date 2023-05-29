@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use Exception;
-use App\Models\User;
 use App\Models\Setting;
 use App\Models\Campaign;
 use App\Models\Donation;
@@ -29,8 +28,8 @@ class IndexController extends Controller
 {
 
     private $countrys;
-    private $fromDate;
-    private $toDate;
+//    private $fromDate;
+//    private $toDate;
 
     public function __construct()
     {
@@ -85,195 +84,196 @@ class IndexController extends Controller
     }
 
     //Report View
-    public function reportView(Request $request)
-    {
-        if($request->session()->get('logged')){
-            return view('report');
-        }else {
-            return view('login')->with('error','Please Log in First');
 
-        }
-
-    }
+//    public function reportView(Request $request)
+//    {
+//        if($request->session()->get('logged')){
+//            return view('report');
+//        }else {
+//            return view('login')->with('error','Please Log in First');
+//
+//        }
+//
+//    }
 
     //generate Report
-    public function generateReport(Request $request)
-    {
-        $email=session()->get('username');
-        if($this->checkEmail($email)){
-            $fromDate=$request->dateFrom;
-            $toDate=$request->dateTo;
-            //Duplicate Query Body for pagination
-            $report=\DB::table('donation_requests as dreqs')
-                ->select('dreqs.merchantID as MerchantID',
-                    'dreqs.salutation as Salutation',
-                    'dreqs.firstName as First_Name',
-                    'dreqs.lastName as Last_Name',
-                    'dreqs.phoneNumber as Phone_Number',
-                    'dreqs.email as Email_Address',
-                    'dreqs.zipCode as Zip_Code',
-                    'dreqs.city as City',
-                    'dreqs.country as Country',
-                    'dreqs.campaign as Campaign',
-                    'dreqs.relation as Donor_Relation',
-                    'dreqs.requestDescription as Description',
-                    'dreqs.currency as Currency',
-                    'cresp.amountPaid as Request_Amount',
-                    'dreqs.company as Company',
-                    'dreqs.job_title as Job_Title',
-                    'dreqs.graduation_class as Graduation_Class',
-                    'dreqs.creation_date as Date_Time_Raised',
-                    'dreqs.last_update as Date_Time_Submitted',
-                    'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
-                    'cresp.accountNumber as Account_Number',
-                    'cresp.requestStatusDescription as Response_Status_Description',
-                    'cresp.currencyCode as Response_Currency_Code',
-                    'cresp.amountPaid as Amount_Paid',
-                    'cresp.last_update as Response_Date_Time'
-                )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
-                ->where('cresp.requestDate','>=',$fromDate)
-                ->where('cresp.requestDate','<=',$toDate)
-                ->paginate(10);
-
-            if($report->isEmpty())
-            {
-                return view('report')->with('error','No Records Available');
-            }
-            else{
-                //return $this->export($report);
-                $report->withQueryString();
-                return redirect()->route('report')->with(['reports'=>$report,
-                    'fromDate'=>$fromDate,
-                    'toDate'=>$toDate,
-                ]);
-            }
-        }else{
-            $request->session()->flush();
-            return view('login')->with('error','You are not authorised to access this system, contact your administrator');
-        }
-
-
-    }
+//    public function generateReport(Request $request)
+//    {
+//        $email=session()->get('username');
+//        if($this->checkEmail($email)){
+//            $fromDate=$request->dateFrom;
+//            $toDate=$request->dateTo;
+//            //Duplicate Query Body for pagination
+//            $report=\DB::table('donation_requests as dreqs')
+//                ->select('dreqs.merchantID as MerchantID',
+//                    'dreqs.salutation as Salutation',
+//                    'dreqs.firstName as First_Name',
+//                    'dreqs.lastName as Last_Name',
+//                    'dreqs.phoneNumber as Phone_Number',
+//                    'dreqs.email as Email_Address',
+//                    'dreqs.zipCode as Zip_Code',
+//                    'dreqs.city as City',
+//                    'dreqs.country as Country',
+//                    'dreqs.campaign as Campaign',
+//                    'dreqs.relation as Donor_Relation',
+//                    'dreqs.requestDescription as Description',
+//                    'dreqs.currency as Currency',
+//                    'cresp.amountPaid as Request_Amount',
+//                    'dreqs.company as Company',
+//                    'dreqs.job_title as Job_Title',
+//                    'dreqs.graduation_class as Graduation_Class',
+//                    'dreqs.creation_date as Date_Time_Raised',
+//                    'dreqs.last_update as Date_Time_Submitted',
+//                    'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
+//                    'cresp.accountNumber as Account_Number',
+//                    'cresp.requestStatusDescription as Response_Status_Description',
+//                    'cresp.currencyCode as Response_Currency_Code',
+//                    'cresp.amountPaid as Amount_Paid',
+//                    'cresp.last_update as Response_Date_Time'
+//                )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
+//                ->where('cresp.requestDate','>=',$fromDate)
+//                ->where('cresp.requestDate','<=',$toDate)
+//                ->paginate(10);
+//
+//            if($report->isEmpty())
+//            {
+//                return view('report')->with('error','No Records Available');
+//            }
+//            else{
+//                //return $this->export($report);
+//                $report->withQueryString();
+//                return redirect()->route('report')->with(['reports'=>$report,
+//                    'fromDate'=>$fromDate,
+//                    'toDate'=>$toDate,
+//                ]);
+//            }
+//        }else{
+//            $request->session()->flush();
+//            return view('login')->with('error','You are not authorised to access this system, contact your administrator');
+//        }
+//
+//
+//    }
 
     //Download report in CSV
-    public function export($fromDate,$toDate)
-    {
+//    public function export($fromDate,$toDate)
+//    {
+//
+//        $report=$this->dataQuery($fromDate,$toDate);
+//        $today = date("Y-m-d");
+//        $filename="suf_donations_".$fromDate."_".$toDate."_.csv";
+//        $headers = array(
+//            "Content-type" => "text/csv",
+//            "Content-Disposition" => "attachment; filename=".$filename,
+//            "Pragma" => "no-cache",
+//            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+//            "Expires" => "0"
+//        );
+//
+//        //Setting column names
+//        $columns = array('Merchant ID',
+//            'Salutation',
+//            'First Name',
+//            'Last Name',
+//            'PhoneNumber',
+//            'Email Address',
+//            'Zip Code',
+//            'City',
+//            'Country',
+//            'Campaign',
+//            'Donor Relation',
+//            'Description',
+//            'Currency',
+//            'Request Amount',
+//            'Company',
+//            'Job Title',
+//            'Graduation Class',
+//            'Date Raised',
+//            'Date Submitted',
+//            'Checkout ID',
+//            'Account No',
+//            'Response Status',
+//            'Currency Code',
+//
+//
+//            'Amount Paid',
+//            'Response Date',
+//        );
+//
+//        $callback = function() use ($report, $columns)
+//        {
+//            $file = fopen('php://output', 'w');
+//            fputcsv($file, $columns);
+//
+//            foreach($report as $item) {
+//                fputcsv($file, array($item->MerchantID,
+//                    $item->Salutation,
+//                    $item->First_Name,
+//                    $item->Last_Name,
+//                    $item->Phone_Number,
+//                    $item->Email_Address,
+//                    $item->Zip_Code,
+//                    $item->City,
+//                    $item->Country,
+//                    $item->Campaign,
+//                    $item->Donor_Relation,
+//                    $item->Description,
+//                    $item->Currency,
+//                    $item->Request_Amount,
+//                    $item->Company,
+//                    $item->Job_Title,
+//                    $item->Graduation_Class,
+//                    $item->Date_Time_Raised,
+//                    $item->Date_Time_Submitted,
+//                    $item->Response_Check_Out_Request_ID,
+//                    $item->Account_Number,
+//                    $item->Response_Status_Description,
+//                    $item->Response_Currency_Code,
+//                    $item->Amount_Paid,
+//                    $item->Response_Date_Time,
+//                ));
+//            }
+//            fclose($file);
+//        };
+//
+//        return \Response::stream($callback, 200, $headers);
+//    }
 
-        $report=$this->dataQuery($fromDate,$toDate);
-        $today = date("Y-m-d");
-        $filename="suf_donations_".$fromDate."_".$toDate."_.csv";
-        $headers = array(
-            "Content-type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=".$filename,
-            "Pragma" => "no-cache",
-            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
-            "Expires" => "0"
-        );
-
-        //Setting column names
-        $columns = array('Merchant ID',
-            'Salutation',
-            'First Name',
-            'Last Name',
-            'PhoneNumber',
-            'Email Address',
-            'Zip Code',
-            'City',
-            'Country',
-            'Campaign',
-            'Donor Relation',
-            'Description',
-            'Currency',
-            'Request Amount',
-            'Company',
-            'Job Title',
-            'Graduation Class',
-            'Date Raised',
-            'Date Submitted',
-            'Checkout ID',
-            'Account No',
-            'Response Status',
-            'Currency Code',
-
-
-            'Amount Paid',
-            'Response Date',
-        );
-
-        $callback = function() use ($report, $columns)
-        {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-
-            foreach($report as $item) {
-                fputcsv($file, array($item->MerchantID,
-                    $item->Salutation,
-                    $item->First_Name,
-                    $item->Last_Name,
-                    $item->Phone_Number,
-                    $item->Email_Address,
-                    $item->Zip_Code,
-                    $item->City,
-                    $item->Country,
-                    $item->Campaign,
-                    $item->Donor_Relation,
-                    $item->Description,
-                    $item->Currency,
-                    $item->Request_Amount,
-                    $item->Company,
-                    $item->Job_Title,
-                    $item->Graduation_Class,
-                    $item->Date_Time_Raised,
-                    $item->Date_Time_Submitted,
-                    $item->Response_Check_Out_Request_ID,
-                    $item->Account_Number,
-                    $item->Response_Status_Description,
-                    $item->Response_Currency_Code,
-                    $item->Amount_Paid,
-                    $item->Response_Date_Time,
-                ));
-            }
-            fclose($file);
-        };
-
-        return \Response::stream($callback, 200, $headers);
-    }
-
-    public function dataQuery($fromDate,$toDate)
-    {
-        //Query
-        $report=\DB::table('donation_requests as dreqs')
-            ->select('dreqs.merchantID as MerchantID',
-                'dreqs.salutation as Salutation',
-                'dreqs.firstName as First_Name',
-                'dreqs.lastName as Last_Name',
-                'dreqs.phoneNumber as Phone_Number',
-                'dreqs.email as Email_Address',
-                'dreqs.zipCode as Zip_Code',
-                'dreqs.city as City',
-                'dreqs.country as Country',
-                'dreqs.campaign as Campaign',
-                'dreqs.relation as Donor_Relation',
-                'dreqs.requestDescription as Description',
-                'dreqs.currency as Currency',
-                'cresp.amountPaid as Request_Amount',
-                'dreqs.company as Company',
-                'dreqs.job_title as Job_Title',
-                'dreqs.graduation_class as Graduation_Class',
-                'dreqs.creation_date as Date_Time_Raised',
-                'dreqs.last_update as Date_Time_Submitted',
-                'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
-                'cresp.accountNumber as Account_Number',
-                'cresp.requestStatusDescription as Response_Status_Description',
-                'cresp.currencyCode as Response_Currency_Code',
-                'cresp.amountPaid as Amount_Paid',
-                'cresp.last_update as Response_Date_Time'
-            )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
-            ->where('cresp.requestDate','>=',$fromDate)
-            ->where('cresp.requestDate','<=',$toDate)
-            ->get();
-        return $report;
-    }
+//    public function dataQuery($fromDate,$toDate)
+//    {
+//        //Query
+//        $report=\DB::table('donation_requests as dreqs')
+//            ->select('dreqs.merchantID as MerchantID',
+//                'dreqs.salutation as Salutation',
+//                'dreqs.firstName as First_Name',
+//                'dreqs.lastName as Last_Name',
+//                'dreqs.phoneNumber as Phone_Number',
+//                'dreqs.email as Email_Address',
+//                'dreqs.zipCode as Zip_Code',
+//                'dreqs.city as City',
+//                'dreqs.country as Country',
+//                'dreqs.campaign as Campaign',
+//                'dreqs.relation as Donor_Relation',
+//                'dreqs.requestDescription as Description',
+//                'dreqs.currency as Currency',
+//                'cresp.amountPaid as Request_Amount',
+//                'dreqs.company as Company',
+//                'dreqs.job_title as Job_Title',
+//                'dreqs.graduation_class as Graduation_Class',
+//                'dreqs.creation_date as Date_Time_Raised',
+//                'dreqs.last_update as Date_Time_Submitted',
+//                'cresp.checkOutRequestID as Response_Check_Out_Request_ID',
+//                'cresp.accountNumber as Account_Number',
+//                'cresp.requestStatusDescription as Response_Status_Description',
+//                'cresp.currencyCode as Response_Currency_Code',
+//                'cresp.amountPaid as Amount_Paid',
+//                'cresp.last_update as Response_Date_Time'
+//            )->leftJoin('cellulant_responses as cresp', 'dreqs.merchantID', '=', 'cresp.merchantTransactionID')
+//            ->where('cresp.requestDate','>=',$fromDate)
+//            ->where('cresp.requestDate','<=',$toDate)
+//            ->get();
+//        return $report;
+//    }
 
     //Login View
 //    public function loginView()
@@ -351,18 +351,19 @@ class IndexController extends Controller
 //        $pageBo = $this->preparePageBo($donationCode);
 //        $participationOption=ParticipationOption::all();
 //        return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
-////        if(!is_null($pageBo)) {
-////
-////        } else {
-////            return view('error500');
-////        }
+//        if(!is_null($pageBo)) {
+//
+//        } else {
+//            return view('error500');
+//        }
 //    }
 
     public function paramPage($donationCode){
         $pageBo = $this->preparePageBo($donationCode);
+        $participationOptions = ParticipationOption::all();
         if(!is_null($pageBo)) {
-            //$participation = [{'id': 1,'name':'123'}, {'id': 1, 'name': '123'}];
-            return view('cellulantdonationpage')->with('pageBo', $pageBo)->with('participation', $participation);
+
+            return view('cellulantdonationpage')->with('pageBo', $pageBo);
         } else {
             return view('error500');
         }
