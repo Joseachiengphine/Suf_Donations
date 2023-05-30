@@ -4,8 +4,6 @@ namespace App\Filament\Pages;
 
 
 use App\Http\Livewire\Report;
-use App\Models\Campaign;
-use App\Models\Relations;
 use Filament\Forms;
 use Filament\Pages\Page;
 use Filament\Pages\Actions\Action;
@@ -38,6 +36,12 @@ class DonationsGeneralReport extends Page
     protected function getActions(): array
     {
         return [
+            Action::make('reload')
+                ->label('Reload Page')
+                ->icon('heroicon-s-refresh')
+                ->action(function (array $data): void {
+                    $this->emitTo(Report::class,'reload', $data);
+                }),
             Action::make('filterbyDate')
                 ->label('Filter By Date')
                 ->icon('heroicon-s-cog')

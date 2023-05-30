@@ -44,3 +44,4 @@ Route::post('/api/vcrun-webhook-response', [PaymentWebHookController::class, 'vc
 Route::get('/', 'App\Http\Controllers\IndexController');
 Route::get('/{donationCode}', [IndexController::class, 'paramPage']);
 
+//Route::any('{all}', function(){ return redirect('/'); })->where('all', '.*');

@@ -100,10 +100,12 @@ class CellulantResponseRequestResource extends Resource
                     ->colors([
                     ]),
                 Tables\Columns\TextColumn::make('requestAmount')
+                    ->alignRight('true')
                     ->money('KES', '1')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('amountPaid')
+                    ->alignRight('true')
                     ->money('KES', '1'),
                 Tables\Columns\TextColumn::make('DonationRequest.email')
                     ->label('Email')

@@ -96,6 +96,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->toggleable()
                 ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('registration_amount')
+                ->alignRight('true')
                 ->label('Reg. Amount')
                 ->tooltip('Registration Amount')
                 ->toggleable()
@@ -103,6 +104,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->searchable()
                 ->money('KES', '1'),
             Tables\Columns\TextColumn::make('paid_amount')
+                ->alignRight('true')
                 ->money('KES', '1'),
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
