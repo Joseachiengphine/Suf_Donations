@@ -88,6 +88,7 @@ class VcrunSupporterResource extends Resource
                     ->colors([
                     ]),
                 Tables\Columns\TextColumn::make('support_amount')
+                    ->alignRight('true')
                     ->label('Supp. Amount')
                     ->tooltip('support Amount')
                     ->toggleable()
@@ -95,6 +96,7 @@ class VcrunSupporterResource extends Resource
                     ->default('1000')
                     ->money('KES', '1'),
                 Tables\Columns\TextColumn::make('paid_amount')
+                    ->alignRight('true')
                     ->label('Paid Amount')
                     ->money('KES', '1'),
                 Tables\Columns\TextColumn::make('created_at')

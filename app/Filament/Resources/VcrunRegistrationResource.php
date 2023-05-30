@@ -102,6 +102,7 @@ class VcrunRegistrationResource extends Resource
                         ->colors([
                         ]),
                     Tables\Columns\TextColumn::make('registration_amount')
+                        ->alignRight('true')
                         ->label('Reg. Amount')
                         ->tooltip('Registration Amount')
                         ->searchable()
@@ -109,6 +110,7 @@ class VcrunRegistrationResource extends Resource
                         ->toggledHiddenByDefault()
                         ->money('KES', '1'),
                     Tables\Columns\TextColumn::make('paid_amount')
+                        ->alignRight('true')
                         ->money('KES', '1'),
                     Tables\Columns\TextColumn::make('created_at')
                         ->date()

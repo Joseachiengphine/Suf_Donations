@@ -136,12 +136,14 @@ class DonationRequestResource extends Resource
                     ])
                     ->tooltip('Click the filter icon to filter by campaign'),
                 Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
+                    ->alignRight('true')
                     ->label('Request Amount')
                     ->money('KES', '1')
                     ->default('0')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
+                    ->alignRight('true')
                     ->label('Paid Amount')
                     ->money('KES', '1')
                     ->default('0'),
