@@ -19,7 +19,7 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
 {
     use InteractsWithTable;
 
-    protected $listeners = ['filtervcrunsupportersbydate','filterbyrelation', 'Refreshed' => '$refresh'];
+    protected $listeners = ['filtervcrunsupportersbydate','filterbyrelation','removeFilter', 'resetoneFilter','Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
@@ -27,6 +27,30 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     public $toSuppDate;
 
     public $relation;
+
+    public $resetoneFilter;
+    public $removeFilter;
+
+    public function resetoneFilter($filter)
+    {
+        if (is_array($filter)) {
+            foreach ($filter as $f) {
+                $this->$f = null;
+            }
+        } else {
+            $this->$filter = null;
+        }
+
+        $this->emitSelf('Refreshed');
+    }
+    public function removeFilter()
+    {
+        $this->fromSuppDate = null;
+        $this->toSuppDate = null;
+        $this->relation = null;
+
+        $this->emitSelf('Refreshed');
+    }
 
     public function filtervcrunsupportersbydate($data)
     {

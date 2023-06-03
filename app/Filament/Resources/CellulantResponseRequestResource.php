@@ -17,6 +17,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\TernaryFilter;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class CellulantResponseRequestResource extends Resource
 {
@@ -95,10 +96,10 @@ class CellulantResponseRequestResource extends Resource
                     ->getStateUsing(function (Model $record) {
                         return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                     }),
-                BadgeColumn::make('DonationRequest.relation')
-                    ->label('Relation')
-                    ->colors([
-                    ]),
+//                BadgeColumn::make('donationrequest.relation')
+//                    ->label('Relation')
+//                    ->colors([
+//                    ]),
                 Tables\Columns\TextColumn::make('requestAmount')
                     ->alignRight('true')
                     ->money('KES', '1')
@@ -107,10 +108,6 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Columns\TextColumn::make('amountPaid')
                     ->alignRight('true')
                     ->money('KES', '1'),
-                Tables\Columns\TextColumn::make('DonationRequest.email')
-                    ->label('Email')
-                    ->searchable()
-                    ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                     ->toggleable()->toggledHiddenByDefault()
                     ->label('Phone Number'),
@@ -127,11 +124,13 @@ class CellulantResponseRequestResource extends Resource
                     ->tooltip('Click the filter icon to filter by request')
                     ->colors([
                         'success' => 'Request fully paid',
-                        'danger' => 'Request Pending Payment',
                     ]),
                 Tables\Columns\TextColumn::make('last_update')
                     ->label('Paid on')
                     ->date()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('DonationRequest.email')
+                    ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('MSISDN')
                 ->toggleable()->toggledHiddenByDefault(),
@@ -153,35 +152,16 @@ class CellulantResponseRequestResource extends Resource
                     ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date'),
                 ])
             ->filters([
-
-                SelectFilter::make('requestStatusDescription')
-                    ->options([
-                        'request fully paid' => 'Request fully paid',
-                        'request partly paid' => 'Request partly paid',
-                        'request not paid' => 'Request not paid',
-                    ]),
-                    SelectFilter::make('currencyCode')
-                    ->options([
-                        'kes' => 'KES',
-                        'usd' => 'USD',
-                    ]),
-                Filter::make('created_at')
-
-                    ->form([
-                        Forms\Components\DatePicker::make('From_Date'),
-                        Forms\Components\DatePicker::make('To_date')->afterOrEqual('From_Date'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['From_Date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('last_update', '>=', $date),
-                            )
-                            ->when(
-                                $data['To_date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('last_update', '<=', $date),
-                            );
-                    })
+//                    SelectFilter::make('donationrequest.relation')
+//                        ->options([
+//                            'alumni' => 'Alumni',
+//                            'friend' => 'Friend',
+//                            'other' => 'Other',
+//                            'parent' => 'Parent',
+//                            'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+//                            'staff' => 'Staff',
+//                            'student' => 'Student',
+//                        ]),
 
             ])
             ->actions([

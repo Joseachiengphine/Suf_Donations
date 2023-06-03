@@ -5,20 +5,23 @@ namespace App\Filament\Pages;
 
 
 
-use App\Http\Livewire\ReportVcrunsupporter;
-use App\Models\Campaign;
-use App\Models\ParticipationOption;
-use App\Models\Relations;
 use Filament\Forms;
 use Filament\Pages\Page;
-use App\Http\Livewire\Report;
 use Filament\Pages\Actions\Action;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Livewire\ReportVcrunsupporter;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class VcrunSupporterReport extends Page
 {
+    public  $fromSuppDate;
+    public $toSuppDate;
+
+    public $relation;
+
     use HasPageShield;
+
+    protected $listeners = ['refresh' => '$refresh'];
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -36,6 +39,26 @@ class VcrunSupporterReport extends Page
 
     protected static string $view = 'filament.pages.vcrun-supporter-report';
 
+
+    public function resetoneFilter($filter) {
+        $this->emitTo(ReportVcrunsupporter::class, 'removeFilter');
+        if (is_array($filter)) {
+            foreach ($filter as $f) {
+                $this->$f = null;
+            }
+        } else {
+            $this->$filter = null;
+        }
+        $this->emitSelf('refresh');
+    }
+    public function resetFilters() {
+        $this->emitTo(ReportVcrunsupporter::class, 'removeFilter');
+        $this->fromSuppDate = null;
+        $this->toSuppDate = null;
+        $this->relation = null;
+        $this->emitSelf('refresh');
+    }
+
     protected function getActions(): array
     {
         return [
@@ -43,6 +66,8 @@ class VcrunSupporterReport extends Page
                 ->label('Filter By Date')
                 ->icon('heroicon-s-cog')
                 ->action(function (array $data): void {
+                    $this->fromSuppDate=$data['from_Supp_date'];
+                    $this->toSuppDate=$data['to_Supp_date'];
                     $this->emitTo(ReportVcrunsupporter::class,'filtervcrunsupportersbydate', $data);
                 })
                 ->form([
@@ -79,6 +104,7 @@ class VcrunSupporterReport extends Page
                 ->label('Filter By Relation')
                 ->icon('heroicon-s-heart')
                 ->action(function(array $data): void {
+                    $this->relation=$data['relation'];
                     $this->emitTo(ReportVcrunsupporter::class, 'filterbyrelation', $data);
                 })
                 ->form([

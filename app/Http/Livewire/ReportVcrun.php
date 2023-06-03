@@ -5,11 +5,11 @@ namespace App\Http\Livewire;
 
 use Filament\Forms;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use App\Models\VcrunRegistration;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,16 +22,45 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-    protected $listeners = ['filtervcregistrationsbydate','filterbyparticipation','filterbyrelation','Refreshed' => '$refresh'];
+    protected $listeners = ['filtervcregistrationsbydate','filterbyparticipation','filterbyrelation', 'removeFilter','resetoneFilter','Refreshed' => '$refresh'];
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
     public  $fromRegDate;
+
     public $toRegDate;
 
     public $participation_type;
 
     public $relation;
+
+    public $resetoneFilter;
+    
+    public $removeFilter;
+
+
+    public function resetoneFilter($filter)
+    {
+        if (is_array($filter)) {
+            foreach ($filter as $f) {
+                $this->$f = null;
+            }
+        } else {
+            $this->$filter = null;
+        }
+
+        $this->emitSelf('Refreshed');
+    }
+
+    public function removeFilter()
+    {
+        $this->fromRegDate = null;
+        $this->toRegDate = null;
+        $this->participation_type = null;
+        $this->relation = null;
+
+        $this->emitSelf('Refreshed');
+    }
 
     public function filtervcregistrationsbydate($data)
     {
@@ -68,14 +97,13 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                  fn(Builder $query): Builder => $query
                  ->where('participation_type', $this->participation_type)
             )
-
-            ->join('donation_requests', 'donation_requests.merchantID', '=', 'vcrun_registrations.request_merchant_id')
+//            ->join('donation_requests', 'donation_requests.merchantID', '=', 'vcrun_registrations.request_merchant_id')
+            ->leftJoin('donation_requests', 'vcrun_registrations.request_merchant_id', '=', 'donation_requests.merchantID')
             ->when(
                  $this->relation,
                  fn(Builder $query): Builder => $query
                  ->where('donation_requests.relation', $this->relation)
             );
-
     }
 
 
