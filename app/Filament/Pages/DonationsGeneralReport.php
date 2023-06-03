@@ -13,7 +13,16 @@ use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class DonationsGeneralReport extends Page
 {
+    public $fromDate;
+    public $toDate;
+
+    Public $campaign;
+
+    public $relation;
     use HasPageShield;
+
+    protected $listeners = ['refresh' => '$refresh'];
+
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -33,19 +42,35 @@ class DonationsGeneralReport extends Page
 
     protected static string $view = 'filament.pages.donations-general-report';
 
+    public function resetoneFilter($filter) {
+        $this->emitTo(Report::class, 'removeFilter');
+        if (is_array($filter)) {
+            foreach ($filter as $f) {
+                $this->$f = null;
+            }
+        } else {
+            $this->$filter = null;
+        }
+        $this->emitSelf('refresh');
+    }
+    public function resetFilters() {
+        $this->emitTo(Report::class, 'removeFilter');
+        $this->fromDate = null;
+        $this->toDate = null;
+        $this->campaign = null;
+        $this->relation = null;
+        $this->emitSelf('refresh');
+    }
+
     protected function getActions(): array
     {
         return [
-            Action::make('reload')
-                ->label('Reload Page')
-                ->icon('heroicon-s-refresh')
-                ->action(function (array $data): void {
-                    $this->emitTo(Report::class,'reload', $data);
-                }),
             Action::make('filterbyDate')
                 ->label('Filter By Date')
                 ->icon('heroicon-s-cog')
                 ->action(function (array $data): void {
+                    $this->fromDate=$data['from_date'];
+                    $this->toDate=$data['to_date'];
                     $this->emitTo(Report::class,'filterbyDate', $data);
                 })
                 ->form([
@@ -61,6 +86,7 @@ class DonationsGeneralReport extends Page
                ->label('Filter By Campaign')
                ->icon('heroicon-s-fire')
                ->action(function(array $data): void {
+                   $this->campaign=$data['campaign'];
                    $this->emitTo(Report::class, 'filterbycampaign', $data);
                })
                ->form([
@@ -85,6 +111,7 @@ class DonationsGeneralReport extends Page
                 ->label('Filter By Relation')
                 ->icon('heroicon-s-heart')
                 ->action(function(array $data): void {
+                    $this->relation=$data['relation'];
                     $this->emitTo(Report::class, 'filterbyrelation', $data);
                 })
                 ->form([

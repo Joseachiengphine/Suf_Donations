@@ -3,22 +3,26 @@
 namespace App\Filament\Pages;
 
 
-use App\Http\Livewire\Report;
-use App\Http\Livewire\ReportVcrun;
-use App\Models\Campaign;
-use App\Models\ParticipationOption;
-use App\Models\Relations;
-use App\Models\VcrunRegistration;
-use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-use Filament\Pages\Actions\Action;
-use Filament\Pages\Page;
 use Filament\Forms;
+use Filament\Pages\Page;
+use App\Http\Livewire\ReportVcrun;
+use Filament\Pages\Actions\Action;
 use Illuminate\Support\Facades\Gate;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class VcrunRegistrationReport extends Page
 {
+    public  $fromRegDate;
+
+    public $toRegDate;
+
+    public $participation_type;
+
+    public $relation;
 
     use HasPageShield;
+
+    protected $listeners = ['refresh' => '$refresh'];
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -37,6 +41,27 @@ class VcrunRegistrationReport extends Page
 
     protected static string $view = 'filament.pages.vcrun-registration-report';
 
+    public function resetoneFilter($filter) {
+        $this->emitTo(ReportVcrun::class, 'removeFilter');
+        if (is_array($filter)) {
+            foreach ($filter as $f) {
+                $this->$f = null;
+            }
+        } else {
+            $this->$filter = null;
+        }
+        $this->emitSelf('refresh');
+    }
+
+    public function resetFilters() {
+        $this->emitTo(ReportVcrun::class, 'removeFilter');
+        $this->fromRegDate = null;
+        $this->toRegDate = null;
+        $this->participation_type = null;
+        $this->relation = null;
+        $this->emitSelf('refresh');
+    }
+
     protected function getActions(): array
     {
         return [
@@ -44,6 +69,8 @@ class VcrunRegistrationReport extends Page
                 ->label('Filter Registration Dates')
                 ->icon('heroicon-s-cog')
                 ->action(function (array $data): void {
+                    $this->fromRegDate=$data['from_Reg_date'];
+                    $this->toRegDate=$data['to_Reg_date'];
                     $this->emitTo(ReportVcrun::class,'filtervcregistrationsbydate', $data);
                 })
                 ->form([
@@ -59,6 +86,7 @@ class VcrunRegistrationReport extends Page
                 ->label('Filter By Participation')
                 ->icon('heroicon-s-hand')
                 ->action(function(array $data): void {
+                    $this->participation_type=$data['participation_type'];
                     $this->emitTo(ReportVcrun::class, 'filterbyparticipation', $data);
                 })
                 ->form([
@@ -79,6 +107,7 @@ class VcrunRegistrationReport extends Page
                 ->label('Filter By Relation')
                 ->icon('heroicon-s-heart')
                 ->action(function(array $data): void {
+                    $this->relation=$data['relation'];
                     $this->emitTo(ReportVcrun::class, 'filterbyrelation', $data);
                 })
                 ->form([

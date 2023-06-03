@@ -13,6 +13,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
 use App\Filament\Resources\DonationRequestResource\Pages;
 use App\Filament\Resources\DonationRequestResource\Widgets\StatsOverview;
@@ -127,13 +128,15 @@ class DonationRequestResource extends Resource
                     }),
                 BadgeColumn::make('relation')
                     ->colors([
-                    ]),
+                    ])
+                    ->default('--'),
                 Tables\Columns\TextColumn::make('country')
                     ->searchable(),
                 BadgeColumn::make('campaign')
                     ->colors([
                         'primary',
                     ])
+                    ->default('--')
                     ->tooltip('Click the filter icon to filter by campaign'),
                 Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
                     ->alignRight('true')
@@ -195,7 +198,6 @@ class DonationRequestResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('campaign')
-                    ->multiple()
                     ->options([
                         'elimisha stratizen' => 'Elimisha Stratizen',
                         'lisha mkenya' => 'Lisha Mkenya',
@@ -206,22 +208,17 @@ class DonationRequestResource extends Resource
                         'Vice Chancellor\'s Run' => 'Vice Chancellor\'s Run',
                         'other' => 'Other',
                     ]),
-//                Filter::make('created_at')
-//                    ->form([
-//                        Forms\Components\DatePicker::make('From_Date'),
-//                        Forms\Components\DatePicker::make('To_date')->afterOrEqual('From_Date'),
-//                    ])
-//                    ->query(function (Builder $query, array $data): Builder {
-//                        return $query
-//                            ->when(
-//                                $data['From_Date'],
-//                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '>=', $date),
-//                            )
-//                            ->when(
-//                                $data['To_date'],
-//                                fn (Builder $query, $date): Builder => $query->whereDate('creation_date', '<=', $date),
-//                            );
-//                    })
+                SelectFilter::make('relation')
+                    ->options([
+                        'alumni' => 'Alumni',
+                        'friend' => 'Friend',
+                        'other' => 'Other',
+                        'parent' => 'Parent',
+                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+                        'staff' => 'Staff',
+                        'student' => 'Student',
+                    ]),
+//                DateRangePicker::make('creation_date'),
 
             ])
             ->actions([

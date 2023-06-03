@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99598edb64ba56abe80ea2abb8d92e54",
+    "content-hash": "77726e22ef3c1be1d9396cf203bc56eb",
     "packages": [
         {
             "name": "3x1io/filament-excel",
@@ -4175,16 +4175,16 @@
         },
         {
             "name": "malzariey/filament-daterangepicker-filter",
-            "version": "1.2",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/malzariey/filament-daterangepicker-filter.git",
-                "reference": "5de4ea89d02014e8150698b3415e4f531279f6ef"
+                "reference": "47900e378bc9c54ef2cfe420e951894013e71dd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/malzariey/filament-daterangepicker-filter/zipball/5de4ea89d02014e8150698b3415e4f531279f6ef",
-                "reference": "5de4ea89d02014e8150698b3415e4f531279f6ef",
+                "url": "https://api.github.com/repos/malzariey/filament-daterangepicker-filter/zipball/47900e378bc9c54ef2cfe420e951894013e71dd2",
+                "reference": "47900e378bc9c54ef2cfe420e951894013e71dd2",
                 "shasum": ""
             },
             "require": {
@@ -4240,7 +4240,7 @@
             ],
             "support": {
                 "issues": "https://github.com/malzariey/filament-daterangepicker-filter/issues",
-                "source": "https://github.com/malzariey/filament-daterangepicker-filter/tree/1.2"
+                "source": "https://github.com/malzariey/filament-daterangepicker-filter/tree/1.2.1"
             },
             "funding": [
                 {
@@ -4248,7 +4248,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-16T07:40:02+00:00"
+            "time": "2023-05-25T06:15:14+00:00"
         },
         {
             "name": "markbaker/complex",
