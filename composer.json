@@ -22,6 +22,7 @@
         "filament/tables": "^2.0",
         "flowframe/laravel-trend": "^0.1.5",
         "guzzlehttp/guzzle": "^7.2",
+        "jeffgreco13/filament-breezy": "^1.5",
         "koalafacade/filament-navigation-holder": "^0.0.0",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",

@@ -2,21 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\CellulantResponseRequest;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables\Columns\BadgeColumn;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
-use Tables\Columns\TextColumn;
 use Filament\Resources\Resource;
 use App\Models\VcrunRegistration;
 use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\VcrunRegistrationResource\Pages;
 use App\Filament\Resources\VcrunRegistrationResource\RelationManagers;
 use App\Filament\Resources\VcrunRegistrationResource\Widgets\StatsOverview;
+use Illuminate\Database\Eloquent\Builder;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 class VcrunRegistrationResource extends Resource
@@ -28,11 +25,11 @@ class VcrunRegistrationResource extends Resource
     protected static ?string $navigationGroup = 'Vice Chancellor\'s Run';
 
 
-    protected function gettablequery(): \Illuminate\Database\Eloquent\Builder
+    protected function gettablequery(): Builder
     {
         return VcrunRegistration::query()
-            ->select('vcrun_registrations.*','donation_requests.firstName as firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency')
-            ->Join('donation_requests','vcrun_registrations.request_merchant_id', '=','donation_requests.merchantID');
+            ->select('vcrun_registrations.*','donation_requests.firstName', 'donation_requests.lastName', 'donation_requests.email', 'donation_requests.phoneNumber','donation_requests.currency','donation_requests.relation')
+            ->leftJoin('donation_requests','vcrun_registrations.request_merchant_id', '=','donation_requests.merchantID');
     }
 
     public static function form(Form $form): Form
@@ -84,7 +81,6 @@ class VcrunRegistrationResource extends Resource
             )
         ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -92,14 +88,13 @@ class VcrunRegistrationResource extends Resource
                     Tables\Columns\TextColumn::make('name')
                         ->label('Name')
                         ->getStateUsing(function ($record) {
-                            if ($record->DonationRequest) {
-                                return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
+                            if ($record->donationRequest) {
+                                return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
                             }
                             return '';
                         })
-                        ->default('--')
-                        ->searchable(),
-                    BadgeColumn::make('DonationRequest.relation')
+                        ->default('--'),
+                    BadgeColumn::make('donationRequest.relation')
                         ->label('Relation')
                         ->colors([
                         ])
@@ -126,11 +121,10 @@ class VcrunRegistrationResource extends Resource
                         ])
                         ->sortable(),
 
-                    Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
+                    Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
                         ->label('Phone Number')
                         ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('currency')
-                        ->searchable()
                         ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('request_merchant_id')
                     ->label('Merchant ID')
@@ -143,7 +137,7 @@ class VcrunRegistrationResource extends Resource
                         ]),
                     Tables\Columns\TextColumn::make('race_kms')
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('DonationRequest.email')
+                    Tables\Columns\TextColumn::make('donationRequest.email')
                         ->label('Email')
                         ->searchable(),
                     Tables\Columns\TextColumn::make('matching_donor_id')
@@ -166,17 +160,17 @@ class VcrunRegistrationResource extends Resource
                         'virtual' => 'Virtual',
 
                     ]),
-//                SelectFilter::make('relation')
-//                    ->relationship('DonationRequest', 'relation')
-//                    ->options([
-//                        'alumni' => 'Alumni',
-//                        'friend' => 'Friend',
-//                        'other' => 'Other',
-//                        'parent' => 'Parent',
-//                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
-//                        'staff' => 'Staff',
-//                        'student' => 'Student',
-//                    ]),
+                SelectFilter::make('relation')
+                    ->relationship('donationRequest', 'relation')
+                    ->options([
+                        'alumni' => 'Alumni',
+                        'friend' => 'Friend',
+                        'other' => 'Other',
+                        'parent' => 'Parent',
+                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+                        'staff' => 'Staff',
+                        'student' => 'Student',
+                    ]),
                 DateFilter::make('created_at')
                     ->label(__('Paid on'))
                     ->range()
