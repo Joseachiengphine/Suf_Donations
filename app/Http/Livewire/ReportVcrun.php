@@ -26,7 +26,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
-    public  $fromRegDate;
+    public $fromRegDate;
 
     public $toRegDate;
 

@@ -90,9 +90,9 @@ class UserResource extends Resource
 
             ])
             ->filters([
-                SelectFilter::make('roles.name')
-                ->relationship('roles', 'name')
-                ->multiple()
+//                SelectFilter::make('roles.name')
+//                ->relationship('roles', 'name')
+//                ->multiple()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

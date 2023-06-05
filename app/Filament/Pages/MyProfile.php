@@ -4,7 +4,6 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 
-
 class MyProfile extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-user';

@@ -26,13 +26,12 @@ class Report extends Component implements Tables\Contracts\HasTable
     /**
      * @var Forms\ComponentContainer|View|mixed|null
      */
-    public  $fromDate;
+    public $fromDate;
     public $toDate;
 
     Public $campaign;
 
     public $relation;
-
     public $resetoneFilter;
     public $removeFilter;
 
@@ -110,9 +109,11 @@ class Report extends Component implements Tables\Contracts\HasTable
                 }),
             BadgeColumn::make('donationrequest.relation')
                 ->label('Relation')
+                ->default('--')
                 ->colors([
                 ]),
             BadgeColumn::make('donationrequest.campaign')
+                ->default('--')
                 ->label('Campaign')
                 ->colors([
                     'primary',

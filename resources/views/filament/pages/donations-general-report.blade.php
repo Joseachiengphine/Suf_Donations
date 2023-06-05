@@ -6,21 +6,21 @@
                 @if (!is_null($fromDate) || !is_null($toDate))
                     <span class="badge badge-success">
                         {{ $fromDate }} - {{ $toDate }}
-                        <button class="badge-remove" wire:click="removeFilter('fromDate')">X</button>
+                        <button class="badge-remove" wire:click="resetoneFilter(['fromRegDate', 'toRegDate'])">X</button>
                     </span>
                 @endif
 
                 @if (!is_null($campaign))
                     <span class="badge badge-success">
                         {{ $campaign }}
-                        <button class="badge-remove" wire:click="removeFilter('campaign')">X</button>
+                        <button class="badge-remove" wire:click="resetoneFilter('campaign')">X</button>
                     </span>
                 @endif
 
                 @if (!is_null($relation))
                     <span class="badge badge-success">
                         {{ $relation }}
-                        <button class="badge-remove" wire:click="removeFilter('relation')">X</button>
+                        <button class="badge-remove" wire:click="resetoneFilter('relation')">X</button>
                     </span>
                 @endif
             </div>
@@ -106,10 +106,25 @@
         }
     </style>
 
-    <script>
-        document.addEventListener('livewire:load', function () {
-            Livewire.hook('message.processed',
-                function () {
+{{--    <script>--}}
+{{--        document.addEventListener('livewire:load', function () {--}}
+{{--            Livewire.hook('message.processed',--}}
+{{--                function () {--}}
+{{--                    // Check if there are active filters--}}
+{{--                    var activeFilters = document.querySelector('.filters').children.length > 0;--}}
+{{--                    // Show/hide the active filters container based on the presence of active filters--}}
+{{--                    var activeFiltersContainer = document.querySelector('.active-filters');--}}
+{{--                    activeFiltersContainer.style.display = activeFilters ? 'flex' : 'none';--}}
+
+{{--                    // Show/hide the clear filters button based on the presence of active filters--}}
+{{--                    var clearFiltersButton = document.querySelector('.clear-filters');--}}
+{{--                    clearFiltersButton.style.display = activeFilters ? 'block' : 'none';--}}
+{{--                });--}}
+{{--        });--}}
+{{--    </script>--}}
+        <script>
+            document.addEventListener('livewire:load', function () {
+                Livewire.hook('message.processed', function () {
                     // Check if there are active filters
                     var activeFilters = document.querySelector('.filters').children.length > 0;
                     // Show/hide the active filters container based on the presence of active filters
@@ -120,6 +135,6 @@
                     var clearFiltersButton = document.querySelector('.clear-filters');
                     clearFiltersButton.style.display = activeFilters ? 'block' : 'none';
                 });
-        });
-    </script>
+            });
+        </script>
 </x-filament::page>

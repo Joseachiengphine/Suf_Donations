@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\VcrunSupporterResource\Pages;
 use App\Filament\Resources\VcrunSupporterResource\RelationManagers;
+use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 class VcrunSupporterResource extends Resource
 {
@@ -137,22 +138,22 @@ class VcrunSupporterResource extends Resource
 
                     ]),
 
-//                Filter::make('created_at')
-//                        ->form([
-//                        Forms\Components\DatePicker::make('From_Date'),
-//                        Forms\Components\DatePicker::make('To_date')->afterOrEqual('From_Date'),
-//                            ])
-//                    ->query(function (Builder $query, array $data): Builder {
-//                        return $query
-//                            ->when(
-//                                $data['From_Date'],
-//                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-//                            )
-//                            ->when(
-//                                $data['To_date'],
-//                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-//                            );
-//                    })
+//                SelectFilter::make('DonationRequest.relation')
+//                    ->relationship('DonationRequest', 'relation')
+//                    ->options([
+//                        'alumni' => 'Alumni',
+//                        'friend' => 'Friend',
+//                        'other' => 'Other',
+//                        'parent' => 'Parent',
+//                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+//                        'staff' => 'Staff',
+//                        'student' => 'Student',
+//                    ]),
+                DateFilter::make('created_at')
+                    ->label(__('Paid on'))
+                    ->range()
+                    ->fromLabel(__('From'))
+                    ->untilLabel(__('Until'))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
