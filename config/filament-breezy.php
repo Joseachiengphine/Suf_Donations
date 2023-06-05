@@ -15,7 +15,7 @@ return [
     /*
     | Whether or not to automatically display the My Profile page in the navigation of Filament. NOTE: if enable_profile_page => false then this value is ignored.
     */
-    "show_profile_page_in_navbar" => false,
+    "show_profile_page_in_navbar" => true,
     /*
     | Customize the icon profile page icon in the navbar. Does not apply to the user menu.
     */
@@ -99,7 +99,7 @@ return [
     |--------------------------------------------------------------------------
     | Path to Profile page component.
     */
-    "profile_page_component_path" => \App\Filament\Pages\MyProfile::class,
+    "profile_page_component_path" => \JeffGreco13\FilamentBreezy\Pages\MyProfile::class,
     /*
     |--------------------------------------------------------------------------
     | Where to redirect the user after registration.
