@@ -100,8 +100,10 @@ class VcrunRegistrationResource extends Resource
                         ->searchable(),
                     BadgeColumn::make('DonationRequest.relation')
                         ->label('Relation')
+                        ->default('--')
                         ->colors([
-                        ]),
+                        ])
+                        ->default('--'),
                     Tables\Columns\TextColumn::make('registration_amount')
                         ->alignRight('true')
                         ->label('Reg. Amount')
