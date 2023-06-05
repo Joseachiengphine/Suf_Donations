@@ -6,7 +6,7 @@
                 @if (!is_null($fromDate) || !is_null($toDate))
                     <span class="badge badge-success">
                         {{ $fromDate }} - {{ $toDate }}
-                        <button class="badge-remove" wire:click="resetoneFilter(['fromRegDate', 'toRegDate'])">X</button>
+                        <button class="badge-remove" wire:click="resetoneFilter(['fromDate', 'toDate'])">X</button>
                     </span>
                 @endif
 

@@ -135,6 +135,7 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->tooltip('Click the filter button to filter by date')
                 ->date()
                 ->sortable()
+                ->default('--')
                 ->searchable(['donation_requests.creation_date']),
             Tables\Columns\TextColumn::make('last_update')
                 ->dateTime()
@@ -156,7 +157,8 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->toggleable()
                 ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.email')
-               ->label('Email'),
+               ->label('Email')
+                ->default('--'),
             Tables\Columns\TextColumn::make('donationrequest.zipCode')
                 ->label('Zip Code')
                 ->toggleable()
