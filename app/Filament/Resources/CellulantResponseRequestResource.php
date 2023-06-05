@@ -6,7 +6,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CellulantResponseRequestResource\Pages;
 use App\Filament\Resources\CellulantResponseRequestResource\RelationManagers\DonationrequestRelationManager;
 use App\Models\CellulantResponseRequest;
+use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -17,7 +19,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\TernaryFilter;
+use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 class CellulantResponseRequestResource extends Resource
 {
@@ -121,7 +125,6 @@ class CellulantResponseRequestResource extends Resource
                     ->toggledHiddenByDefault(),
                 BadgeColumn::make('requestStatusDescription')->label('Request Status')
                     ->searchable()
-                    ->tooltip('Click the filter icon to filter by request')
                     ->colors([
                         'success' => 'Request fully paid',
                     ]),
@@ -152,7 +155,8 @@ class CellulantResponseRequestResource extends Resource
                     ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date'),
                 ])
             ->filters([
-//                    SelectFilter::make('donationrequest.relation')
+//                    SelectFilter::make('relation')
+//                        ->relationship('donationrequest', 'relation')
 //                        ->options([
 //                            'alumni' => 'Alumni',
 //                            'friend' => 'Friend',
@@ -162,7 +166,11 @@ class CellulantResponseRequestResource extends Resource
 //                            'staff' => 'Staff',
 //                            'student' => 'Student',
 //                        ]),
-
+                DateFilter::make('last_update')
+                    ->label(__('Paid on'))
+                    ->range()
+                    ->fromLabel(__('From'))
+                    ->untilLabel(__('Until'))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

@@ -5571,10 +5571,6 @@ html {
   padding-top: 0.75rem;
 }
 
-.pt-5{
-  padding-top: 1.25rem;
-}
-
 .text-left{
   text-align: left;
 }
@@ -5688,6 +5684,10 @@ html {
 
 .leading-4{
   line-height: 1rem;
+}
+
+.leading-5{
+  line-height: 1.25rem;
 }
 
 .leading-loose{

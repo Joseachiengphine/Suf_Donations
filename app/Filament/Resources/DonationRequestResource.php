@@ -9,14 +9,11 @@ use Filament\Resources\Table;
 use App\Models\DonationRequest;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\BadgeColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
-use Webbingbrasil\FilamentDateFilter\DateFilter;
 use App\Filament\Resources\DonationRequestResource\Pages;
 use App\Filament\Resources\DonationRequestResource\Widgets\StatsOverview;
+use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 
 class DonationRequestResource extends Resource
@@ -218,8 +215,12 @@ class DonationRequestResource extends Resource
                         'staff' => 'Staff',
                         'student' => 'Student',
                     ]),
-//                DateRangePicker::make('creation_date'),
-
+//                DateFilter::make('last_update'),
+                DateFilter::make('last_update')
+                    ->label(__('Paid on'))
+                    ->range()
+                    ->fromLabel(__('From'))
+                    ->untilLabel(__('Until'))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
