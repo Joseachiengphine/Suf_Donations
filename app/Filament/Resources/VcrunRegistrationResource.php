@@ -97,10 +97,10 @@ class VcrunRegistrationResource extends Resource
                             }
                             return '';
                         })
+                        ->default('--')
                         ->searchable(),
                     BadgeColumn::make('DonationRequest.relation')
                         ->label('Relation')
-                        ->default('--')
                         ->colors([
                         ])
                         ->default('--'),
