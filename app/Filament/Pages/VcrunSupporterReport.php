@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 
 
 
+use App\Http\Livewire\ReportVcrun;
 use Filament\Forms;
 use Filament\Pages\Page;
 use Filament\Pages\Actions\Action;
@@ -41,7 +42,7 @@ class VcrunSupporterReport extends Page
 
 
     public function resetoneFilter($filter) {
-        $this->emitTo(ReportVcrunsupporter::class, 'removeFilter');
+        $this->emitTo(ReportVcrunsupporter::class, 'resetoneFilter', $filter);
         if (is_array($filter)) {
             foreach ($filter as $f) {
                 $this->$f = null;
