@@ -54,13 +54,14 @@ class IndexController extends Controller
     public function __invoke(Request $request): \Illuminate\Foundation\Application|View|Factory|Application
     {
         $pageBo = $this->preparePageBo(null);
-        if(!is_null($pageBo)) {
-            $participationOption=ParticipationOption::all();
-            return view('cellulantdonationpage')->with(['pageBo'=> $pageBo,'participation'=>$participationOption]);
+        if (!is_null($pageBo)) {
+            $participationOptions = ParticipationOption::all();
+            return view('cellulantdonationpage')->with(['pageBo' => $pageBo, 'participation' => $participationOptions]);
         } else {
             return view('error500');
         }
     }
+
 
 
     public function vcRunView()
