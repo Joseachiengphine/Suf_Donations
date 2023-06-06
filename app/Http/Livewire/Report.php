@@ -70,6 +70,7 @@ class Report extends Component implements Tables\Contracts\HasTable
     {
         $this->campaign = $data['campaign'];
         $this->emitSelf('Refreshed');
+
     }
     public function filterbyrelation($data)
     {

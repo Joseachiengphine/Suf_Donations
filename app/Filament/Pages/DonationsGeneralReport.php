@@ -43,7 +43,7 @@ class DonationsGeneralReport extends Page
     protected static string $view = 'filament.pages.donations-general-report';
 
     public function resetoneFilter($filter) {
-        $this->emitTo(Report::class, 'removeFilter');
+        $this->emitTo(Report::class, 'resetoneFilter', $filter);
         if (is_array($filter)) {
             foreach ($filter as $f) {
                 $this->$f = null;

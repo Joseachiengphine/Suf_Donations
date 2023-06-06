@@ -42,7 +42,7 @@ class VcrunRegistrationReport extends Page
     protected static string $view = 'filament.pages.vcrun-registration-report';
 
     public function resetoneFilter($filter) {
-        $this->emitTo(ReportVcrun::class, 'removeFilter');
+        $this->emitTo(ReportVcrun::class, 'resetoneFilter', $filter);
         if (is_array($filter)) {
             foreach ($filter as $f) {
                 $this->$f = null;
