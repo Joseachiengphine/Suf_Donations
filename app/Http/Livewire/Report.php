@@ -32,6 +32,7 @@ class Report extends Component implements Tables\Contracts\HasTable
     Public $campaign;
 
     public $relation;
+
     public $resetoneFilter;
     public $removeFilter;
 
@@ -125,19 +126,21 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->Searchable()
                 ->toggleable()
                 ->toggledHiddenByDefault()
-                ->money('KES', '1'),
+//                ->money('KES', '1')
+            ,
             Tables\Columns\TextColumn::make('amountPaid')
                 ->alignRight()
                 ->label('Amount Paid')
                 ->Searchable()
-                ->money('KES', '1'),
+//                ->money('KES', '1')
+            ,
             Tables\Columns\TextColumn::make('creation_date')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')
                 ->date()
                 ->sortable()
-                ->default('--')
-                ->searchable(['donation_requests.creation_date']),
+//                ->searchable(['donation_requests.creation_date'])
+            ,
             Tables\Columns\TextColumn::make('last_update')
                 ->dateTime()
                 ->toggleable()

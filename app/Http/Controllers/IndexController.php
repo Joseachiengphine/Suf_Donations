@@ -33,6 +33,7 @@ class IndexController extends Controller
 
     public function __construct()
     {
+        // dd('construct');
         try {
 //            $this->countrys = Http::get('https://restcountries.eu/rest/v2/all');
 //            $this->countrys = Http::get('https://raw.githubusercontent.com/mledoze/countries/master/dist/countries.json');
@@ -61,6 +62,24 @@ class IndexController extends Controller
             return view('error500');
         }
     }
+
+    // /**
+    //  * Store a new user.
+    //  *
+    //  * @param  Request  $request
+    //  * @return Application|Factory|View|\Illuminate\Foundation\Application
+    //  */
+    // public function index(Request $request): \Illuminate\Foundation\Application|View|Factory|Application
+    // {
+    //     $pageBo = $this->preparePageBo(null);
+    //     if (!is_null($pageBo)) {
+    //         $participationOptions = ParticipationOption::all();
+    //         return view('cellulantdonationpage')->with(['pageBo' => $pageBo, 'participation' => $participationOptions]);
+    //     } else {
+    //         return view('error500');
+    //     }
+    // }
+
 
 
 
@@ -364,7 +383,7 @@ class IndexController extends Controller
         $participationOptions = ParticipationOption::all();
         if(!is_null($pageBo)) {
 
-            return view('cellulantdonationpage')->with('pageBo', $pageBo);
+            return view('cellulantdonationpage')->with(['pageBo' => $pageBo, 'participation' => $participationOptions]);
         } else {
             return view('error500');
         }

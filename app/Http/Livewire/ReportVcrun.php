@@ -35,9 +35,8 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     public $relation;
 
     public $resetoneFilter;
-    
-    public $removeFilter;
 
+    public $removeFilter;
 
     public function resetoneFilter($filter)
     {
@@ -130,10 +129,12 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->toggleable()
                 ->toggledHiddenByDefault()
                 ->searchable()
-                ->money('KES', '1'),
+//                ->money('KES', '1')
+            ,
             Tables\Columns\TextColumn::make('paid_amount')
                 ->alignRight('true')
-                ->money('KES', '1'),
+//                ->money('KES', '1')
+            ,
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')
                 ->tooltip('Click the filter button to filter by date')

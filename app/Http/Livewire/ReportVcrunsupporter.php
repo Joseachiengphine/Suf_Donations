@@ -31,6 +31,7 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     public $resetoneFilter;
     public $removeFilter;
 
+
     public function resetoneFilter($filter)
     {
         if (is_array($filter)) {
@@ -103,11 +104,11 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                 ->tooltip('Registration Amount')
                 ->toggleable()
                 ->toggledHiddenByDefault()
-                ->money('KES', '1')
+//                ->money('KES', '1')
                 ->alignRight('true'),
             Tables\Columns\TextColumn::make('paid_amount')
                 ->label('Paid Amount')
-                ->money('KES', '1')
+//                ->money('KES', '1')
                 ->alignRight('true'),
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Paid on')

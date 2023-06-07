@@ -42,6 +42,7 @@ Route::post('/api/saveVcRunDonationRequest', [IndexController::class, 'saveVcRun
 Route::post('/api/paymentWebHookResponse', [PaymentWebHookController::class]);
 Route::post('/api/vcrun-webhook-response', [PaymentWebHookController::class, 'vcrunResponse']);
 Route::get('/', 'App\Http\Controllers\IndexController');
-Route::get('/{donationCode}', [IndexController::class, 'paramPage']);
+// Route::get('/', [IndexController::class, 'index']);
+Route::get('/donation-code/{donationCode}', [IndexController::class, 'paramPage']);
 
 Route::any('{all}', function(){ return redirect('/'); })->where('all', '.*');
