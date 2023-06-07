@@ -43,14 +43,20 @@ class DonationsGeneralReport extends Page
     protected static string $view = 'filament.pages.donations-general-report';
 
     public function resetoneFilter($filter) {
+        // Emit an event to the "Report" component with the payload of "resetoneFilter" and $filter
         $this->emitTo(Report::class, 'resetoneFilter', $filter);
+        // Check if $filter is an array
         if (is_array($filter)) {
+            // Iterate over each element in the $filter array
             foreach ($filter as $f) {
+                // Set the property named $f to null
                 $this->$f = null;
             }
         } else {
+            // $filter is not an array, set the property named $filter to null
             $this->$filter = null;
         }
+        // Emit a "refresh" event to the current component
         $this->emitSelf('refresh');
     }
     public function resetFilters() {
