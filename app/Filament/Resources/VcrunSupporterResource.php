@@ -157,7 +157,7 @@ class VcrunSupporterResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
               //  Tables\Actions\DeleteBulkAction::make(),
@@ -181,9 +181,9 @@ class VcrunSupporterResource extends Resource
     {
         return [
             'index' => Pages\ListVcrunSupporters::route('/'),
-            'create' => Pages\CreateVcrunSupporter::route('/create'),
+//            'create' => Pages\CreateVcrunSupporter::route('/create'),
             'view' => Pages\ViewVcrunSupporter::route('/{record}'),
-            'edit' => Pages\EditVcrunSupporter::route('/{record}/edit'),
+//            'edit' => Pages\EditVcrunSupporter::route('/{record}/edit'),
         ];
     }
 }

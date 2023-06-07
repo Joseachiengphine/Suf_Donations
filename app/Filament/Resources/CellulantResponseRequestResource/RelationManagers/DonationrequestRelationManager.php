@@ -6,7 +6,9 @@ use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
+use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 
@@ -56,20 +58,39 @@ class DonationrequestRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('Name')
+                    ->getStateUsing(function (Model $record){
+                        return $record->firstName . ' ' . $record->lastName;
+                    }),
+                BadgeColumn::make('relation')
+                    ->colors([
+                    ])
+                    ->default('--'),
+                Tables\Columns\TextColumn::make('country')
+                    ->searchable(),
+                BadgeColumn::make('campaign')
+                    ->colors([
+                        'primary',
+                    ])
+                    ->default('--'),
+                Tables\Columns\TextColumn::make('phoneNumber')
+                    ->default('--'),
+                Tables\Columns\TextColumn::make('email')
+                    ->toggleable()->toggledHiddenByDefault()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                //Tables\Actions\CreateAction::make(),
+//                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+//                Tables\Actions\EditAction::make(),
+//                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+//                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 }

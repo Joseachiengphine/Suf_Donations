@@ -6,21 +6,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CellulantResponseRequestResource\Pages;
 use App\Filament\Resources\CellulantResponseRequestResource\RelationManagers\DonationrequestRelationManager;
 use App\Models\CellulantResponseRequest;
-use Carbon\Carbon;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Filters\TernaryFilter;
-use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
-use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 class CellulantResponseRequestResource extends Resource
@@ -174,7 +166,7 @@ class CellulantResponseRequestResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
 
             ])
             ->bulkActions([
@@ -201,9 +193,9 @@ class CellulantResponseRequestResource extends Resource
     {
         return [
             'index' => Pages\ListCellulantResponseRequests::route('/'),
-            'create' => Pages\CreateCellulantResponseRequest::route('/create'),
+//            'create' => Pages\CreateCellulantResponseRequest::route('/create'),
             'view' => Pages\ViewCellulantResponseRequest::route('/{record}'),
-            'edit' => Pages\EditCellulantResponseRequest::route('/{record}/edit'),
+//            'edit' => Pages\EditCellulantResponseRequest::route('/{record}/edit'),
         ];
     }
 }

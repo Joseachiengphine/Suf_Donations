@@ -224,7 +224,7 @@ class DonationRequestResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                // Tables\Actions\DeleteBulkAction::make(),
@@ -248,9 +248,9 @@ class DonationRequestResource extends Resource
     {
         return [
             'index' => Pages\ListDonationRequests::route('/'),
-            'create' => Pages\CreateDonationRequest::route('/create'),
+//            'create' => Pages\CreateDonationRequest::route('/create'),
             'view' => Pages\ViewDonationRequest::route('/{record}'),
-            'edit' => Pages\EditDonationRequest::route('/{record}/edit'),
+//            'edit' => Pages\EditDonationRequest::route('/{record}/edit'),
         ];
     }
 }

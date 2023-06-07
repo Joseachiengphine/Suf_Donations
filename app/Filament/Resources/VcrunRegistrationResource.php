@@ -139,7 +139,9 @@ class VcrunRegistrationResource extends Resource
                         ->searchable(),
                     Tables\Columns\TextColumn::make('donationRequest.email')
                         ->label('Email')
-                        ->searchable(),
+                        ->searchable()
+                        ->toggleable()
+                        ->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('matched_amount')
@@ -179,7 +181,7 @@ class VcrunRegistrationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
 
             ])
             ->bulkActions([
@@ -205,9 +207,9 @@ class VcrunRegistrationResource extends Resource
     {
         return [
             'index' => Pages\ListVcrunRegistrations::route('/'),
-            'create' => Pages\CreateVcrunRegistration::route('/create'),
+//            'create' => Pages\CreateVcrunRegistration::route('/create'),
             'view' => Pages\ViewVcrunRegistrations::route('/{record}'),
-            'edit' => Pages\EditVcrunRegistration::route('/{record}/edit'),
+//            'edit' => Pages\EditVcrunRegistration::route('/{record}/edit'),
         ];
     }
 }
