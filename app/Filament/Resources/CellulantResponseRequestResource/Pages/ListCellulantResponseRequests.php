@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CellulantResponseRequestResource\Pages;
 use App\Filament\Resources\CellulantResponseRequestResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Filters\Layout;
 
 class ListCellulantResponseRequests extends ListRecords
 {
@@ -23,4 +24,15 @@ class ListCellulantResponseRequests extends ListRecords
             //Actions\CreateAction::make(),
         ];
     }
+    protected function getTableFiltersFormColumns(): int
+    {
+        return 3;
+    }
+
+    protected function getTableFiltersFormWidth(): string
+    {
+        return '4xl';
+    }
+
 }
+

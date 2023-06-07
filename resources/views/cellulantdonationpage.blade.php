@@ -35,12 +35,19 @@
                   </div>
 
                   <div class="col-sm-2">
-                      <label for="amountCurrency"></label><select class="form-select" id="amountCurrency">
+                      <select class="form-select" id="amountCurrency" style="width: 300px;">
                           @foreach($pageBo->allowedCurrencies as $currency)
-                              <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                              @if($currency->currency_code === 'KES')
+                                  <option value="{{ $currency->currency_code }}">Kenya Shillings (KES)</option>
+                              @elseif($currency->currency_code === 'USD')
+                                  <option value="{{ $currency->currency_code }}">US dollars (USD)</option>
+                              @else
+                                  <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                              @endif
                           @endforeach
                       </select>
                   </div>
+
               </div>
               <div id="campaignClassDiv" class="mb-3 row">
                   <label class="col-sm-2" for="campaign">Campaign</label>
@@ -66,35 +73,34 @@
 
                   </div>
               </div>
+              <div id="descriptionDiv" class="mb-3 row"  style="display: none">
+                  <label class="col-sm-2" for="description">Description</label>
+                  <div class="col-sm-10" style="border-radius: 10px;">
+                      <textarea id="description" cols="30" style="width: 49%; height: 38px;"></textarea>
+                  </div>
+              </div>
           </form>
       </div>
   </div>
 
         {{--start of VCrun file--}}
-                <div id="descriptionDiv" class="mb-3 row"  style="display: none">
-                    <label class="col-sm-2" for="description">Description</label>
-                    <div class="col-sm-10">
-                        <textarea id="description" cols="50"></textarea>
-                    </div>
-                </div>
-                <div id="participationDiv" class="mb-3 row" style="display: none">
-                    <label class="col-sm-2" for="participation">How would you like to participate?</label>
-                    <div class="col-sm-5">
-                        @foreach ($participation as $item)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{$item->id}}" id="participation{{$item->id}}">
-                            <label class="form-check-label" for="participation{{$item->id}}">
-                                {{$item->name}}
-                            </label>
-                          </div>
-                        @endforeach
-                    </div>
-                </div>
-            </form>
+  <div id="participationDiv" class="mb-3 row" style="display: none">
+      <label class="col-sm-2" for="participation">How would you like to participate?</label>
+      <div class="col-sm-5">
+          @foreach ($participation as $item)
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="{{$item->id}}" id="participation{{$item->id}}">
+                  <label class="form-check-label" for="participation{{$item->id}}">
+                      {{$item->name}}
+                  </label>
+              </div>
+          @endforeach
+      </div>
+  </div>
+
+          {{--End of VCrun file--}}
 
             <br>
-        </div>
-        {{--End of VCrun file--}}
 
   <div id="contactDetailsSection">
   <h3 class="sectionTitle">Contact Details</h3>
@@ -102,10 +108,10 @@
                         <div class="mb-3 row">
                             <label class="col-sm-2 col-form-label" for="firstName">Name *</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control rounded" id="firstName" placeholder="John">
+                                <input type="text" class="form-control rounded" id="firstName" placeholder="First Name">
                             </div>
                             <div class="col-sm-5">
-                                <label for="lastName"></label><input type="text" class="form-control" id="lastName" placeholder="Doe">
+                                <input type="text" class="form-control rounded" id="lastName" placeholder="Last Name">
                             </div>
                         </div>
 
@@ -307,7 +313,7 @@
             }*/
             if($('#campaign option:active').length === 0){
                 var val = $('#campaign').children("option:selected").attr('showText');
-                if(val == 1){
+                if(val === 1){
                     if($('#description').val() === "" || $('#description').val() === null){
                         $('#description').addClass("is-invalid");
                         $('#description').removeClass("is-valid");
@@ -320,7 +326,7 @@
 
             if($('#relation option:selected').length === 0){
                 var val = $('#relation').children("option:selected").attr('showText');
-                if(val == 1){
+                if(val === 1){
                     if($('#classOf').children("option:selected").val() === "" || $('#classOf').children("option:selected").val() === null){
                         $('#description').addClass("is-invalid");
                         $('#description').removeClass("is-valid");
@@ -598,7 +604,7 @@
             }
         });
         $('#amountCurrency').change(function(){
-            if($(this).val() == "USD"){
+            if($(this).val() === "USD"){
                 $('#basic-addon1').html('$')
                 if($('#campaign').val() === "Vice Chancellor's Run"){
                     prefillVcRunAmount();
@@ -626,7 +632,7 @@
             }
         });
 
-        //Prefill form with data when vc run is selected
+        //Prefill form with data when vc run is selected -- can be used to change the amount of the vcrun
         function prefillVcRunAmount()
         {
             if($('#amountCurrency').val()==='KES'){
@@ -709,6 +715,7 @@
                             },
                             "body": JSON.stringify(payload)
                         })
+
                         .then(response => response.json())
                         .then(function (data) {
                             Tingg.renderCheckout({
@@ -733,4 +740,3 @@
     </script>
   </body>
 </html>
-.

@@ -4,3 +4,84 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.filament-sidebar-nav::-webkit-scrollbar{
+    display: none;
+}
+
+.filament-sidebar-nav {
+    @apply bg-primary-800 bg-gradient-to-tl from-primary-600 to-primary-700 dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;
+}
+
+.filament-sidebar-nav .border-t {
+    @apply border-primary-600;
+}
+
+.filament-sidebar-item {
+    @apply text-white;
+}
+
+.filament-sidebar-item .inline-flex {
+    @apply text-primary-50 bg-primary-700 dark:bg-gray-900 dark:text-white;
+}
+
+.filament-sidebar-group svg {
+    @apply text-primary-300;
+}
+
+.tracking-wider {
+    @apply text-sm text-primary-200;
+}
+
+.filament-brand {
+    @apply text-primary-700 bg-accent-500;
+
+}
+
+.filament-main {
+    @apply bg-primary-50 dark:bg-gray-900 dark:border-gray-700;
+}
+
+.filament-main-content {
+    @apply text-gray-600 dark:text-gray-400;
+}
+
+.filament-main-topbar {
+    @apply bg-accent-500 dark:bg-gray-900 dark:border-gray-700;
+}
+
+.filament-sidebar-header {
+    @apply bg-accent-500 dark:bg-gray-900 dark:border-gray-700;
+    /*@apply bg-primary-800 bg-gradient-to-tl from-primary-600 to-primary-700 dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;*/
+}
+
+/*.filament-forms-text-input-component{*/
+/*    @apply bg-accent-500 dark:bg-gray-900 dark:border-gray-700;*/
+/*}*/
+
+
+/*@layer components {*/
+/*    .filament-app-layout {*/
+/*        @apply bg-secondary-300 dark:bg-secondary-500*/
+/*    }*/
+
+/*    .filament-sidebar {*/
+/*        @apply bg-accent-500 dark:bg-gray-800 !important*/
+/*    }*/
+
+/*    .filament-main-topbar {*/
+/*        @apply bg-white dark:bg-slate-600 !important*/
+/*    }*/
+
+/*    .filament-forms-text-input-component>div>input,select,.filament-tables-search-input>div>input, .choices__inner,textarea {*/
+/*        @apply !*bg-gray-50/80 border border-gray-400 hover:bg-accent-100 *!focus:border-accent focus:bg-white focus:outline-primary-500/50 outline-offset-0 focus:outline-4 focus:ring-0 rounded !important*/
+/*    }*/
+/*    .choices.is-open .choices__inner {*/
+/*        @apply border-4 bg-white outline-accent-500/50 outline-4 ring-o border-accent !important;*/
+/*    }*/
+/*    .filament-icon-button-indicator {*/
+/*        @apply bg-danger-500 text-danger-50 font-black !important;*/
+/*    }*/
+/*}*/
+
+

@@ -3,19 +3,25 @@
 namespace App\Filament\Resources;
 
 
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\CellulantResponseRequestResource\Pages;
 use App\Filament\Resources\CellulantResponseRequestResource\RelationManagers\DonationrequestRelationManager;
 use App\Models\CellulantResponseRequest;
+use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TernaryFilter;
+use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Webbingbrasil\FilamentDateFilter\DateFilter;
-
 
 class CellulantResponseRequestResource extends Resource
 {
@@ -90,15 +96,23 @@ class CellulantResponseRequestResource extends Resource
         return $table
 
             ->columns([
-                Tables\Columns\TextColumn::make('donationRequest.firstName')
-                    ->label('First Name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('donationRequest.lastName')
-                    ->label('Last Name'),
-                Tables\Columns\TextColumn::make('donationRequest.email')
-                    ->searchable()
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
+                Tables\Columns\TextColumn::make('Name')
+                    ->getStateUsing(function (Model $record) {
+                        return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
+                    }),
+//                BadgeColumn::make('donationrequest.relation')
+//                    ->label('Relation')
+//                    ->colors([
+//                    ]),
+                Tables\Columns\TextColumn::make('requestAmount')
+                    ->alignRight('true')
+                    ->money('KES', '1')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('amountPaid')
+                    ->alignRight('true')
+                    ->money('KES', '1'),
+                Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                     ->toggleable()->toggledHiddenByDefault()
                     ->label('Phone Number'),
                 Tables\Columns\TextColumn::make('checkOutRequestID')
@@ -107,53 +121,61 @@ class CellulantResponseRequestResource extends Resource
                     ->toggleable()->toggledHiddenByDefault()
                     ->label('Merchant ID'),
                 Tables\Columns\TextColumn::make('requestStatusCode')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                    ->toggledHiddenByDefault(),
                 BadgeColumn::make('requestStatusDescription')->label('Request Status')
                     ->searchable()
                     ->colors([
                         'success' => 'Request fully paid',
-                        'danger' => 'Request Pending Payment',
                     ]),
+                Tables\Columns\TextColumn::make('last_update')
+                    ->label('Paid on')
+                    ->date()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('DonationRequest.email')
+                    ->label('Email')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('MSISDN')
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('serviceCode')
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('accountNumber')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('currencyCode')->label('Currency'),
-                Tables\Columns\TextColumn::make('amountPaid'),
+                Tables\Columns\TextColumn::make('currencyCode')
+                    ->label('Currency')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('requestCurrencyCode')
                 ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('requestAmount')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('requestDate')
-                    ->date()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('payments')
                     ->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('requestDate')
+                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('creation_date')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('last_update')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
-            ])
+                    ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date'),
+                ])
             ->filters([
-                SelectFilter::make('requestStatusDescription')
-                    ->options([
-                        'request fully paid' => 'Request fully paid',
-                        'request partly paid' => 'Request partly paid',
-                        'request not paid' => 'Request not paid',
-                    ]),
-                    SelectFilter::make('currencyCode')
-                    ->options([
-                        'kes' => 'KES',
-                        'usd' => 'USD',
-                    ]),
-                DateFilter::make('requestDate')
-                    ->useColumn('requestDate'),
+//                    SelectFilter::make('relation')
+//                        ->relationship('donationrequest', 'relation')
+//                        ->options([
+//                            'alumni' => 'Alumni',
+//                            'friend' => 'Friend',
+//                            'other' => 'Other',
+//                            'parent' => 'Parent',
+//                            'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+//                            'staff' => 'Staff',
+//                            'student' => 'Student',
+//                        ]),
+                DateFilter::make('last_update')
+                    ->label(__('Paid on'))
+                    ->range()
+                    ->fromLabel(__('From'))
+                    ->untilLabel(__('Until'))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 //Tables\Actions\DeleteBulkAction::make(),

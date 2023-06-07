@@ -9,6 +9,7 @@ class Campaign extends Model
 {
     use HasFactory;
     protected $guarded = ['campaign_name'];
+
     protected $table = 'campaigns';
     protected $primaryKey = 'campaign_name';
     public $incrementing = false;

@@ -2,19 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\CellulantResponseRequest;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use App\Models\DonationRequest;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Webbingbrasil\FilamentDateFilter\DateFilter;
+use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\DonationRequestResource\Pages;
 use App\Filament\Resources\DonationRequestResource\Widgets\StatsOverview;
+use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 
 class DonationRequestResource extends Resource
@@ -26,6 +25,7 @@ class DonationRequestResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
     protected static ?string $navigationGroup = 'FOUNDATION DONATIONS';
+
 
     public static function form(Form $form): Form
     {
@@ -119,18 +119,40 @@ class DonationRequestResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('Name')
+                    ->getStateUsing(function (Model $record){
+                        return $record->firstName . ' ' . $record->lastName;
+                    }),
+                BadgeColumn::make('relation')
+                    ->colors([
+                    ])
+                    ->default('--'),
+                Tables\Columns\TextColumn::make('country')
+                    ->searchable(),
+                BadgeColumn::make('campaign')
+                    ->colors([
+                        'primary',
+                    ])
+                    ->default('--')
+                    ->tooltip('Click the filter icon to filter by campaign'),
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
+                    ->alignRight('true')
+                    ->label('Request Amount')
+                    ->money('KES', '1')
+                    ->default('0')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
+                    ->alignRight('true')
+                    ->label('Paid Amount')
+                    ->money('KES', '1')
+                    ->default('0'),
                 Tables\Columns\TextColumn::make('merchantID')
                     ->label('Merchant ID')
                     ->searchable()
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('firstName')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('lastName')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('phoneNumber')
                     ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('country')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('city')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
@@ -143,10 +165,6 @@ class DonationRequestResource extends Resource
                     ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('CellulantResponseRequest.requestAmount')
-                    ->label('Request Amount'),
-                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
-                    ->label('Amount Paid'),
                 Tables\Columns\TextColumn::make('company')
                     ->searchable()
                     ->toggleable()
@@ -158,24 +176,25 @@ class DonationRequestResource extends Resource
                 Tables\Columns\TextColumn::make('requestDescription')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('creation_date')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
+                    ->label('Paid on')
+                    ->tooltip('Click the filter icon to filter by date')
+                    ->date(),
                 Tables\Columns\TextColumn::make('last_update')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault(),
+                    ->date()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('job_title')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('graduation_class')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('campaign'),
-                Tables\Columns\TextColumn::make('relation')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('student_number')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('shirt_size')
-                    ->toggleable()->toggledHiddenByDefault(),
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
             ])
             ->filters([
                 SelectFilter::make('campaign')
-                    ->multiple()
                     ->options([
                         'elimisha stratizen' => 'Elimisha Stratizen',
                         'lisha mkenya' => 'Lisha Mkenya',
@@ -186,10 +205,22 @@ class DonationRequestResource extends Resource
                         'Vice Chancellor\'s Run' => 'Vice Chancellor\'s Run',
                         'other' => 'Other',
                     ]),
-                DateFilter::make('creation_date')
-                    ->useColumn('creation_date'),
-
-
+                SelectFilter::make('relation')
+                    ->options([
+                        'alumni' => 'Alumni',
+                        'friend' => 'Friend',
+                        'other' => 'Other',
+                        'parent' => 'Parent',
+                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+                        'staff' => 'Staff',
+                        'student' => 'Student',
+                    ]),
+//                DateFilter::make('last_update'),
+                DateFilter::make('last_update')
+                    ->label(__('Paid on'))
+                    ->range()
+                    ->fromLabel(__('From'))
+                    ->untilLabel(__('Until'))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

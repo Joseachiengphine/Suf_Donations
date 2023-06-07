@@ -4,19 +4,22 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Database\Seeders\DonationsTableSeeder;
-use Database\Seeders\VcrunRegistrationsTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        $this->call(DonationsTableSeeder::class);
-        $this->call(VcrunRegistrationsTableSeeder::class);
-        $this->call(VcrunSupportersTableSeeder::class);
-
+        $this->call([
+//            CampaignsSeeder::class,
+//            RelationsSeeder::class,
+            AddVcRunDonationSeeder::class,
+            VcRegistrationSeeder::class,
+            SettingsTableSeeder::class,
+        ]);
     }
 }

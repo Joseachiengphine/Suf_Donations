@@ -9,6 +9,7 @@ class AllowedCurrency extends Model
 {
     use HasFactory;
     protected $guarded = ['currency_code'];
+
     protected $table = 'allowed_currencies';
     protected $primaryKey = 'currency_code';
     public $incrementing = false;

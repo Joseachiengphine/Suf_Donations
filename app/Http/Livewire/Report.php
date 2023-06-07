@@ -2,18 +2,19 @@
 
 namespace App\Http\Livewire;
 
-use Filament\Tables;
-use Livewire\Component;
-use App\Models\DonationRequest;
+
+
 use App\Models\CellulantResponseRequest;
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
+use Illuminate\Database\Eloquent\Model;
+use Livewire\Component;
 use Illuminate\Contracts\View\View;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Concerns\InteractsWithTable;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use pxlrbt\FilamentExcel\Columns\Column;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
 
 
 class Report extends Component implements Tables\Contracts\HasTable
@@ -21,71 +22,194 @@ class Report extends Component implements Tables\Contracts\HasTable
 
     use InteractsWithTable;
 
-    protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
+    protected $listeners = ['filterbyDate','filterbycampaign','filterbyrelation','removeFilter','resetoneFilter','Refreshed' => '$refresh'];
+    /**
+     * @var Forms\ComponentContainer|View|mixed|null
+     */
+    public $fromDate;
+    public $toDate;
+
+    Public $campaign;
+
+    public $relation;
+    public $resetoneFilter;
+    public $removeFilter;
+
+    public function resetoneFilter($filter)
     {
-        return DonationRequest::query()
-        ->select('donation_requests.*','cellulant_responses.requestAmount','cellulant_responses.amountPaid')
-            ->Join('cellulant_responses','donation_requests.merchantID', '=','cellulant_responses.merchantTransactionID');
+        if (is_array($filter)) {
+            foreach ($filter as $f) {
+                $this->$f = null;
+            }
+        } else {
+            $this->$filter = null;
+        }
+
+        $this->emitSelf('Refreshed');
+    }
+
+    public function removeFilter()
+    {
+        $this->fromDate = null;
+        $this->toDate = null;
+        $this->campaign = null;
+        $this->relation = null;
+
+        $this->emitSelf('Refreshed');
+    }
+
+
+    public function filterbyDate($data)
+    {
+        $this->fromDate = $data['from_date'];
+        $this->toDate = $data['to_date'];
+        $this->emitSelf('Refreshed');
+    }
+
+    public function filterbycampaign($data)
+    {
+        $this->campaign = $data['campaign'];
+        $this->emitSelf('Refreshed');
+
+    }
+    public function filterbyrelation($data)
+    {
+        $this->relation = $data['relation'];
+        $this->emitSelf('Refreshed');
+    }
+
+    protected function getTableQuery(): Builder
+    {
+        return CellulantResponseRequest::query()
+            ->when(
+                $this->fromDate,
+                fn (Builder $query): Builder => $query
+                    ->whereDate('cellulant_responses.creation_date', '>=', $this->fromDate)
+                    ->whereDate('cellulant_responses.creation_date', '<=', $this->toDate)
+            )
+//            ->join('donation_requests', 'donation_requests.merchantID', '=', 'cellulant_responses.merchantTransactionID')
+            ->leftJoin('donation_requests', 'cellulant_responses.merchantTransactionID', '=', 'donation_requests.merchantID')
+            ->when(
+                $this->campaign,
+                fn(Builder $query): Builder => $query
+                    ->where('donation_requests.campaign', $this->campaign)
+            )
+            ->when(
+                $this->relation,
+                fn(Builder $query): Builder => $query
+                    ->where('donation_requests.relation', $this->relation)
+            );
     }
 
     protected function getTableColumns(): array
     {
         return [
-                Tables\Columns\TextColumn::make('creation_date')
-                    ->dateTime()
-                    ->toggleable()
-                    ->toggledHiddenByDefault()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('last_update')
-                    ->dateTime()
-                    ->toggleable()
-                    ->toggledHiddenByDefault()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('merchantID')
-                    ->label('Merchant ID')
-                    ->searchable()
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('salutation')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('firstName')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('lastName')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('phoneNumber')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('email')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('zipCode')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('city')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('country')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('campaign'),
-                Tables\Columns\TextColumn::make('company')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('currency')
-                ->searchable()
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('requestAmount')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('amountPaid')
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('requestDescription')
-                ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('job_title')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('graduation_class')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('relation')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('student_number')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('shirt_size')
-                    ->toggleable()->toggledHiddenByDefault(),
-            ];
+            Tables\Columns\TextColumn::make('Name')
+                ->getStateUsing(function (Model $record) {
+                    return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
+                }),
+            BadgeColumn::make('donationrequest.relation')
+                ->label('Relation')
+                ->default('--')
+                ->colors([
+                ]),
+            BadgeColumn::make('donationrequest.campaign')
+                ->default('--')
+                ->label('Campaign')
+                ->colors([
+                    'primary',
+                ]),
+            Tables\Columns\TextColumn::make('requestAmount')
+                ->alignRight()
+                ->label('Request Amount')
+                ->Searchable()
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->money('KES', '1'),
+            Tables\Columns\TextColumn::make('amountPaid')
+                ->alignRight()
+                ->label('Amount Paid')
+                ->Searchable()
+                ->money('KES', '1'),
+            Tables\Columns\TextColumn::make('creation_date')
+                ->label('Paid on')
+                ->tooltip('Click the filter button to filter by date')
+                ->date()
+                ->sortable()
+                ->default('--')
+                ->searchable(['donation_requests.creation_date']),
+            Tables\Columns\TextColumn::make('last_update')
+                ->dateTime()
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->sortable(),
+            Tables\Columns\TextColumn::make('donationrequest.merchantID')
+                ->label('Merchant ID')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.salutation')
+                ->label('Salutation')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.phoneNumber')
+                ->label('Phone Number')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('donationrequest.email')
+               ->label('Email')
+                ->default('--'),
+            Tables\Columns\TextColumn::make('donationrequest.zipCode')
+                ->label('Zip Code')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('donationrequest.city')
+                ->label('City')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.country')
+                ->label('Country')
+                ->Searchable()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('donationrequest.company')
+                ->label('Company')
+                ->Searchable()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
+            Tables\Columns\TextColumn::make('donationrequest.currency')
+                ->label('Currency')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.requestDescription')
+                ->label('Request Description')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.job_title')
+                ->label('Job Title')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.graduation_class')
+                ->label('Graduation Class')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.student_number')
+                ->label('Student Number')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+            Tables\Columns\TextColumn::make('donationrequest.shirt_size')
+                ->label('Shirt Size')
+                ->toggleable()
+                ->toggledHiddenByDefault()
+                ->Searchable(),
+        ];
     }
 
     protected function getTableRecordsPerPageSelectOptions(): array
@@ -98,23 +222,16 @@ class Report extends Component implements Tables\Contracts\HasTable
     {
 
         return [
-//            DateRangeFilter::make('creation_date')
-//                ->useColumn('creation_date')
-//                ->columnSpan(1)
-//                ->label('Registration Dates')
-//                ->withIndicater()
-            DateFilter::make('creation_date')
-
+//
         ];
     }
 
     protected function getTableHeaderActions(): array
     {
         return [
-//            FilamentExportHeaderAction::make('Download Donation Report')
-//                ->button()
-//                ->withHiddenColumns()
             ExportAction::make('Download Donation Report')
+                ->tooltip('If you only want Excel (xlsx) reports click here to download')
+                ->requiresConfirmation(),
         ];
     }
 
@@ -122,7 +239,7 @@ class Report extends Component implements Tables\Contracts\HasTable
     {
         return [
 
-            ];
+        ];
     }
 
     protected function getTableBulkActions(): array
@@ -130,6 +247,7 @@ class Report extends Component implements Tables\Contracts\HasTable
         return [
             FilamentExportBulkAction::make('Download Donation Report')
                 ->withHiddenColumns()
+
         ];
     }
     public function render(): View
@@ -139,4 +257,3 @@ class Report extends Component implements Tables\Contracts\HasTable
 
 
 }
-

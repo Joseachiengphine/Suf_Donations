@@ -6,11 +6,14 @@ use App\Models\VcrunSupporter;
 use App\Models\VcrunRegistration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class DonationRequest extends Model
 {
     use HasFactory;
     protected $guarded = ['merchantID'];
+
     protected $table = 'donation_requests';
     protected $primaryKey = 'merchantID';
     public $incrementing = false;
@@ -21,17 +24,17 @@ class DonationRequest extends Model
     const CREATED_AT = 'creation_date';
     const UPDATED_AT = 'last_update';
 
-    public function vcrunRegistration(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function vcrunRegistration(): HasOne
     {
         return $this->hasOne(VcrunRegistration::class,'request_merchant_id','merchantID');
     }
 
-    public function cellulantresponserequest(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function CellulantResponseRequest(): HasOne
     {
        return $this->hasOne(CellulantResponseRequest::class,'merchantTransactionID','merchantID');
     }
 
-    public function vcrunSupports(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function vcrunSupports(): HasMany
     {
         return $this->hasMany(VcrunSupporter::class,'request_merchant_id','merchantID');
     }

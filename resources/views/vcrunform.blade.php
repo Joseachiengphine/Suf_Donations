@@ -39,8 +39,8 @@
                     <h3>Days Left</h3>
                     <br>
                     <h2 id="daysLeft"></h2>
-                    <h3>Sponsors</h3>
-                    <img height="200" src="{{ asset("images/orchard.png") }}" alt="ochard">
+{{--                    <h3>Sponsors</h3>--}}
+{{--                    <img height="200" src="{{ asset("images/orchard.png") }}" alt="ochard">--}}
                 </div>
         </div>
             <!-- FORMS -->
@@ -57,14 +57,22 @@
                             <div class="card">
                                 <div class="card-header">
                                     Currency Options
-                                    <label for="amountCurrency"></label><select class="form-select" id="amountCurrency">
+                                    <select class="form-select" id="amountCurrency">
                                         @foreach($pageBo->allowedCurrencies as $currency)
-                                            <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                                            @if($currency->currency_code === 'KES')
+                                                <option value="{{ $currency->currency_code }}">Kenya shillings (KES)</option>
+                                            @elseif($currency->currency_code === 'USD')
+                                                <option value="{{ $currency->currency_code }}">US dollars (USD)</option>
+                                            @else
+                                                <option value="{{ $currency->currency_code }}">{{ $currency->currency_code }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                        </div>
 
-                                {{-- participation section --}}
+                        {{-- participation section --}}
                                 <div class="card-body">
                                     <h5 class="card-title">How would you like to participate?</h5>
                                     <div class="input-group">
@@ -91,11 +99,11 @@
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col">
-                                                    <input class="form-check-input question__input" id="isStudent" name="studentStatus" type="radio" value="1" required onclick="showStudentNumberForm()">
+                                                    <input class="form-check-input question__input" name="student" id="isStudent" type="radio" value="1" required onclick="showStudentNumberForm()">
                                                     <label class="form-check-label question__label" for="isStudent">Yes</label>
                                                 </div>
                                                 <div class="col">
-                                                    <input class="form-check-input question__input" id="isNotStudent" name="studentStatus" type="radio" value="0" onclick="hideStudentNumberForm()">
+                                                    <input class="form-check-input question__input" name="student" id="isNotStudent" type="radio" value="0" onclick="hideStudentNumberForm()">
                                                     <label class="form-check-label question__label" for="isNotStudent">No</label>
                                                 </div>
                                             </div>
@@ -103,8 +111,8 @@
                                             <div id="studentNumberForm" style="display: none;">
                                                 <h5 class="card-title">Enter your student number</h5>
                                                 <div class="input-group">
-                                                <input type="text" aria-label="Name" class="form-control" name="studentNumber"
-                                                       placeholder="123456" id="username" >
+                                                <input type="text" aria-label="studentNumber" class="form-control"
+                                                       placeholder="123456" id="studentNumber" >
                                                 <div class="invalid-feedback">
                                                     Enter a valid Student Number
                                                 </div>
@@ -144,7 +152,7 @@
                                                     <input class="form-check-input question__input" id="noKm5"
                                                            name="noKM" type="radio" value="5km" required>
                                                     <label class="form-check-label question__label"
-                                                           for="noKm5">5 KM</label>
+                                                           for="noKm5">5 KM Run/Walk</label>
                                                 </div>
 
                                             </div>
@@ -178,20 +186,21 @@
                                     <div class="container">
                                         <h5 class="card-title">Your Information</h5>
                                         <div class="input-group">
-                                            <input type="text" aria-label="Name" class="form-control" name="username"
+                                            <input type="text" aria-label="Name" class="form-control is-invalid" name="username"
                                                    placeholder="Name (first and last names)" id="username">
                                             <div class="invalid-feedback">
                                                 Enter a valid name
                                             </div>
                                         </div>
                                         <br>
+                                            <div class="card">
                                             <div class="card-header">
                                             Shirt Size
                                             </div>
                                             <div class="input-group">
-                                                <label for="shirtSize"></label><select class="form-select" id="shirtSize">
+                                                <select class="form-select" id="shirtSize">
                                                 <option value="S">Small</option>
-                                                <option value="M">Medium</option>
+                                                <option value="M" selected>Medium</option>
                                                 <option value="L">Large</option>
                                                 <option value="XL">Extra Large</option>
                                                 <option value="XXL">XXL</option>
@@ -216,7 +225,7 @@
                                         Relation
                                         @foreach ($pageBo->relations as $item)
                                             <div class="form-check">
-                                                <label for="relation"></label><input class="form-check-input" type="radio" id="relation" name="relation" id="{{$item->relation_name}}" value="{{$item->relation_name}}">
+                                                <input class="form-check-input" type="radio" id="relation" name="relation" id="{{$item->relation_name}}" value="{{$item->relation_name}}">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     {{$item->relation_name}}
                                                 </label>
@@ -233,7 +242,7 @@
 
 {{--                                    <h5 class="card-title">Minimum Registration Amount: </h5><h4 id="registrationCost1">KES {{number_format(setting(\App\Setting::REGISTRATION_AMOUNT,1000))}}</h4> --}}
                                 </div>
-                            </div>
+{{--                            </div>--}}
 
 
 
@@ -241,47 +250,41 @@
                         <hr>
                         <div class="q-box__question">
                             <div class="form-check">
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Click here for more Info
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Click here to Learn More
                                 </button>
+
                                 <!-- Button trigger modal -->
 
-
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Participation Options
-                                                </h5>
-                                                <button type="button" class="btn-close"
-                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title" id="exampleModalLabel">Participation Options</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
 
-                                            <div class="modal-body">
-                                                <p>1: You can register and participate on the:
-                                                <h5>21 Kilometers Run</h5>
-                                                <h5>10 Kilometers Run</h5>
-                                                <h5>5 Kilometers Run</h5>
-                                                </p>
-
-                                                <h4>The registration costs </h4><h4 id="registrationCost"></h4>
-
-
-
+                                            <div class="modal-body" style="padding: 20px;">
+                                                <p style="font-size: 18px; margin-bottom: 10px;">You can register to participate in the:</p>
+                                                <ol style="list-style-type: upper-roman; padding-left: 20px;">
+                                                    <li style="font-size: 16px; margin-bottom: 10px; color: black;">21 Kilometers Run</li>
+                                                    <li style="font-size: 16px; margin-bottom: 10px; color: black;">10 Kilometers Run</li>
+                                                    <li style="font-size: 16px; margin-bottom: 10px; color: black;">5 Kilometers Run</li>
+                                                </ol>
+                                                <h4 style="font-size: 18px; margin-top: 20px; margin-bottom: 5px; color: black;">The Registration Costs:</h4>
+                                                <h4 id="registrationCost" style="font-size: 24px; font-weight: bold; color: goldenrod;"></h4>
                                             </div>
+
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -309,12 +312,12 @@
     <script src="{{ $pageBo->expressCheckoutUrl }}"></script>
     <script>
         var currencies = @json($pageBo->allowedCurrencies->pluck('exchange_rate','currency_code'));
-        var registrationAmount = {{setting(\App\Models\Setting::REGISTRATION_AMOUNT,1000)}}
+        var registrationAmount = {{setting(App\Models\Setting::REGISTRATION_AMOUNT,1000)}}
         $("input[name=participation][value='partPhysical']").prop("checked",true);
         $("input[name=noKM][value='21km']").prop("checked",true);
         $("input[name=relation][value='Friend']").prop("checked",true);
 
-        if($('#amountCurrency').val()=='KES'){
+        if($('#amountCurrency').val()==='KES'){
                 $('#amountVC').val(registrationAmount);
             }else{
                 var currencyCode = $('#amountCurrency').children("option:selected").val();

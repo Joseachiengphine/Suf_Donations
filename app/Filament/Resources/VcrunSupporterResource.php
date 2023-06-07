@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VcrunSupporterResource\Widgets\StatsOverview;
+
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Form;
@@ -10,11 +11,13 @@ use Filament\Resources\Table;
 use App\Models\VcrunSupporter;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\VcrunSupporterResource\Pages;
 use App\Filament\Resources\VcrunSupporterResource\RelationManagers;
+use Webbingbrasil\FilamentDateFilter\DateFilter;
 
 class VcrunSupporterResource extends Resource
 {
@@ -22,6 +25,7 @@ class VcrunSupporterResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
 
+    protected ?string $maxContentWidth = 'full';
 
     protected static ?string $navigationGroup = 'Vice Chancellor\'s Run';
 
@@ -71,33 +75,60 @@ class VcrunSupporterResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('donationRequest.firstName')
-                    ->label('First Name')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->getStateUsing(function ($record) {
+                        if ($record->DonationRequest) {
+                            return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
+                        }
+                        return '';
+                    })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('donationRequest.lastName')
-                    ->label('Last Name')
+                BadgeColumn::make('DonationRequest.relation')
+                    ->label('Relation')
+                    ->colors([
+                    ]),
+                Tables\Columns\TextColumn::make('support_amount')
+                    ->alignRight('true')
+                    ->label('Supp. Amount')
+                    ->tooltip('support Amount')
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->default('1000')
+                    ->money('KES', '1'),
+                Tables\Columns\TextColumn::make('paid_amount')
+                    ->alignRight('true')
+                    ->label('Paid Amount')
+                    ->money('KES', '1'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Paid on')
+                    ->tooltip('Click the filter icon to filter by date')
+                    ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('donationRequest.email')
-                    ->label('Email')
-                    ->toggleable()->toggledHiddenByDefault()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('supported_registrant_id')
-                    ->searchable()
-                    ->label('Merchant ID')
-                    ->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('request_merchant_id'),
-                Tables\Columns\TextColumn::make('support_amount'),
-                Tables\Columns\TextColumn::make('registration_amount')
-                    ->toggleable()->toggledHiddenByDefault(),
                 BadgeColumn::make('status')
                     ->colors([
                         'success' => 'PAID',
                         'danger' => 'PENDING',
                     ]),
+                Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
+                    ->label('Phone Number')
+                    ->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('supported_registrant_id')
+                    ->searchable()
+                    ->label('Merchant ID')
+                    ->toggleable()->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('request_merchant_id')
+                ->toggleable()
+                ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),
+                BadgeColumn::make('DonationRequest.relation')
+                    ->label('Relation')
+                    ->colors([
+                    ]),
+                Tables\Columns\TextColumn::make('DonationRequest.email')
+                    ->label('Email')
+                    ->searchable(),
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -105,7 +136,24 @@ class VcrunSupporterResource extends Resource
                         'paid' => 'Paid',
                         'pending' => 'Pending',
 
-                    ])
+                    ]),
+
+//                SelectFilter::make('DonationRequest.relation')
+//                    ->relationship('DonationRequest', 'relation')
+//                    ->options([
+//                        'alumni' => 'Alumni',
+//                        'friend' => 'Friend',
+//                        'other' => 'Other',
+//                        'parent' => 'Parent',
+//                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+//                        'staff' => 'Staff',
+//                        'student' => 'Student',
+//                    ]),
+                DateFilter::make('created_at')
+                    ->label(__('Paid on'))
+                    ->range()
+                    ->fromLabel(__('From'))
+                    ->untilLabel(__('Until'))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
