@@ -8,23 +8,21 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('salutations', function (Blueprint $table) {
-            $table->string('title', 5)->primary();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('name')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('salutations');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('name');
+        });
     }
 };
