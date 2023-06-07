@@ -55,7 +55,7 @@ return [
     ],
 
     'generator' => [
-        'option' => 'policies_and_permissions'
+        'option' => 'permissions'
     ],
 
     'exclude' => [

@@ -2473,7 +2473,7 @@ trix-toolbar .filament-forms-rich-editor-component-toolbar-button.trix-active{
 
 @tailwind utilities;
 
-/* ! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com */
+/* ! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -3089,6 +3089,9 @@ html {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -3136,6 +3139,9 @@ html {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -3730,26 +3736,20 @@ html {
   width: 66.666667%;
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #e5e7eb var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(229 231 235 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(229 231 235 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(var(--color-primary-400) / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(var(--color-primary-400)) var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #e5e7eb var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 :is(.dark .filament-login-page form)::before{
   --tw-gradient-from: #374151 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(var(--color-primary-400) / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(var(--color-primary-400)) var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #374151 var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 .filament-login-page form::before {
@@ -3769,26 +3769,20 @@ html {
   width: 100%;
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #e5e7eb var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(229 231 235 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(229 231 235 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(var(--color-primary-400) / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(var(--color-primary-400)) var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #e5e7eb var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 :is(.dark .filament-sidebar-header)::before{
   --tw-gradient-from: #374151 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(var(--color-primary-400) / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(var(--color-primary-400)) var(--tw-gradient-via-position), var(--tw-gradient-to);
   --tw-gradient-to: #374151 var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 .filament-sidebar-header::before {
@@ -4879,6 +4873,10 @@ html {
   gap: 2rem;
 }
 
+.gap-px{
+  gap: 1px;
+}
+
 .gap-x-1{
   -moz-column-gap: 0.25rem;
        column-gap: 0.25rem;
@@ -5319,24 +5317,18 @@ html {
 
 .from-gray-700{
   --tw-gradient-from: #374151 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .from-gray-700\/50{
   --tw-gradient-from: rgb(55 65 81 / 0.5) var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(55 65 81 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .via-transparent{
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
   --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
@@ -5515,6 +5507,10 @@ html {
   padding-left: 1rem;
 }
 
+.pl-6{
+  padding-left: 1.5rem;
+}
+
 .pl-9{
   padding-left: 2.25rem;
 }
@@ -5669,6 +5665,10 @@ html {
 
 .leading-4{
   line-height: 1rem;
+}
+
+.leading-5{
+  line-height: 1.25rem;
 }
 
 .leading-loose{
@@ -6295,6 +6295,11 @@ html {
   border-radius: 0.125rem;
 }
 
+.focus\:border-danger-500:focus{
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+
 .focus\:border-primary-300:focus{
   --tw-border-opacity: 1;
   border-color: rgb(var(--color-primary-300) / var(--tw-border-opacity));
@@ -6453,6 +6458,11 @@ html {
   color: rgb(107 114 128 / var(--tw-placeholder-opacity));
 }
 
+.focus\:outline-none:focus{
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 .focus\:outline:focus{
   outline-style: solid;
 }
@@ -6491,6 +6501,11 @@ html {
 
 .focus\:ring-inset:focus{
   --tw-ring-inset: inset;
+}
+
+.focus\:ring-danger-500:focus{
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
 }
 
 .focus\:ring-gray-300:focus{
@@ -6548,6 +6563,14 @@ html {
 
 .focus\:ring-offset-warning-700:focus{
   --tw-ring-offset-color: #b45309;
+}
+
+.enabled\:cursor-wait:enabled{
+  cursor: wait;
+}
+
+.enabled\:opacity-70:enabled{
+  opacity: 0.7;
 }
 
 .disabled\:pointer-events-none:disabled{
@@ -6770,10 +6793,6 @@ html {
 
 :is([dir="rtl"] .rtl\:divide-x-reverse) > :not([hidden]) ~ :not([hidden]){
   --tw-divide-x-reverse: 1;
-}
-
-:is([dir="rtl"] .rtl\:whitespace-normal){
-  white-space: normal;
 }
 
 :is([dir="rtl"] .rtl\:border-l){
@@ -7196,6 +7215,11 @@ html {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+:is(.dark .dark\:focus\:border-danger-500:focus){
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+
 :is(.dark .dark\:focus\:border-primary-400:focus){
   --tw-border-opacity: 1;
   border-color: rgb(var(--color-primary-400) / var(--tw-border-opacity));
@@ -7243,6 +7267,16 @@ html {
 :is(.dark .dark\:focus\:text-primary-400:focus){
   --tw-text-opacity: 1;
   color: rgb(var(--color-primary-400) / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:focus\:text-primary-600:focus){
+  --tw-text-opacity: 1;
+  color: rgb(var(--color-primary-600) / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:focus\:ring-danger-500:focus){
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
 }
 
 :is(.dark .dark\:focus\:ring-offset-0:focus){
@@ -7595,6 +7629,14 @@ html {
 
   .md\:top-auto{
     top: auto;
+  }
+
+  .md\:order-first{
+    order: -9999;
+  }
+
+  .md\:order-last{
+    order: 9999;
   }
 
   .md\:col-span-1{
@@ -8157,6 +8199,12 @@ html {
 
   .lg\:pl-\[var\(--sidebar-width\)\]{
     padding-left: var(--sidebar-width);
+  }
+
+  .lg\:shadow-2xl{
+    --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 
   .lg\:transition{
