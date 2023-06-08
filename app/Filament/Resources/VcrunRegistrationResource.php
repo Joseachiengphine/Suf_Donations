@@ -112,7 +112,8 @@ class VcrunRegistrationResource extends Resource
                         ->money('KES', '1'),
                     Tables\Columns\TextColumn::make('created_at')
                         ->date()
-                        ->label('Paid on'),
+                        ->label('Paid on')
+                        ->sortable(),
                     BadgeColumn::make('status')
                         ->tooltip('Click the filter icon to filter by payment status')
                         ->colors([
@@ -149,6 +150,7 @@ class VcrunRegistrationResource extends Resource
                     Tables\Columns\TextColumn::make('updated_at')
                     ->toggleable()->toggledHiddenByDefault(),
                 ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->options([

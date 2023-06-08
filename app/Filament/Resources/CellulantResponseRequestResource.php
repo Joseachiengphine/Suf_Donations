@@ -86,7 +86,6 @@ class CellulantResponseRequestResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-
             ->columns([
                 Tables\Columns\TextColumn::make('Name')
                     ->getStateUsing(function (Model $record) {
@@ -123,7 +122,9 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Columns\TextColumn::make('last_update')
                     ->label('Paid on')
                     ->date()
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ,
                 Tables\Columns\TextColumn::make('DonationRequest.email')
                     ->label('Email')
                     ->searchable(),
@@ -146,7 +147,8 @@ class CellulantResponseRequestResource extends Resource
                 Tables\Columns\TextColumn::make('creation_date')
                     ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date'),
                 ])
-            ->filters([
+                    ->defaultSort('last_update', 'desc')
+        ->filters([
 //                    SelectFilter::make('relation')
 //                        ->relationship('donationrequest', 'relation')
 //                        ->options([

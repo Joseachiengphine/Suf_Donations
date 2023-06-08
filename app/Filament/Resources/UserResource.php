@@ -83,12 +83,14 @@ class UserResource extends Resource
                     ->searchable()
                     ->wrap(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('email'),
 
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
 //                SelectFilter::make('roles.name')
 //                ->relationship('roles', 'name')

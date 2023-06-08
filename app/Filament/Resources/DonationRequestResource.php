@@ -193,6 +193,7 @@ class DonationRequestResource extends Resource
                     ->toggleable()
                     ->toggledHiddenByDefault(),
             ])
+                   ->defaultSort('creation_date', 'desc')
             ->filters([
                 SelectFilter::make('campaign')
                     ->options([

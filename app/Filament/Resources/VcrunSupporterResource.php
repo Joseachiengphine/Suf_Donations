@@ -130,6 +130,7 @@ class VcrunSupporterResource extends Resource
                     ->label('Email')
                     ->searchable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->options([
