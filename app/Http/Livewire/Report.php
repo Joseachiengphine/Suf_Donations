@@ -81,7 +81,7 @@ class Report extends Component implements Tables\Contracts\HasTable
 
     protected function getTableQuery(): Builder
     {
-        return CellulantResponseRequest::query()
+        return CellulantResponseRequest::query()->orderBy('cellulant_responses.creation_date', 'desc')
             ->when(
                 $this->fromDate,
                 fn (Builder $query): Builder => $query

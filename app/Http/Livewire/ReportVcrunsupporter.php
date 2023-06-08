@@ -68,7 +68,7 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
 
     protected function getTableQuery(): Builder
     {
-        return Vcrunsupporter::query()
+        return Vcrunsupporter::query()->orderBy('created_at', 'desc')
         ->when(
         $this->fromSuppDate,
         fn (Builder $query): Builder => $query
