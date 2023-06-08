@@ -164,17 +164,17 @@ class VcrunRegistrationResource extends Resource
                         'virtual' => 'Virtual',
 
                     ]),
-                SelectFilter::make('relation')
-                    ->relationship('donationRequest', 'relation')
-                    ->options([
-                        'alumni' => 'Alumni',
-                        'friend' => 'Friend',
-                        'other' => 'Other',
-                        'parent' => 'Parent',
-                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
-                        'staff' => 'Staff',
-                        'student' => 'Student',
-                    ]),
+//                SelectFilter::make('relation')
+//                    ->relationship('donationRequest', 'relation')
+//                    ->options([
+//                        'alumni' => 'Alumni',
+//                        'friend' => 'Friend',
+//                        'other' => 'Other',
+//                        'parent' => 'Parent',
+//                        'referred by zoezi maisha' => 'Referred By Zoezi Maisha',
+//                        'staff' => 'Staff',
+//                        'student' => 'Student',
+//                    ]),
                 DateFilter::make('created_at')
                     ->label(__('Paid on'))
                     ->range()

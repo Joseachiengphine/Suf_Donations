@@ -76,7 +76,6 @@ class DonationrequestRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('phoneNumber')
                     ->default('--'),
                 Tables\Columns\TextColumn::make('email')
-                    ->toggleable()->toggledHiddenByDefault()
                     ->searchable(),
             ])
             ->filters([

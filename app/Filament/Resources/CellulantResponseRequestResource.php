@@ -119,12 +119,16 @@ class CellulantResponseRequestResource extends Resource
                     ->colors([
                         'success' => 'Request fully paid',
                     ]),
+                Tables\Columns\TextColumn::make('creation_date')
+                     ->date()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('last_update')
                     ->label('Paid on')
                     ->date()
                     ->searchable()
                     ->sortable()
-                    ,
+                    ->tooltip('Click the filter icon to filter by date'),
                 Tables\Columns\TextColumn::make('DonationRequest.email')
                     ->label('Email')
                     ->searchable(),
@@ -144,8 +148,6 @@ class CellulantResponseRequestResource extends Resource
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('requestDate')
                     ->dateTime()->toggleable()->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('creation_date')
-                    ->dateTime()->toggleable()->toggledHiddenByDefault()->tooltip('Click the filter icon to filter by date'),
                 ])
                     ->defaultSort('last_update', 'desc')
         ->filters([
