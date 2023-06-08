@@ -140,7 +140,7 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->date()
                 ->sortable(),
             Tables\Columns\TextColumn::make('last_update')
-                ->dateTime()
+                ->date()
                 ->toggleable()
                 ->toggledHiddenByDefault()
                 ->sortable(),
