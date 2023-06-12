@@ -19,20 +19,20 @@ class StatsOverview extends BaseWidget
         $differencePercentage = ($difference / $totalAmount) * 100;
 
         return [
-            Card::make('Total Expected Support Amount', 'KES ' . number_format($supportAmount, 2, '.', ','))
+            Card::make('Total Expected Support Amount', 'Ksh ' . number_format($supportAmount, 2, '.', ','))
                 ->description('100% Expected')
                 ->descriptionIcon('heroicon-s-gift')
                 ->chart([0, 20, 40, 60, 80, 100])
                 ->color('success'),
 
-            Card::make('Total Amount Paid', 'KES ' . number_format($paidsupport, 2, '.', ','))
+            Card::make('Total Amount Paid', 'Ksh ' . number_format($paidsupport, 2, '.', ','))
                 ->description(number_format($paidsupportPercentage, 2) . '% Paid')
                 ->descriptionIcon('heroicon-s-gift')
                 ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),
 
 
-            Card::make('Difference Between Amounts', 'KES ' . number_format($difference, 2, '.', ','))
+            Card::make('Difference Between Amounts', 'Ksh ' . number_format($difference, 2, '.', ','))
                 ->description(number_format($differencePercentage, 2) . '% Difference')
                 ->descriptionIcon('heroicon-s-credit-card')
                 ->chart([10, 6, 2, -8, -16, -24, -32])

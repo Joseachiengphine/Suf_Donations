@@ -3,6 +3,8 @@
 namespace App\Filament\Pages;
 
 
+use App\Filament\Widgets\DonationPaymentOverview;
+use App\Filament\Widgets\DonationPaymentsOverview;
 use Filament\Forms;
 use Filament\Pages\Page;
 use App\Http\Livewire\ReportVcrun;
@@ -40,6 +42,13 @@ class VcrunRegistrationReport extends Page
     protected ?string $maxContentWidth = 'full';
 
     protected static string $view = 'filament.pages.vcrun-registration-report';
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            DonationPaymentOverview::class
+        ];
+    }
 
     public function resetoneFilter($filter) {
         $this->emitTo(ReportVcrun::class, 'resetoneFilter', $filter);

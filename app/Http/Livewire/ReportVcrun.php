@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 
+
 use Filament\Forms;
 use Filament\Tables;
 use Livewire\Component;
@@ -133,6 +134,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
             ,
             Tables\Columns\TextColumn::make('paid_amount')
                 ->alignRight('true')
+                ->searchable()
 //                ->money('KES', '1')
             ,
             Tables\Columns\TextColumn::make('created_at')

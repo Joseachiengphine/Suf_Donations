@@ -202,7 +202,8 @@ class VcrunRegistrationResource extends Resource
 
     public static function getWidgets(): array
     {
-        return [StatsOverview::class
+        return [
+            StatsOverview::class
         ];
     }
     public static function getPages(): array

@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 
 use App\Filament\Resources\Resource\Widgets\DonationPaymentsOverview;
+use App\Filament\Widgets\DonationsOverview;
 use App\Http\Livewire\Report;
 use Filament\Forms;
 use Filament\Pages\Page;
@@ -23,7 +24,7 @@ class DonationsGeneralReport extends Page
     use HasPageShield;
 
     protected $listeners = ['refresh' => '$refresh'];
-    
+
     public static function shouldRegisterNavigation(): bool
     {
         return Gate::allows('page_DonationsGeneralReport');
@@ -42,6 +43,12 @@ class DonationsGeneralReport extends Page
 
     protected static string $view = 'filament.pages.donations-general-report';
 
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            DonationsOverview::class
+        ];
+    }
     public function resetoneFilter($filter) {
         // Emit an event to the "Report" component with the payload of "resetoneFilter" and $filter
         $this->emitTo(Report::class, 'resetoneFilter', $filter);

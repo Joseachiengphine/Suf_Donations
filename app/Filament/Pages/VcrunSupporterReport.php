@@ -5,6 +5,8 @@ namespace App\Filament\Pages;
 
 
 
+use App\Filament\Widgets\DonationPaymentOverview;
+use App\Filament\Widgets\DonationssuppOverview;
 use App\Http\Livewire\ReportVcrun;
 use Filament\Forms;
 use Filament\Pages\Page;
@@ -23,6 +25,13 @@ class VcrunSupporterReport extends Page
     use HasPageShield;
 
     protected $listeners = ['refresh' => '$refresh'];
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            DonationssuppOverview::class
+        ];
+    }
 
     public static function shouldRegisterNavigation(): bool
     {

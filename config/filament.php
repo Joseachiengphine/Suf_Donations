@@ -1,5 +1,6 @@
 <?php
 
+use App\Filament\Widgets\DonationPaymentsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Http\Middleware\MirrorConfigToSubpackages;
@@ -145,7 +146,7 @@ return [
         'register' => [
             Widgets\AccountWidget::class,
             \Awcodes\Overlook\Overlook::class,
-            //Widgets\FilamentInfoWidget::class,
+
         ],
     ],
 

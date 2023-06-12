@@ -29,8 +29,8 @@ class StatsOverview extends BaseWidget
                     'wire:click' => '$emitUp("setStatusFilter", "fully_paid")',
                 ]),
 
-            Card::make('Total Amount Paid', 'KES ' . number_format($amountPaid, 2, '.', ','))
-                ->description('Amount Paid in Kes')
+            Card::make('Total Amount Paid', 'Ksh ' . number_format($amountPaid, 2, '.', ','))
+                ->description('Amount Paid in Ksh')
                 ->descriptionIcon('heroicon-s-gift')
                 ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),

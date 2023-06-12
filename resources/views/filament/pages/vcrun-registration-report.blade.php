@@ -1,5 +1,6 @@
 <x-filament::page>
-    @if (!is_null($fromRegDate) || !is_null($toRegDate) || !is_null($participation_type) || !is_null($relation))
+@if (!is_null($fromRegDate) || !is_null($toRegDate) || !is_null($participation_type) || !is_null($relation))
+
         <div class="active-filters">
             <span class="active-filters-label">Active Filters:</span>
             <div class="filters">
