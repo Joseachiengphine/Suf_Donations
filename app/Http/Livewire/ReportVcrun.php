@@ -91,6 +91,8 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                     ->whereDate('vcrun_registrations.created_at', '<=', $this->toRegDate)
             )
             ->where('paid_amount', '>', 0)
+            ->where('status', 'paid') 
+
 
             ->when(
                  $this->participation_type,
