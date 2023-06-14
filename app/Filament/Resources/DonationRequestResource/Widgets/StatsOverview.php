@@ -15,7 +15,7 @@ class StatsOverview extends BaseWidget
         $count = DonationRequest::distinct('country')->count();
         $campaign = DonationRequest::distinct('campaign')->count();
         return [
-            Card::make('All Donation Requests', DonationRequest::all()->count())
+            Card::make('All Donation Requests for all years', DonationRequest::all()->count())
                 ->description('Donation Requests')
                 ->descriptionIcon('heroicon-s-receipt-refund')
                 ->chart([7, 2, 10, 3, 15, 4, 17])

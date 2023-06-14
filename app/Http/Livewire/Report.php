@@ -248,6 +248,8 @@ class Report extends Component implements Tables\Contracts\HasTable
         return [
             FilamentExportBulkAction::make('Download Donation Report')
                 ->withHiddenColumns()
+                ->disablePreview()
+
 
         ];
     }

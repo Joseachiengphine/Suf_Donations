@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default_format' => 'xlsx',
+    'default_format' => 'csv',
     'time_format' => 'M_d_Y-H_i',
     'default_page_orientation' => 'portrait',
     'disable_additional_columns' => false,
