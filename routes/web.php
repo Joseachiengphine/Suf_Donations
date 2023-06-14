@@ -45,4 +45,4 @@ Route::get('/', 'App\Http\Controllers\IndexController');
 // Route::get('/', [IndexController::class, 'index']);
 Route::get('/donation-code/{donationCode}', [IndexController::class, 'paramPage']);
 
-//  Route::any('{all}', function(){ return redirect('/'); })->where('all', '.*');
+Route::any('{all}', function(){ return redirect('/'); })->where('all', '.*');
