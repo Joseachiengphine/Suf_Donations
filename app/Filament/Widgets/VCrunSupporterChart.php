@@ -46,4 +46,8 @@ class VCrunSupporterChart extends LineChartWidget
 
         return $chartData;
     }
+    public static function canView(): bool
+    {
+        return false;
+    }
 }

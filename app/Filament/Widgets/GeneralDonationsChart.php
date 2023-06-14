@@ -65,6 +65,10 @@ class GeneralDonationsChart extends LineChartWidget
 
         return $monthlyDonations;
     }
+    public static function canView(): bool
+    {
+        return false;
+    }
 }
 
 
