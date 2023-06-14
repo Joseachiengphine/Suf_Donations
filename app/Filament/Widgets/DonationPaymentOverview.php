@@ -17,20 +17,20 @@ class DonationPaymentOverview extends BaseWidget
             ->whereYear('created_at', 2022)
             ->sum('paid_amount');
 
-        $cards[] = Card::make('VCRun Payments 2022', 'Ksh' . number_format($amountPaid2022, 2))
-            ->description('Total amount paid in 2022')
-            ->descriptionIcon('heroicon-s-sparkles')
-            ->color('success');
+//        $cards[] = Card::make('VCRun Payments 2022', 'Ksh' . number_format($amountPaid2022, 2))
+//            ->description('Total amount paid in 2022')
+//            ->descriptionIcon('heroicon-s-sparkles')
+//            ->color('success');
 
         // Get the sum of amounts paid for 2023
         $amountPaid2023 = DB::table('vcrun_registrations')
             ->whereYear('created_at', 2023)
             ->sum('paid_amount');
 
-        $cards[] = Card::make('VCRun Payments 2023', 'Ksh' . number_format($amountPaid2023, 2))
-            ->description('Total amount paid in 2023')
-            ->descriptionIcon('heroicon-s-sparkles')
-            ->color('success');
+//        $cards[] = Card::make('VCRun Payments 2023', 'Ksh' . number_format($amountPaid2023, 2))
+//            ->description('Total amount paid in 2023')
+//            ->descriptionIcon('heroicon-s-sparkles')
+//            ->color('success');
 
         return $cards;
     }

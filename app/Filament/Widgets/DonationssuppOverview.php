@@ -17,11 +17,11 @@ class DonationssuppOverview extends BaseWidget
         $cards = [];
 
         foreach ($totalDonations as $year => $total) {
-            $cards[] = Card::make("VCRun supporter Payments in $year", "ksh" . number_format($total, 2))
-                ->description('Total VCRun supporter Payments')
-                ->descriptionIcon('heroicon-s-currency-dollar')
-                ->descriptionIcon('heroicon-s-sparkles')
-                ->color('success');
+//            $cards[] = Card::make("VCRun supporter Payments in $year", "ksh" . number_format($total, 2))
+//                ->description('Total VCRun supporter Payments')
+//                ->descriptionIcon('heroicon-s-currency-dollar')
+//                ->descriptionIcon('heroicon-s-sparkles')
+//                ->color('success');
         }
 
         return $cards;

@@ -26,12 +26,12 @@ class VcrunSupporterReport extends Page
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            DonationssuppOverview::class
-        ];
-    }
+//    protected function getHeaderWidgets(): array
+//    {
+//        return [
+//            DonationssuppOverview::class
+//        ];
+//    }
 
     public static function shouldRegisterNavigation(): bool
     {

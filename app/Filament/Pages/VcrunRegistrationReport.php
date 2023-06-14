@@ -43,12 +43,12 @@ class VcrunRegistrationReport extends Page
 
     protected static string $view = 'filament.pages.vcrun-registration-report';
 
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            DonationPaymentOverview::class
-        ];
-    }
+//    protected function getHeaderWidgets(): array
+//    {
+//        return [
+//            DonationPaymentOverview::class
+//        ];
+//    }
 
     public function resetoneFilter($filter) {
         $this->emitTo(ReportVcrun::class, 'resetoneFilter', $filter);

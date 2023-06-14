@@ -43,12 +43,12 @@ class DonationsGeneralReport extends Page
 
     protected static string $view = 'filament.pages.donations-general-report';
 
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            DonationsOverview::class
-        ];
-    }
+//    protected function getHeaderWidgets(): array
+//    {
+//        return [
+//            DonationsOverview::class
+//        ];
+//    }
     public function resetoneFilter($filter) {
         // Emit an event to the "Report" component with the payload of "resetoneFilter" and $filter
         $this->emitTo(Report::class, 'resetoneFilter', $filter);

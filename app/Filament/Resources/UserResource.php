@@ -61,7 +61,8 @@ class UserResource extends Resource
 
 
                 Section::make("Assign Roles")->schema([
-                    CheckboxList::make('roles')->relationship('roles','name'),
+                    CheckboxList::make('roles')
+                        ->relationship('roles','name')
                 ])
             ]);
     }

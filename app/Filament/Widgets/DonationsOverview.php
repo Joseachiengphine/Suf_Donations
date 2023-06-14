@@ -23,10 +23,10 @@ class DonationsOverview extends BaseWidget
             $cardTitle = 'All Donations in ' . $year;
             $cardDescription = $year . ' total donations';
 
-            $cards[] = Card::make($cardTitle, $formattedAmount)
-                ->description($cardDescription)
-                ->descriptionIcon('heroicon-s-sparkles')
-                ->color('success');
+//            $cards[] = Card::make($cardTitle, $formattedAmount)
+//                ->description($cardDescription)
+//                ->descriptionIcon('heroicon-s-sparkles')
+//                ->color('success');
         }
 
         return $cards;

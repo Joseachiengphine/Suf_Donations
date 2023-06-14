@@ -17,15 +17,17 @@
 //                 ->icon('heroicon-o-bell')
 //                 ->badge('39')
 //                 ->schema([
-//                     TabContainer::make(DonationsOverview::class),
+//                     TabContainer::make(GeneralDonationsChart::class),
+//                     TabContainer::make(VCrunRegistrationsChart::class),
+//                     TabContainer::make(VCrunSupporterChart::class)
 //                 ]),
 //             TabLayoutTab::make('Label 2')
 //                 ->schema([
-//                     TabContainer::make(DonationPaymentOverview::class),
+//                     TabContainer::make(VCrunRegistrationsChart::class),
 //                 ]),
 //            TabLayoutTab::make('Label 3')
 //                ->schema([
-//                    TabContainer::make(DonationssuppOverview::class),
+//                    TabContainer::make(VCrunSupporterChart::class),
 //                ]),
 //
 //        ];
