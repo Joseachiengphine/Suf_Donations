@@ -111,11 +111,11 @@ class Report extends Component implements Tables\Contracts\HasTable
                 }),
             BadgeColumn::make('donationrequest.relation')
                 ->label('Relation')
-                ->default('--')
+                ->searchable()
                 ->colors([
                 ]),
             BadgeColumn::make('donationrequest.campaign')
-                ->default('--')
+                ->searchable()
                 ->label('Campaign')
                 ->colors([
                     'primary',
@@ -123,7 +123,6 @@ class Report extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('requestAmount')
                 ->alignRight()
                 ->label('Request Amount')
-                ->Searchable()
                 ->toggleable()
                 ->toggledHiddenByDefault()
 //                ->money('KES', '1')
@@ -131,11 +130,11 @@ class Report extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('amountPaid')
                 ->alignRight()
                 ->label('Amount Paid')
-                ->Searchable()
 //                ->money('KES', '1')
             ,
             Tables\Columns\TextColumn::make('donationrequest.creation_date')
                 ->label('Paid on')
+                ->searchable()
                 ->tooltip('Click the filter button to filter by date')
                 ->date()
                 ->sortable(),
@@ -147,13 +146,11 @@ class Report extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('donationrequest.merchantID')
                 ->label('Merchant ID')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.salutation')
                 ->label('Salutation')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.phoneNumber')
                 ->label('Phone Number')
                 ->toggleable()
@@ -168,48 +165,39 @@ class Report extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('donationrequest.city')
                 ->label('City')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.country')
                 ->label('Country')
-                ->Searchable()
                 ->toggleable()
                 ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.company')
                 ->label('Company')
-                ->Searchable()
                 ->toggleable()
                 ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.currency')
                 ->label('Currency')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.requestDescription')
                 ->label('Request Description')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.job_title')
                 ->label('Job Title')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.graduation_class')
                 ->label('Graduation Class')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.student_number')
                 ->label('Student Number')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('donationrequest.shirt_size')
                 ->label('Shirt Size')
                 ->toggleable()
-                ->toggledHiddenByDefault()
-                ->Searchable(),
+                ->toggledHiddenByDefault(),
         ];
     }
 

@@ -97,6 +97,7 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                 }),
             BadgeColumn::make('DonationRequest.relation')
                 ->label('Relation')
+                ->searchable()
                 ->colors([
                 ]),
             Tables\Columns\TextColumn::make('support_amount')
@@ -120,7 +121,8 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                     'success' => 'PAID',
                     'danger' => 'PENDING',
                 ])
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
 //            BadgeColumn::make('supportedRegistrant.participation_type')
 //                ->label('Participation Type')
 //                ->colors([
@@ -130,26 +132,31 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
 //                ->searchable(),
             Tables\Columns\TextColumn::make('updated_at')
                 ->date()
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('DonationRequest.email')
                 ->label('Email')
                 ->searchable(),
             Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                 ->label('Phone Number')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('DonationRequest.currency')
                 ->label('Currency')
                 ->searchable()
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('supported_registrant_id')
                 ->searchable()
                 ->label('Merchant ID')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('request_merchant_id')
             ->toggleable()
             ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('matching_donor_id')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
         ];
     }
 

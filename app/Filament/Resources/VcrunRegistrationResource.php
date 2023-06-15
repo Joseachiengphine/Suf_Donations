@@ -157,13 +157,15 @@ class VcrunRegistrationResource extends Resource
                         'paid' => 'Paid',
                         'pending' => 'Pending',
 
-                    ]),
+                    ])
+                    ->searchable(),
                 SelectFilter::make('participation_type')
                     ->options([
                         'physical' => 'Physical',
                         'virtual' => 'Virtual',
 
-                    ]),
+                    ])
+                    ->searchable(),
 
 //                SelectFilter::make('relation')
 //                    ->relationship('donationRequest', 'relation')

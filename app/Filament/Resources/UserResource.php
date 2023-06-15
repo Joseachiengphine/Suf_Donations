@@ -80,7 +80,8 @@ class UserResource extends Resource
                     ->colors([
                         'primary',
                     ])
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->sortable()
                     ->label('Roles')

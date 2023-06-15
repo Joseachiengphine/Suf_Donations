@@ -82,8 +82,7 @@ class VcrunSupporterResource extends Resource
                             return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
                         }
                         return '';
-                    })
-                    ->searchable(),
+                    }),
                 BadgeColumn::make('DonationRequest.relation')
                     ->label('Relation')
                     ->colors([
@@ -109,7 +108,8 @@ class VcrunSupporterResource extends Resource
                     ->colors([
                         'success' => 'PAID',
                         'danger' => 'PENDING',
-                    ]),
+                    ])
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                     ->label('Phone Number')
                     ->toggleable()->toggledHiddenByDefault(),

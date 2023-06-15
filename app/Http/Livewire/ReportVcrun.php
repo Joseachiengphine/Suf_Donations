@@ -91,7 +91,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                     ->whereDate('vcrun_registrations.created_at', '<=', $this->toRegDate)
             )
             ->where('paid_amount', '>', 0)
-            ->where('status', 'paid') 
+            ->where('status', 'paid')
 
 
             ->when(
@@ -118,11 +118,11 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 }),
             BadgeColumn::make('DonationRequest.relation')
                 ->label('Relation')
+                ->searchable()
                 ->colors([
                 ]),
             Tables\Columns\TextColumn::make('DonationRequest.student_number')
                 ->label('Student Number')
-                ->searchable()
                 ->toggleable()
                 ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('registration_amount')
@@ -146,9 +146,11 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->sortable(),
             Tables\Columns\TextColumn::make('updated_at')
                 ->date()
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             BadgeColumn::make('status')
                 ->label('Status')
+                ->searchable()
                 ->colors([
                     'success' => 'PAID',
                     'danger' => 'PENDING',
@@ -167,11 +169,13 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->searchable(),
             Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                 ->label('Phone Number')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('DonationRequest.currency')
                 ->label('Currency')
                 ->searchable()
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('DonationRequest.shirt_size')
                 ->label('Shirt Size')
                 ->searchable()
@@ -179,11 +183,14 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('request_merchant_id')
                 ->label('Merchant ID')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('matching_donor_id')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             Tables\Columns\TextColumn::make('matched_amount')
-                ->toggleable()->toggledHiddenByDefault(),
+                ->toggleable()
+                ->toggledHiddenByDefault(),
 
 
         ];
@@ -198,12 +205,7 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     protected function getTableFilters(): array
     {
         return [
-            SelectFilter::make('status')
-                ->options([
-                    'paid' => 'Paid',
-                    'pending' => 'Pending',
-
-                ]),
+           //
         ];
     }
 
