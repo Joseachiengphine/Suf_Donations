@@ -20,7 +20,7 @@ class DonationRequestResource extends Resource
 {
     protected static ?string $model = DonationRequest::class;
 
-    protected static ?string $recordTitleAttribute = 'email';
+    protected static ?string $recordTitleAttribute = 'firstName';
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 

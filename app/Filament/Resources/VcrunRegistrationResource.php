@@ -20,6 +20,8 @@ class VcrunRegistrationResource extends Resource
 {
     protected static ?string $model = VcrunRegistration::class;
 
+    protected static ?string $recordTitleAttribute = 'participation_type';
+
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
 
     protected static ?string $navigationGroup = 'Vice Chancellor\'s Run';
