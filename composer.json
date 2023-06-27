@@ -35,6 +35,7 @@
         "moneyphp/money": "^4.1",
         "pxlrbt/filament-excel": "^1.1",
         "ryangjchandler/filament-profile": "^0.3.0",
+        "savannabits/dockavel": "^1.1",
         "savannabits/filament-flatpickr": "^1.1",
         "solution-forest/tab-layout-plugin": "^1.0",
         "uccellolabs/filament-theme-color": "^1.0",

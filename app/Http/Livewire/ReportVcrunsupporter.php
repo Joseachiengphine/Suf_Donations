@@ -91,10 +91,13 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('Name')
+            Tables\Columns\TextColumn::make('Paid by')
                 ->getStateUsing(function (Model $record) {
                     return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                 }),
+            Tables\Columns\TextColumn::make('DonationRequest.email')
+                ->label('Email')
+                ->searchable(),
             BadgeColumn::make('DonationRequest.relation')
                 ->label('Relation')
                 ->searchable()
@@ -122,7 +125,9 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                     'danger' => 'PENDING',
                 ])
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
 //            BadgeColumn::make('supportedRegistrant.participation_type')
 //                ->label('Participation Type')
 //                ->colors([
@@ -134,9 +139,6 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                 ->date()
                 ->toggleable()
                 ->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('DonationRequest.email')
-                ->label('Email')
-                ->searchable(),
             Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                 ->label('Phone Number')
                 ->toggleable()

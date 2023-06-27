@@ -11,19 +11,17 @@ class DummyTabs extends BaseWidget
     protected function schema(): array
     {
         return [
-
-             //SAMPLE CODE, CAN DELETE
-             TabLayoutTab::make('General Donations stats')
+             TabLayoutTab::make('General Donations Payments')
                  ->icon('heroicon-o-gift')
                  ->schema([
                      TabContainer::make(GeneralDonationsChart::class),
                  ]),
-             TabLayoutTab::make('VCRun Registration stats')
+             TabLayoutTab::make('VCRun Registration Payments')
                  ->icon('heroicon-o-information-circle')
                  ->schema([
                      TabContainer::make(VCrunRegistrationsChart::class),
                  ]),
-            TabLayoutTab::make('VCRun Supporter stats')
+            TabLayoutTab::make('VCRun Supporter Payments')
                 ->icon('heroicon-o-information-circle')
                 ->schema([
                     TabContainer::make(VCrunSupporterChart::class),

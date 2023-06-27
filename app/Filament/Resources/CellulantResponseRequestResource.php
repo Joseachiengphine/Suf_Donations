@@ -87,14 +87,17 @@ class CellulantResponseRequestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Name')
+                Tables\Columns\TextColumn::make('Paid by')
                     ->getStateUsing(function (Model $record) {
                         return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                     }),
-//                BadgeColumn::make('donationrequest.relation')
-//                    ->label('Relation')
-//                    ->colors([
-//                    ]),
+                Tables\Columns\TextColumn::make('DonationRequest.email')
+                    ->label('Email')
+                    ->searchable(),
+                BadgeColumn::make('donationrequest.relation')
+                    ->label('Strathmore Relation')
+                    ->colors([
+                    ]),
                 Tables\Columns\TextColumn::make('requestAmount')
                     ->alignRight('true')
                     ->money('KES', '1')
@@ -129,9 +132,6 @@ class CellulantResponseRequestResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->tooltip('Click the filter icon to filter by date'),
-                Tables\Columns\TextColumn::make('DonationRequest.email')
-                    ->label('Email')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('MSISDN')
                 ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('serviceCode')

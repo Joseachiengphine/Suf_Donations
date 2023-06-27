@@ -1,4 +1,7 @@
 <x-filament::page>
+    <div class="payment-info">
+        <span class="payment-info-text">Note: The displayed information represents payments that have been made.</span>
+    </div>
 @if (!is_null($fromRegDate) || !is_null($toRegDate) || !is_null($participation_type) || !is_null($relation))
 
         <div class="active-filters">
@@ -37,12 +40,21 @@
     <livewire:report-vcrun />
 
     <style>
+        /* CSS styles for the payment info */
+        .payment-info {
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+        .payment-info-text {
+            font-weight: bold;
+        }
+
         .active-filters {
             display: none;
             align-items: center;
             margin-bottom: 20px;
         }
-
         .active-filters-label {
             font-weight: bold;
             margin-right: 10px;

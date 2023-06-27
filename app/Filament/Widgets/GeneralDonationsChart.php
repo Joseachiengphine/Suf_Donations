@@ -2,9 +2,9 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Widgets\BarChartWidget;
-use Filament\Widgets\LineChartWidget;
+
 use Illuminate\Support\Facades\DB;
+use Filament\Widgets\LineChartWidget;
 
 class GeneralDonationsChart extends LineChartWidget
 {
@@ -65,6 +65,7 @@ class GeneralDonationsChart extends LineChartWidget
 
         return $monthlyDonations;
     }
+    
     public static function canView(): bool
     {
         return false;

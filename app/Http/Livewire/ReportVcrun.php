@@ -112,10 +112,13 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('Name')
+            Tables\Columns\TextColumn::make('Paid by')
                 ->getStateUsing(function (Model $record) {
                     return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                 }),
+            Tables\Columns\TextColumn::make('DonationRequest.email')
+                ->label('Email')
+                ->searchable(),
             BadgeColumn::make('DonationRequest.relation')
                 ->label('Relation')
                 ->searchable()
@@ -155,7 +158,9 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                     'success' => 'PAID',
                     'danger' => 'PENDING',
                 ])
-                ->sortable(),
+                ->sortable()
+                ->toggleable()
+                ->toggledHiddenByDefault(),
             BadgeColumn::make('participation_type')
                 ->colors([
                     'primary' => 'PHYSICAL',
@@ -163,9 +168,6 @@ class ReportVcrun extends Component implements Tables\Contracts\HasTable
                 ])
                 ->searchable(),
             Tables\Columns\TextColumn::make('race_kms')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('DonationRequest.email')
-                ->label('Email')
                 ->searchable(),
             Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                 ->label('Phone Number')

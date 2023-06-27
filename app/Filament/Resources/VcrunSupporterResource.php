@@ -75,16 +75,19 @@ class VcrunSupporterResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                Tables\Columns\TextColumn::make('Supporter')
+                    ->label('Supporter')
                     ->getStateUsing(function ($record) {
                         if ($record->DonationRequest) {
                             return $record->DonationRequest->firstName . ' ' . $record->DonationRequest->lastName;
                         }
                         return '';
                     }),
+                Tables\Columns\TextColumn::make('DonationRequest.email')
+                    ->label('Email')
+                    ->searchable(),
                 BadgeColumn::make('DonationRequest.relation')
-                    ->label('Relation')
+                    ->label('Strathmore Relation')
                     ->colors([
                     ]),
                 Tables\Columns\TextColumn::make('support_amount')
@@ -99,17 +102,17 @@ class VcrunSupporterResource extends Resource
                     ->alignRight('true')
                     ->label('Paid Amount')
                     ->money('KES', '1'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Paid on')
-                    ->tooltip('Click the filter icon to filter by date')
-                    ->date()
-                    ->sortable(),
                 BadgeColumn::make('status')
                     ->colors([
                         'success' => 'PAID',
                         'danger' => 'PENDING',
                     ])
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Requested on')
+                    ->tooltip('Click the filter icon to filter by date')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('DonationRequest.phoneNumber')
                     ->label('Phone Number')
                     ->toggleable()->toggledHiddenByDefault(),
@@ -122,13 +125,6 @@ class VcrunSupporterResource extends Resource
                 ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('matching_donor_id')
                     ->toggleable()->toggledHiddenByDefault(),
-                BadgeColumn::make('DonationRequest.relation')
-                    ->label('Relation')
-                    ->colors([
-                    ]),
-                Tables\Columns\TextColumn::make('DonationRequest.email')
-                    ->label('Email')
-                    ->searchable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

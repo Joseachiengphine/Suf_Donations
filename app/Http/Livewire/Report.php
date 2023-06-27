@@ -105,12 +105,15 @@ class Report extends Component implements Tables\Contracts\HasTable
     protected function getTableColumns(): array
     {
         return [
-        Tables\Columns\TextColumn::make('Name')
+        Tables\Columns\TextColumn::make('Paid by')
                 ->getStateUsing(function (Model $record) {
                     return ($record->DonationRequest->firstName ?? '') . ' ' . ($record->DonationRequest->lastName ?? '');
                 }),
+            Tables\Columns\TextColumn::make('donationrequest.email')
+                ->label('Email')
+                ->default('--'),
             BadgeColumn::make('donationrequest.relation')
-                ->label('Relation')
+                ->label('Strathmore Relation')
                 ->searchable()
                 ->colors([
                 ]),
@@ -155,9 +158,6 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->label('Phone Number')
                 ->toggleable()
                 ->toggledHiddenByDefault(),
-            Tables\Columns\TextColumn::make('donationrequest.email')
-               ->label('Email')
-                ->default('--'),
             Tables\Columns\TextColumn::make('donationrequest.zipCode')
                 ->label('Zip Code')
                 ->toggleable()

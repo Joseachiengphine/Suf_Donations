@@ -87,8 +87,8 @@ class VcrunRegistrationResource extends Resource
     {
         return $table
                 ->columns([
-                    Tables\Columns\TextColumn::make('name')
-                        ->label('Name')
+                    Tables\Columns\TextColumn::make('Registrant')
+                        ->label('Registrant')
                         ->getStateUsing(function ($record) {
                             if ($record->donationRequest) {
                                 return $record->donationRequest->firstName . ' ' . $record->donationRequest->lastName;
@@ -97,10 +97,18 @@ class VcrunRegistrationResource extends Resource
                         })
                         ->default('--'),
                     BadgeColumn::make('donationRequest.relation')
-                        ->label('Relation')
+                        ->label('Strathmore Relation')
                         ->colors([
                         ])
                         ->default('--'),
+                    BadgeColumn::make('participation_type')
+                        ->tooltip('Click the filter icon to filter by participation type')
+                        ->colors([
+                            'primary' => 'PHYSICAL',
+                            'secondary' => 'VIRTUAL',
+                        ]),
+                    Tables\Columns\TextColumn::make('race_kms')
+                        ->searchable(),
                     Tables\Columns\TextColumn::make('registration_amount')
                         ->alignRight('true')
                         ->label('Reg. Amount')
@@ -110,12 +118,9 @@ class VcrunRegistrationResource extends Resource
                         ->toggledHiddenByDefault()
                         ->money('KES', '1'),
                     Tables\Columns\TextColumn::make('paid_amount')
+                        ->label('Amount Paid')
                         ->alignRight('true')
                         ->money('KES', '1'),
-                    Tables\Columns\TextColumn::make('created_at')
-                        ->date()
-                        ->label('Paid on')
-                        ->sortable(),
                     BadgeColumn::make('status')
                         ->tooltip('Click the filter icon to filter by payment status')
                         ->colors([
@@ -123,7 +128,13 @@ class VcrunRegistrationResource extends Resource
                             'danger' => 'PENDING',
                         ])
                         ->sortable(),
-
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->date()
+                        ->label('Registered on')
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('updated_at')
+                        ->date()
+                        ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('donationRequest.phoneNumber')
                         ->label('Phone Number')
                         ->toggleable()->toggledHiddenByDefault(),
@@ -132,14 +143,6 @@ class VcrunRegistrationResource extends Resource
                     Tables\Columns\TextColumn::make('request_merchant_id')
                     ->label('Merchant ID')
                     ->toggleable()->toggledHiddenByDefault(),
-                    BadgeColumn::make('participation_type')
-                        ->tooltip('Click the filter icon to filter by participation type')
-                        ->colors([
-                            'primary' => 'PHYSICAL',
-                            'secondary' => 'VIRTUAL',
-                        ]),
-                    Tables\Columns\TextColumn::make('race_kms')
-                        ->searchable(),
                     Tables\Columns\TextColumn::make('donationRequest.email')
                         ->label('Email')
                         ->searchable()
@@ -149,8 +152,7 @@ class VcrunRegistrationResource extends Resource
                     ->toggleable()->toggledHiddenByDefault(),
                     Tables\Columns\TextColumn::make('matched_amount')
                     ->toggleable()->toggledHiddenByDefault(),
-                    Tables\Columns\TextColumn::make('updated_at')
-                    ->toggleable()->toggledHiddenByDefault(),
+
                 ])
             ->defaultSort('created_at', 'desc')
             ->filters([

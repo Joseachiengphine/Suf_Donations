@@ -73,8 +73,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                  ->searchable(),
-                Tables\Columns\TextColumn::make('username')
+                    ->label('User')
                   ->searchable(),
                 BadgeColumn::make('username')
                     ->colors([

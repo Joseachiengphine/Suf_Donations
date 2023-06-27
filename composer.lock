@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98507ebbbab5c61627fffe73c80fe85a",
+    "content-hash": "5b71cf1b6102b66f799069d2483bc73a",
     "packages": [
         {
             "name": "3x1io/filament-excel",
@@ -6535,6 +6535,67 @@
                 "source": "https://github.com/sabberworm/PHP-CSS-Parser/tree/8.4.0"
             },
             "time": "2021-12-11T13:40:54+00:00"
+        },
+        {
+            "name": "savannabits/dockavel",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/savannabits/dockavel.git",
+                "reference": "300b60023833990ea2ea37bb88705863acb5c145"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/savannabits/dockavel/zipball/300b60023833990ea2ea37bb88705863acb5c145",
+                "reference": "300b60023833990ea2ea37bb88705863acb5c145",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=8.0",
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Savannabits\\Dockavel\\DockavelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Dockavel": "Savannabits\\Dockavel\\DockavelFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Savannabits\\Dockavel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Maosa",
+                    "email": "maosa.sam@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Compose a Laravel Docker image for Production, using PHP 8, redis, mariadb and nginx",
+            "homepage": "https://github.com/savannabits/dockavel",
+            "keywords": [
+                "dockavel",
+                "savannabits"
+            ],
+            "support": {
+                "issues": "https://github.com/savannabits/dockavel/issues",
+                "source": "https://github.com/savannabits/dockavel/tree/v1.1.0"
+            },
+            "time": "2023-02-22T08:49:33+00:00"
         },
         {
             "name": "savannabits/filament-flatpickr",

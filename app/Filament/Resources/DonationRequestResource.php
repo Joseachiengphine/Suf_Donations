@@ -119,15 +119,19 @@ class DonationRequestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Name')
+                Tables\Columns\TextColumn::make('Requested by')
                     ->getStateUsing(function (Model $record){
                         return $record->firstName . ' ' . $record->lastName;
                     }),
+                Tables\Columns\TextColumn::make('email')
+                    ->toggleable()->toggledHiddenByDefault()
+                    ->searchable(),
                 BadgeColumn::make('relation')
+                    ->label('Strathmore relation')
                     ->colors([
-                    ])
-                    ->default('--'),
+                    ]),
                 Tables\Columns\TextColumn::make('country')
+                    ->toggleable()->toggledHiddenByDefault()
                     ->searchable(),
                 BadgeColumn::make('campaign')
                     ->colors([
@@ -139,14 +143,14 @@ class DonationRequestResource extends Resource
                     ->alignRight('true')
                     ->label('Request Amount')
                     ->money('KES', '1')
+                    ->default('0'),
+                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
+                    ->alignRight('true')
+                    ->label('Amount Paid')
+                    ->money('KES', '1')
                     ->default('0')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('CellulantResponseRequest.amountPaid')
-                    ->alignRight('true')
-                    ->label('Paid Amount')
-                    ->money('KES', '1')
-                    ->default('0'),
                 Tables\Columns\TextColumn::make('merchantID')
                     ->label('Merchant ID')
                     ->searchable()
@@ -156,9 +160,6 @@ class DonationRequestResource extends Resource
                 Tables\Columns\TextColumn::make('city')
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('email')
-                    ->toggleable()->toggledHiddenByDefault()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('zipCode')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('currency')
@@ -176,7 +177,7 @@ class DonationRequestResource extends Resource
                 Tables\Columns\TextColumn::make('requestDescription')
                     ->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('creation_date')
-                    ->label('Paid on')
+                    ->label('Requested on')
                     ->tooltip('Click the filter icon to filter by date')
                     ->date(),
                 Tables\Columns\TextColumn::make('last_update')
