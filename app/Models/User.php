@@ -20,10 +20,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $guarded = [
+        'id',
     ];
 
     /**
@@ -47,14 +45,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
 
     public function canAccessFilament(): bool
     {
-//        return $this->active;
-        // Check if the user is active
-        if ($this->active) {
-            return true;
-        }
 
-        // If the user is not active, deny access to Filament
-        return false;
+        return $this->active;
 
     }
 
