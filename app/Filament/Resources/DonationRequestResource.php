@@ -124,7 +124,6 @@ class DonationRequestResource extends Resource
                         return $record->firstName . ' ' . $record->lastName;
                     }),
                 Tables\Columns\TextColumn::make('email')
-                    ->toggleable()->toggledHiddenByDefault()
                     ->searchable(),
                 BadgeColumn::make('relation')
                     ->label('Strathmore relation')

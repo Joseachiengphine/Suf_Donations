@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets;
 
-
 use Illuminate\Support\Facades\DB;
 use Filament\Widgets\LineChartWidget;
 
@@ -10,11 +9,26 @@ class GeneralDonationsChart extends LineChartWidget
 {
     protected static ?string $heading = 'General Donation Payments';
 
+    protected static ?string $maxHeight = '300px';
+
+    public ?string $filter = '2023';
+
+
     protected function getData(): array
     {
+        $activeFilter = $this->filter;
+
         $currentYear = date('Y');
-        $startYear = 2020;
-        $endYear = $currentYear;
+        $startYear = DB::table('cellulant_responses')->min(DB::raw('YEAR(requestDate)'));
+        $endYear = DB::table('cellulant_responses')->max(DB::raw('YEAR(requestDate)'));
+
+        if ($activeFilter !== 'today' && $activeFilter !== 'week' && $activeFilter !== 'month' && $activeFilter !== 'year') {
+            $selectedYear = intval($activeFilter);
+            if ($selectedYear >= $startYear && $selectedYear <= $endYear) {
+                $startYear = $selectedYear;
+                $endYear = $selectedYear;
+            }
+        }
 
         $monthlyDonations = $this->getMonthlyDonations($startYear, $endYear);
 
@@ -48,15 +62,11 @@ class GeneralDonationsChart extends LineChartWidget
             ->pluck('totalDonations', 'month')
             ->toArray();
 
-        $currentYearMonth = date('Y-m');
         for ($year = $startYear; $year <= $endYear; $year++) {
             for ($month = 1; $month <= 12; $month++) {
                 $yearMonth = sprintf('%04d-%02d', $year, $month);
                 if (!isset($monthlyDonations[$yearMonth])) {
                     $monthlyDonations[$yearMonth] = 0;
-                }
-                if ($yearMonth > $currentYearMonth) {
-                    break;
                 }
             }
         }
@@ -65,13 +75,22 @@ class GeneralDonationsChart extends LineChartWidget
 
         return $monthlyDonations;
     }
-    
+
     public static function canView(): bool
     {
         return false;
     }
+
+    protected function getFilters(): ?array
+    {
+        $startYear = DB::table('cellulant_responses')->min(DB::raw('YEAR(requestDate)'));
+        $endYear = DB::table('cellulant_responses')->max(DB::raw('YEAR(requestDate)'));
+
+        $filters = [];
+        for ($year = $endYear; $year >= $startYear; $year--) { // Reverse the iteration
+            $filters[$year] = $year;
+        }
+
+        return $filters;
+    }
 }
-
-
-
-

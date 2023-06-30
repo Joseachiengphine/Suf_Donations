@@ -128,7 +128,7 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->label('Request Amount')
                 ->toggleable()
                 ->toggledHiddenByDefault()
-//                ->money('KES', '1')
+//               ->money('KES', '1')
             ,
             Tables\Columns\TextColumn::make('amountPaid')
                 ->alignRight()
@@ -200,6 +200,7 @@ class Report extends Component implements Tables\Contracts\HasTable
                 ->toggledHiddenByDefault(),
         ];
     }
+
 
     protected function getTableRecordsPerPageSelectOptions(): array
     {

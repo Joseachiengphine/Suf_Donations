@@ -32,7 +32,7 @@ class StatsOverview extends BaseWidget
                 ->color('success'),
 
             Card::make('Currencies Used 2020-present', $currency)
-                ->description('Currency')
+                ->description('Currency (Ksh)')
                 ->descriptionIcon('heroicon-s-credit-card')
                 ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),

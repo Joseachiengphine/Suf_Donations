@@ -58,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
                     ->icon('heroicon-o-arrow-up'),
 
             ]);
+
         });
 
     }

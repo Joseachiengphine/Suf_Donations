@@ -92,4 +92,8 @@ class DonationrequestRelationManager extends RelationManager
 //                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
+    protected function isTablePaginationEnabled(): bool
+    {
+        return false;
+    }
 }

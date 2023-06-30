@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +46,7 @@ class UserResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->disabled(),
+
 //                        Forms\Components\TextInput::make('password')
 //                            ->password()
 //                            ->required()
@@ -63,7 +65,9 @@ class UserResource extends Resource
 
                 Section::make("Assign Roles")->schema([
                     CheckboxList::make('roles')
-                        ->relationship('roles','name')
+                        ->relationship('roles','name'),
+                     Forms\Components\Toggle::make('active')
+                         ->required()
                 ])
             ]);
     }
@@ -86,6 +90,16 @@ class UserResource extends Resource
                     ->label('Roles')
                     ->searchable()
                     ->wrap(),
+                Tables\Columns\IconColumn::make('active')
+                    ->boolean()
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->action(function($record, $column) {
+                        $name = $column->getName();
+                        $record->update([
+                            $name => !$record->$name
+                        ]);
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
@@ -122,7 +136,7 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-//            'edit' => Pages\EditUser::route('/{record}/edit'),
+//             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

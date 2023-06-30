@@ -5,6 +5,7 @@ namespace App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
 
 class EditUser extends EditRecord
 {
@@ -13,11 +14,16 @@ class EditUser extends EditRecord
     protected function getActions(): array
     {
         return [
-//            Actions\DeleteAction::make(),
+           Actions\DeleteAction::make(),
         ];
     }
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+
+    public function afterSave() {
+        $this->record->active = $this->data['active'];
+        $this->record->save();
     }
 }
