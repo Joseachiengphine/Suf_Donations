@@ -16,6 +16,7 @@ use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 class DonationsGeneralReport extends Page
 {
     public $fromDate;
+
     public $toDate;
 
     Public $campaign;

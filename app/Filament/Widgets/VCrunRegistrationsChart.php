@@ -34,17 +34,23 @@ class VCrunRegistrationsChart extends LineChartWidget
         $data = $this->getMonthlyPayments($startYear, $endYear);
 
         $chartData = [
-            'labels' => array_keys($data),
+            'labels' => [],
             'datasets' => [
                 [
                     'label' => 'VCrun Registration Payments in Ksh',
-                    'data' => array_values($data),
+                    'data' => [],
                     'backgroundColor' => '#3A5DAE',
                     'borderColor' => '#3A5DAE',
                     'borderWidth' => 2,
                 ],
             ],
         ];
+
+        foreach ($data as $month => $payments) {
+            $monthName = date('F', strtotime($month));
+            $chartData['labels'][] = $monthName;
+            $chartData['datasets'][0]['data'][] = $payments;
+        }
 
         return $chartData;
     }

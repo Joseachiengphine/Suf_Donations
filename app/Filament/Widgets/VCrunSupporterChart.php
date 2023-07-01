@@ -10,7 +10,9 @@ class VCrunSupporterChart extends LineChartWidget
 {
     protected static ?string $heading = 'VCrun Supporter Payments';
 
-      public ?string $filter = '2023';
+    public ?string $filter = '2023';
+
+
 
     protected static ?string $maxHeight = '300px';
 
@@ -46,7 +48,8 @@ class VCrunSupporterChart extends LineChartWidget
         ];
 
         foreach ($monthlyPayments as $month => $payments) {
-            $chartData['labels'][] = $month;
+            $monthName = date('F', strtotime($month));
+            $chartData['labels'][] = $monthName;
             $chartData['datasets'][0]['data'][] = $payments;
         }
 

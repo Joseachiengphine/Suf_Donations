@@ -14,6 +14,7 @@ class GeneralDonationsChart extends LineChartWidget
     public ?string $filter = '2023';
 
 
+
     protected function getData(): array
     {
         $activeFilter = $this->filter;
@@ -46,7 +47,8 @@ class GeneralDonationsChart extends LineChartWidget
         ];
 
         foreach ($monthlyDonations as $month => $donations) {
-            $chartData['labels'][] = $month;
+            $monthName = date('F', strtotime($month));
+            $chartData['labels'][] = $monthName;
             $chartData['datasets'][0]['data'][] = $donations;
         }
 

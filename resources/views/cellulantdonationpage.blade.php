@@ -738,5 +738,6 @@
                     }
             });
     </script>
+  <a href="{{ url('/admin') }}" style="text-decoration: none; color: #000; padding: 10px 20px; border-radius: 5px; font-size: 14px;">Go to Admin Panel</a>
   </body>
 </html>
