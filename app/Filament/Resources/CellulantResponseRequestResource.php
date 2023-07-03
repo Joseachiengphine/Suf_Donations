@@ -55,7 +55,9 @@ class CellulantResponseRequestResource extends Resource
                 Forms\Components\TextInput::make('accountNumber')
                     ->required()
                     ->maxLength(64),
-                ]),
+                ])
+                            ->columns(2)
+                            ->inlineLabel(),
                 Forms\Components\Fieldset::make('Transaction amount')
                     ->schema([
                 Forms\Components\TextInput::make('currencyCode')
@@ -65,7 +67,9 @@ class CellulantResponseRequestResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('requestAmount')
                     ->required(),
-                ]),
+                ])
+                    ->columns(2)
+                    ->inlineLabel(),
                 Forms\Components\Fieldset::make('Transaction Dates')
                     ->schema([
                 Forms\Components\TextInput::make('requestDate')
@@ -75,7 +79,9 @@ class CellulantResponseRequestResource extends Resource
                     ->required(),
                 Forms\Components\DateTimePicker::make('last_update')
                     ->required(),
-                ]),
+                ])
+                    ->columns(2)
+                    ->inlineLabel(),
                 Forms\Components\Textarea::make('requestStatusDescription')
                     ->required()
                     ->maxLength(65535),

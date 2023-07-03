@@ -41,7 +41,9 @@ class DonationRequestResource extends Resource
                     ->maxLength(50),
                 Forms\Components\TextInput::make('campaign')
                     ->maxLength(255),
-                            ]),
+                            ])
+                            ->columns(2)
+                            ->inlineLabel(),
                         Forms\Components\Fieldset::make('User Details')
                             ->schema([
                 Forms\Components\TextInput::make('salutation')
@@ -67,7 +69,9 @@ class DonationRequestResource extends Resource
                     ->maxLength(70),
                 Forms\Components\TextInput::make('job_title')
                     ->maxLength(150),
-                            ]),
+                            ])
+                            ->columns(2)
+                            ->inlineLabel(),
                 Forms\Components\Fieldset::make('Location Details')
                             ->schema([
                 Forms\Components\TextInput::make('country')
@@ -79,7 +83,9 @@ class DonationRequestResource extends Resource
                 Forms\Components\TextInput::make('zipCode')
                     ->required()
                     ->maxLength(50),
-                            ]),
+                            ])
+                    ->columns(2)
+                    ->inlineLabel(),
                 //Forms\Components\TextInput::make('currency')
                     //->required()
                     //->maxLength(3),
@@ -89,7 +95,9 @@ class DonationRequestResource extends Resource
                     ->required(),
                 Forms\Components\DateTimePicker::make('last_update')
                     ->required(),
-                            ]),
+                            ])
+                    ->columns(2)
+                    ->inlineLabel(),
                 Forms\Components\Textarea::make('requestDescription')
                     ->required()
                     ->maxLength(65535),
@@ -107,7 +115,9 @@ class DonationRequestResource extends Resource
 //                    ->schema([
 //                        TextInput::make('requestAmount'),
 //                                  ]),
-                    ]),
+                    ])
+                            ->columns(2)
+                            ->inlineLabel(),
                     ]
 
                 )

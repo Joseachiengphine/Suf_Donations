@@ -53,14 +53,18 @@ class VcrunRegistrationResource extends Resource
                             Forms\Components\TextInput::make('status')
                                 ->maxLength(255),
 
-                        ]),
+                        ])
+                        ->columns(2)
+                        ->inlineLabel(),
                     Forms\Components\Fieldset::make('Request Dates')
                         ->schema([
                             Forms\Components\DateTimePicker::make('created_at')
                                 ->required(),
                             Forms\Components\DateTimePicker::make('updated_at')
                                 ->required(),
-                        ]),
+                        ])
+                        ->columns(2)
+                        ->inlineLabel(),
                     Forms\Components\Fieldset::make('Race Details')
                         ->schema([
                             Forms\Components\TextInput::make('participation_type')
@@ -69,7 +73,9 @@ class VcrunRegistrationResource extends Resource
                             Forms\Components\TextInput::make('race_kms')
                                 ->required()
                                 ->maxLength(50),
-                        ]),
+                        ])
+                        ->columns(2)
+                        ->inlineLabel(),
                     Forms\Components\Fieldset::make('Matched Donor')
                         ->schema([
                             Forms\Components\TextInput::make('matching_donor_id')
@@ -78,7 +84,9 @@ class VcrunRegistrationResource extends Resource
                             Forms\Components\TextInput::make('matched_amount')
                                 ->required()
                                 ->maxLength(50),
-                        ]),
+                        ])
+                        ->columns(2)
+                        ->inlineLabel(),
                 ]
             )
         ]);

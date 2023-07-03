@@ -60,7 +60,9 @@ class UserResource extends Resource
 //                            )->label(static fn (Page $livewire): string =>
 //                            ($livewire instanceof EditUser) ? 'New Password' : 'Password'
 //                            ),
-                    ]),
+                    ])
+                    ->columns(2)
+                    ->inlineLabel(),
 
 
                 Section::make("Assign Roles")->schema([
@@ -69,6 +71,7 @@ class UserResource extends Resource
                      Forms\Components\Toggle::make('active')
                          ->required()
                 ])
+                    ->columns(2)
             ]);
     }
 

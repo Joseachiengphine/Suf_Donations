@@ -23,6 +23,8 @@ class VcrunSupporterResource extends Resource
 {
     protected static ?string $model = VcrunSupporter::class;
 
+    protected static ?string $recordTitleAttribute = 'status';
+
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
 
     protected ?string $maxContentWidth = 'full';
@@ -52,20 +54,26 @@ class VcrunSupporterResource extends Resource
                                 Forms\Components\TextInput::make('status')
                                     ->maxLength(255),
 
-                            ]),
+                            ])
+                            ->columns(2)
+                            ->inlineLabel(),
                         Forms\Components\Fieldset::make('Request Dates')
                             ->schema([
                                 Forms\Components\DateTimePicker::make('created_at')
                                     ->required(),
                                 Forms\Components\DateTimePicker::make('updated_at')
                                     ->required(),
-                            ]),
+                            ])
+                            ->columns(2)
+                            ->inlineLabel(),
                         Forms\Components\Fieldset::make('Matched Donor')
                             ->schema([
                                 Forms\Components\TextInput::make('matching_donor_id')
                                     ->required()
                                     ->maxLength(50),
-                            ]),
+                            ])
+                            ->columns(2)
+                            ->inlineLabel(),
                     ]
                 )
             ]);
