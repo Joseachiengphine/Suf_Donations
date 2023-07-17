@@ -99,7 +99,7 @@ class ReportVcrunsupporter extends Component implements Tables\Contracts\HasTabl
                 ->label('Email')
                 ->searchable(),
             BadgeColumn::make('DonationRequest.relation')
-                ->label('Relation')
+                ->label('Strathmore Relation')
                 ->searchable()
                 ->colors([
                 ]),
